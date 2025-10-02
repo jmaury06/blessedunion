@@ -1,7 +1,19 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  reactStrictMode: true,
+  swcMinify: true,
+  webpack: (config, { dev, isServer }) => {
+    if (!dev && !isServer) {
+      // Reemplaza React por Preact solo en producción (bundle del cliente)
+      Object.assign(config.resolve.alias, {
+        react: "preact/compat",
+        "react-dom/test-utils": "preact/test-utils",
+        "react-dom": "preact/compat",
+      });
+    }
+    return config;
+  },
 };
 
 export default nextConfig;
