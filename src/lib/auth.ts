@@ -1,0 +1,64 @@
+import { SignJWT, jwtVerify } from "jose";
+import { cookies } from "next/headers";
+
+const SECRET = process.env.JWT_SECRET || "blessed-union-secret-key-2025";
+const ADMIN_EMAIL = "ajmh06@gmail.com";
+const ADMIN_PASSWORD = "Jairomh06++";
+
+interface SessionPayload {
+  email: string;
+  expiresAt: Date;
+}
+
+const key = new TextEncoder().encode(SECRET);
+
+export async function encrypt(payload: SessionPayload) {
+  return new SignJWT(payload as any)
+    .setProtectedHeader({ alg: "HS256" })
+    .setIssuedAt()
+    .setExpirationTime("7d")
+    .sign(key);
+}
+
+export async function decrypt(session: string | undefined = "") {
+  try {
+    const { payload } = await jwtVerify(session, key, {
+      algorithms: ["HS256"],
+    });
+    return payload as unknown as SessionPayload;
+  } catch (error) {
+    return null;
+  }
+}
+
+export async function createSession(email: string) {
+  const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days
+  const session = await encrypt({ email, expiresAt });
+
+  (await cookies()).set("session", session, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    expires: expiresAt,
+    sameSite: "lax",
+    path: "/",
+  });
+}
+
+export async function verifySession() {
+  const cookie = (await cookies()).get("session")?.value;
+  const session = await decrypt(cookie);
+
+  if (!session?.email) {
+    return null;
+  }
+
+  return { email: session.email };
+}
+
+export async function deleteSession() {
+  (await cookies()).delete("session");
+}
+
+export function verifyCredentials(email: string, password: string): boolean {
+  return email === ADMIN_EMAIL && password === ADMIN_PASSWORD;
+}

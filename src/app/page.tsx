@@ -19,14 +19,25 @@ export default function Home() {
           transition={{ duration: 0.8 }}
           className="text-center max-w-5xl"
         >
-          {/* Logo/Emoji */}
+          {/* iPhone 3D Giratorio */}
           <motion.div
-            initial={{ scale: 0, rotate: -180 }}
-            animate={{ scale: 1, rotate: 0 }}
-            transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-            className="text-9xl mb-6"
+            initial={{ scale: 0, rotateY: -180 }}
+            animate={{ scale: 1, rotateY: 0 }}
+            transition={{ delay: 0.2, type: "spring", stiffness: 100 }}
+            className="mb-8"
           >
-            💍
+            <motion.div
+              animate={{ rotateY: 360 }}
+              transition={{
+                duration: 8,
+                repeat: Infinity,
+                ease: "linear"
+              }}
+              style={{ transformStyle: "preserve-3d" }}
+              className="text-9xl"
+            >
+              📱
+            </motion.div>
           </motion.div>
 
           {/* Title */}
@@ -43,9 +54,28 @@ export default function Home() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6 }}
-            className="text-xl md:text-3xl font-semibold text-gray-700 dark:text-gray-300 mb-16"
+            className="text-xl md:text-3xl font-semibold text-gray-700 dark:text-gray-300 mb-4"
           >
-            Rifa de Boda
+            🎉 Rifa de Boda
+          </motion.p>
+
+          {/* Premio */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.7 }}
+            className="bg-gradient-to-r from-purple-500 via-pink-500 to-purple-500 text-white px-8 py-4 rounded-2xl font-bold text-2xl md:text-3xl mb-8 shadow-2xl inline-block"
+          >
+            ✨ iPhone 13 de 128GB ✨
+          </motion.div>
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.8 }}
+            className="text-xl md:text-2xl font-semibold text-gray-700 dark:text-gray-300 mb-12"
+          >
+            o $2.500.000 en efectivo 💰
           </motion.p>
 
           {/* Description */}
@@ -55,9 +85,31 @@ export default function Home() {
             transition={{ delay: 0.8 }}
             className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-8 md:p-12 mb-12 border border-gray-200 dark:border-gray-700 w-full"
           >
+            {/* Fecha y Lotería */}
+            <div className="mb-10 p-6 bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 rounded-2xl border-2 border-yellow-300 dark:border-yellow-700">
+              <div className="text-4xl mb-3">📅</div>
+              <h3 className="font-bold text-gray-800 dark:text-white mb-2 text-2xl">Sorteo</h3>
+              <p className="text-lg font-semibold text-gray-700 dark:text-gray-300">
+                Sábado 1 de Noviembre de 2025
+              </p>
+              <p className="text-base text-gray-600 dark:text-gray-400 mt-2">
+                🎲 Con las <span className="font-bold">3 últimas cifras</span> de la Lotería de Boyacá
+              </p>
+            </div>
+
+            {/* Regla de Aplazamiento */}
+            <div className="mb-12 p-6 bg-gradient-to-r from-red-50 to-pink-50 dark:from-red-900/20 dark:to-pink-900/20 rounded-2xl border-2 border-red-300 dark:border-red-700">
+              <div className="text-4xl mb-3">⚠️</div>
+              <h3 className="font-bold text-gray-800 dark:text-white mb-2 text-xl">Importante</h3>
+              <p className="text-base text-gray-700 dark:text-gray-300">
+                Si al día del sorteo no se ha vendido el <span className="font-bold">75% de los números</span>, 
+                la rifa se <span className="font-bold">aplazará 1 semana más</span>
+              </p>
+            </div>
+
             <p className="text-lg md:text-xl text-gray-700 dark:text-gray-300 mb-12 leading-relaxed text-center max-w-4xl mx-auto">
-              Bienvenido al sistema de gestión de rifas. Cada comprador recibe un link único 
-              para seleccionar sus números de la suerte del <span className="font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">000 al 999</span>.
+              Cada comprador recibe un link único para seleccionar sus números de la suerte del{" "}
+              <span className="font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">000 al 999</span>.
             </p>
 
             <div className="grid md:grid-cols-3 gap-8 md:gap-10">

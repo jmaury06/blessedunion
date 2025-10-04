@@ -133,9 +133,9 @@ export async function sendPurchaseConfirmation(
 <body>
   <div class="container">
     <div class="header">
-      <div class="emoji">💒</div>
+      <div class="emoji">📱</div>
       <h1>Blessed Union</h1>
-      <p>Confirmación de Compra</p>
+      <p>Confirmación de Compra - Rifa de Boda</p>
     </div>
     
     <div class="content">
@@ -145,6 +145,36 @@ export async function sendPurchaseConfirmation(
       
       <div class="message">
         Gracias por participar en nuestra rifa. Hemos registrado exitosamente tu compra.
+      </div>
+
+      <!-- Premio -->
+      <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 25px; border-radius: 12px; text-align: center; margin: 25px 0;">
+        <div style="font-size: 32px; margin-bottom: 10px;">🎁</div>
+        <div style="font-size: 22px; font-weight: bold; margin-bottom: 10px;">¡Gran Premio!</div>
+        <div style="font-size: 28px; font-weight: bold; margin-bottom: 5px;">iPhone 13 de 128GB</div>
+        <div style="font-size: 20px; opacity: 0.95;">o $2.500.000 en efectivo</div>
+      </div>
+
+      <!-- Información del Sorteo -->
+      <div style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 20px; border-radius: 8px; margin: 25px 0;">
+        <div style="font-size: 24px; margin-bottom: 10px;">📅</div>
+        <div style="font-weight: bold; font-size: 18px; color: #333; margin-bottom: 8px;">Fecha del Sorteo</div>
+        <div style="font-size: 16px; color: #555; margin-bottom: 5px;">
+          <strong>Sábado 1 de Noviembre de 2025</strong>
+        </div>
+        <div style="font-size: 14px; color: #666;">
+          🎲 Con las <strong>3 últimas cifras</strong> de la <strong>Lotería de Boyacá</strong>
+        </div>
+      </div>
+
+      <!-- Regla de Aplazamiento -->
+      <div style="background: #f8d7da; border-left: 4px solid #dc3545; padding: 20px; border-radius: 8px; margin: 25px 0;">
+        <div style="font-size: 24px; margin-bottom: 10px;">⚠️</div>
+        <div style="font-weight: bold; font-size: 16px; color: #721c24; margin-bottom: 8px;">Importante</div>
+        <div style="font-size: 14px; color: #721c24;">
+          Si al día del sorteo no se ha vendido el <strong>75% de los números</strong>, 
+          la rifa se <strong>aplazará 1 semana más</strong>.
+        </div>
       </div>
       
       <div class="numbers-box">
@@ -188,7 +218,25 @@ ${numbersList}
 
 Total: ${numbers.length} ${numbers.length === 1 ? "número" : "números"}
 
-¡Mucha suerte en la rifa! 🍀
+━━━━━━━━━━━━━━━━━━━━━━
+🎁 GRAN PREMIO
+━━━━━━━━━━━━━━━━━━━━━━
+📱 iPhone 13 de 128GB
+💰 o $2.500.000 en efectivo
+
+━━━━━━━━━━━━━━━━━━━━━━
+📅 FECHA DEL SORTEO
+━━━━━━━━━━━━━━━━━━━━━━
+Sábado 1 de Noviembre de 2025
+🎲 Con las 3 últimas cifras de la Lotería de Boyacá
+
+━━━━━━━━━━━━━━━━━━━━━━
+⚠️ IMPORTANTE
+━━━━━━━━━━━━━━━━━━━━━━
+Si al día del sorteo no se ha vendido el 75% de los números,
+la rifa se aplazará 1 semana más.
+
+¡Mucha suerte en la rifa! 🍀✨
 
 ---
 Blessed Union

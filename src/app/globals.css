@@ -1,9 +1,7 @@
-@import "tailwindcss/theme" layer(theme);
-@import "tailwindcss/preflight" layer(base);
-@import "tailwindcss/utilities" layer(utilities);
+@import "tailwindcss";
 
 @theme {
-  --dark-mode: class;
+  --color-scheme: light dark;
 }
 
 * {

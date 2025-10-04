@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { verifySession } from "../../../lib/auth";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -8,9 +9,18 @@ const supabase = createClient(
 
 /**
  * Obtiene estadísticas generales de la rifa
+ * REQUIERE AUTENTICACIÓN
  */
 export async function GET() {
   try {
+    // Verificar sesión
+    const session = await verifySession();
+    if (!session) {
+      return NextResponse.json(
+        { ok: false, error: "No autorizado" },
+        { status: 401 }
+      );
+    }
     // Total de links creados
     const { count: totalLinks } = await supabase
       .from("links")
