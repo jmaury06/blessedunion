@@ -1,6 +1,29 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
-type State = {
+type ThemeStore = {
+  theme: "light" | "dark";
+  toggleTheme: () => void;
+  setTheme: (theme: "light" | "dark") => void;
+};
+
+export const useThemeStore = create<ThemeStore>()(
+  persist(
+    (set) => ({
+      theme: "light",
+      toggleTheme: () =>
+        set((state) => ({
+          theme: state.theme === "light" ? "dark" : "light",
+        })),
+      setTheme: (theme) => set({ theme }),
+    }),
+    {
+      name: "theme-storage",
+    }
+  )
+);
+
+type RaffleState = {
   selectedNumbers: number[];
   remaining: number;
   setRemaining: (r: number) => void;
@@ -8,7 +31,7 @@ type State = {
   reset: () => void;
 };
 
-export const useRaffleStore = create<State>((set) => ({
+export const useRaffleStore = create<RaffleState>((set) => ({
   selectedNumbers: [],
   remaining: 0,
   setRemaining: (r) => set({ remaining: r }),

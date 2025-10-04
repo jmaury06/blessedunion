@@ -2,33 +2,41 @@
 
 import { motion } from "framer-motion"
 import Link from "next/link"
+import ThemeToggle from "./components/ThemeToggle"
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50">
-      <main className="flex min-h-screen flex-col items-center justify-center p-6">
+    <div className="min-h-screen"
+
+>
+      {/* Theme Toggle Fixed */}
+      <div className="fixed top-6 right-6 z-50">
+        <ThemeToggle />
+      </div>
+
+      <main className="flex min-h-screen flex-col items-center justify-center p-6 md:p-12">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-center max-w-4xl"
+          className="text-center max-w-5xl"
         >
           {/* Logo/Emoji */}
           <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
+            initial={{ scale: 0, rotate: -180 }}
+            animate={{ scale: 1, rotate: 0 }}
             transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-            className="text-9xl mb-8"
+            className="text-9xl mb-6"
           >
             💍
           </motion.div>
 
           {/* Title */}
           <motion.h1
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="text-5xl md:text-7xl font-bold text-gray-800 mb-4"
+            className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 bg-clip-text text-transparent mb-4"
           >
             Blessed Union
           </motion.h1>
@@ -37,7 +45,7 @@ export default function Home() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6 }}
-            className="text-xl md:text-2xl text-gray-600 mb-12"
+            className="text-xl md:text-3xl font-semibold text-gray-700 dark:text-gray-300 mb-12"
           >
             Rifa de Boda
           </motion.p>
@@ -47,29 +55,46 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8 }}
-            className="bg-white rounded-2xl shadow-xl p-8 mb-8"
+            className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-8 md:p-10 mb-8 border border-gray-200 dark:border-gray-700"
           >
-            <p className="text-lg text-gray-700 mb-6">
+            <p className="text-lg md:text-xl text-gray-700 dark:text-gray-300 mb-8 leading-relaxed">
               Bienvenido al sistema de gestión de rifas. Cada comprador recibe un link único 
-              para seleccionar sus números de la suerte del <span className="font-bold">000 al 999</span>.
+              para seleccionar sus números de la suerte del <span className="font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">000 al 999</span>.
             </p>
 
-            <div className="grid md:grid-cols-3 gap-6 text-center">
-              <div className="p-4">
-                <div className="text-4xl mb-2">🎫</div>
-                <h3 className="font-semibold text-gray-800 mb-1">1000 Números</h3>
-                <p className="text-sm text-gray-600">Del 000 al 999</p>
-              </div>
-              <div className="p-4">
-                <div className="text-4xl mb-2">⏱️</div>
-                <h3 className="font-semibold text-gray-800 mb-1">Links Seguros</h3>
-                <p className="text-sm text-gray-600">Expiran en 30 minutos</p>
-              </div>
-              <div className="p-4">
-                <div className="text-4xl mb-2">✅</div>
-                <h3 className="font-semibold text-gray-800 mb-1">Sin Duplicados</h3>
-                <p className="text-sm text-gray-600">Cada número es único</p>
-              </div>
+            <div className="grid md:grid-cols-3 gap-6">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.9 }}
+                className="p-6 bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-2xl border-2 border-purple-200 dark:border-purple-700"
+              >
+                <div className="text-5xl mb-3">🎫</div>
+                <h3 className="font-bold text-gray-800 dark:text-white mb-2 text-lg">1000 Números</h3>
+                <p className="text-gray-600 dark:text-gray-400">Del 000 al 999</p>
+              </motion.div>
+              
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.0 }}
+                className="p-6 bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-2xl border-2 border-blue-200 dark:border-blue-700"
+              >
+                <div className="text-5xl mb-3">⏱️</div>
+                <h3 className="font-bold text-gray-800 dark:text-white mb-2 text-lg">Links Seguros</h3>
+                <p className="text-gray-600 dark:text-gray-400">Expiran en 30 minutos</p>
+              </motion.div>
+              
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.1 }}
+                className="p-6 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-2xl border-2 border-green-200 dark:border-green-700"
+              >
+                <div className="text-5xl mb-3">✅</div>
+                <h3 className="font-bold text-gray-800 dark:text-white mb-2 text-lg">Sin Duplicados</h3>
+                <p className="text-gray-600 dark:text-gray-400">Cada número es único</p>
+              </motion.div>
             </div>
           </motion.div>
 
@@ -77,26 +102,30 @@ export default function Home() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1 }}
+            transition={{ delay: 1.2 }}
             className="flex flex-col sm:flex-row gap-4 justify-center"
           >
             <Link href="/admin">
               <motion.button
-                whileHover={{ scale: 1.05 }}
+                whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
-                className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl transition-shadow"
+                className="bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 text-white px-10 py-4 rounded-2xl font-bold text-lg shadow-2xl hover:shadow-purple-500/50 transition-all duration-300"
               >
-                📊 Ver Estadísticas
+                <span className="flex items-center gap-2">
+                  📊 Ver Estadísticas
+                </span>
               </motion.button>
             </Link>
             
-            <a href="https://github.com/yourusername/blessedunion" target="_blank" rel="noopener noreferrer">
+            <a href="https://github.com/jmaury06/blessedunion" target="_blank" rel="noopener noreferrer">
               <motion.button
-                whileHover={{ scale: 1.05 }}
+                whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
-                className="bg-white text-gray-800 px-8 py-4 rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl transition-shadow border-2 border-gray-200"
+                className="bg-white dark:bg-gray-800 text-gray-800 dark:text-white px-10 py-4 rounded-2xl font-bold text-lg shadow-2xl hover:shadow-xl transition-all duration-300 border-2 border-gray-300 dark:border-gray-600"
               >
-                📖 Documentación
+                <span className="flex items-center gap-2">
+                  📖 Documentación
+                </span>
               </motion.button>
             </a>
           </motion.div>
@@ -105,10 +134,10 @@ export default function Home() {
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 1.2 }}
-            className="mt-8 text-sm text-gray-500"
+            transition={{ delay: 1.4 }}
+            className="mt-10 text-gray-600 dark:text-gray-400 text-center max-w-2xl mx-auto"
           >
-            Los compradores recibirán un link único para acceder al sistema de selección
+            Los compradores recibirán un link único y seguro para acceder al sistema de selección de números
           </motion.p>
         </motion.div>
       </main>
@@ -117,10 +146,15 @@ export default function Home() {
       <motion.footer
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.4 }}
-        className="pb-8 text-center text-gray-500 text-sm"
+        transition={{ delay: 1.6 }}
+        className="pb-8 text-center"
       >
-        Desarrollado con ❤️ para Blessed Union
+        <p className="text-gray-500 dark:text-gray-400 text-sm">
+          Desarrollado con ❤️ para Blessed Union
+        </p>
+        <p className="text-gray-400 dark:text-gray-500 text-xs mt-2">
+          © 2025 - Todos los derechos reservados
+        </p>
       </motion.footer>
     </div>
   )

@@ -32,11 +32,11 @@ export default function TokenPage({ params }: { params: Promise<{ token: string 
 
   if (step === "loading") {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-50 to-purple-50">
+      <div className="flex items-center justify-center min-h-screen">
         <motion.div
           animate={{ rotate: 360 }}
           transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-          className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full"
+          className="w-20 h-20 border-4 border-purple-500 dark:border-pink-500 border-t-transparent rounded-full"
         />
       </div>
     )
@@ -44,17 +44,24 @@ export default function TokenPage({ params }: { params: Promise<{ token: string 
 
   if (step === "invalid") {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-red-50 to-pink-50 p-4">
+      <div className="flex items-center justify-center min-h-screen p-4">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="bg-white rounded-2xl shadow-xl p-8 max-w-md text-center"
+          className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-10 max-w-md text-center border border-gray-200 dark:border-gray-700"
         >
-          <div className="text-6xl mb-4">❌</div>
-          <h2 className="text-2xl font-bold text-gray-800 mb-2">
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ type: "spring", stiffness: 200 }}
+            className="text-7xl mb-6"
+          >
+            ❌
+          </motion.div>
+          <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-4">
             Link Inválido
           </h2>
-          <p className="text-gray-600">
+          <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
             Este link no existe o ya no está activo. Por favor verifica la URL o contacta al organizador.
           </p>
         </motion.div>
@@ -64,24 +71,31 @@ export default function TokenPage({ params }: { params: Promise<{ token: string 
 
   if (step === "expired") {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-orange-50 to-yellow-50 p-4">
+      <div className="flex items-center justify-center min-h-screen p-4">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="bg-white rounded-2xl shadow-xl p-8 max-w-md text-center"
+          className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-10 max-w-md text-center border border-gray-200 dark:border-gray-700"
         >
-          <div className="text-6xl mb-4">⏰</div>
-          <h2 className="text-2xl font-bold text-gray-800 mb-2">
+          <motion.div
+            initial={{ scale: 0, rotate: -180 }}
+            animate={{ scale: 1, rotate: 0 }}
+            transition={{ type: "spring", stiffness: 200 }}
+            className="text-7xl mb-6"
+          >
+            ⏰
+          </motion.div>
+          <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-4">
             Link Expirado
           </h2>
-          <p className="text-gray-600 mb-4">
+          <p className="text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
             Este link ha expirado después de 30 minutos. Por favor solicita un nuevo link al organizador.
           </p>
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => window.location.href = "/"}
-            className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
+            className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-3 rounded-xl hover:shadow-xl transition-all duration-300 font-semibold"
           >
             Volver al inicio
           </motion.button>
@@ -91,19 +105,21 @@ export default function TokenPage({ params }: { params: Promise<{ token: string 
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 p-4 md:p-8">
+    <div className="min-h-screen p-4 md:p-8">
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         className="max-w-7xl mx-auto"
       >
         <motion.h1
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-8"
+          className="text-3xl md:text-5xl font-bold text-center mb-8"
         >
-          💍 Rifa Blessed Union
+          <span className="bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 bg-clip-text text-transparent">
+            💍 Rifa Blessed Union
+          </span>
         </motion.h1>
 
         {step === "form" && (

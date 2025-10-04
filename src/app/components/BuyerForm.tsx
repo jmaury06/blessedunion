@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { motion } from "framer-motion"
+import ThemeToggle from "./ThemeToggle"
 
 type Props = {
   token: string
@@ -13,9 +14,31 @@ export default function BuyerForm({ token, onComplete }: Props) {
   const [email, setEmail] = useState("")
   const [phone, setPhone] = useState("")
   const [loading, setLoading] = useState(false)
+  const [errors, setErrors] = useState({ name: "", email: "", phone: "" })
+
+  const validateEmail = (email: string) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    return re.test(email)
+  }
+
+  const validatePhone = (phone: string) => {
+    return phone.length >= 10
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
+    
+    // Validaciones
+    const newErrors = { name: "", email: "", phone: "" }
+    if (!name.trim()) newErrors.name = "El nombre es requerido"
+    if (!email.trim()) newErrors.email = "El email es requerido"
+    else if (!validateEmail(email)) newErrors.email = "Email inválido"
+    if (!phone.trim()) newErrors.phone = "El teléfono es requerido"
+    else if (!validatePhone(phone)) newErrors.phone = "Teléfono debe tener al menos 10 dígitos"
+    
+    setErrors(newErrors)
+    if (Object.values(newErrors).some(err => err)) return
+    
     setLoading(true)
 
     const res = await fetch("/api/save-buyer", {
@@ -39,78 +62,173 @@ export default function BuyerForm({ token, onComplete }: Props) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="max-w-md mx-auto"
+      className="max-w-lg mx-auto px-4"
     >
+      {/* Theme Toggle */}
+      <div className="flex justify-end mb-4">
+        <ThemeToggle />
+      </div>
+
       <motion.div
-        initial={{ scale: 0.9 }}
+        initial={{ scale: 0.95 }}
         animate={{ scale: 1 }}
         transition={{ delay: 0.1 }}
-        className="bg-white shadow-xl rounded-2xl p-8 border border-gray-100"
+        className="bg-white dark:bg-gray-800 shadow-2xl rounded-3xl p-8 md:p-10 border border-gray-200 dark:border-gray-700"
       >
-        <motion.h2
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+        {/* Header with Icon */}
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="text-2xl font-bold text-gray-800 mb-6 text-center"
+          className="text-center mb-8"
         >
-          Información del Comprador
-        </motion.h2>
+          <div className="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center shadow-lg">
+            <svg className="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+          </div>
+          <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-2">
+            Información Personal
+          </h2>
+          <p className="text-gray-600 dark:text-gray-400">
+            Completa tus datos para continuar
+          </p>
+        </motion.div>
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Name Field with Floating Label */}
           <motion.div
             initial={{ x: -20, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ delay: 0.3 }}
+            className="relative"
           >
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Nombre completo
-            </label>
             <input
               type="text"
-              placeholder="Juan Pérez"
+              id="name"
               value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-              className="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+              onChange={(e) => {
+                setName(e.target.value)
+                setErrors({ ...errors, name: "" })
+              }}
+              className={`
+                peer w-full px-4 pt-6 pb-2 border-2 rounded-xl 
+                bg-gray-50 dark:bg-gray-700 
+                text-gray-900 dark:text-white
+                focus:outline-none focus:ring-0 transition-all duration-300
+                ${errors.name 
+                  ? "border-red-500 focus:border-red-500" 
+                  : "border-gray-300 dark:border-gray-600 focus:border-purple-500 dark:focus:border-pink-500"
+                }
+              `}
+              placeholder=" "
             />
+            <label
+              htmlFor="name"
+              className="absolute left-4 top-2 text-xs font-medium text-gray-600 dark:text-gray-400 transition-all duration-300 peer-placeholder-shown:top-4 peer-placeholder-shown:text-base peer-focus:top-2 peer-focus:text-xs peer-focus:text-purple-600 dark:peer-focus:text-pink-500"
+            >
+              Nombre completo
+            </label>
+            {errors.name && (
+              <motion.p
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-red-500 text-sm mt-1 ml-1"
+              >
+                {errors.name}
+              </motion.p>
+            )}
           </motion.div>
 
+          {/* Email Field with Floating Label */}
           <motion.div
             initial={{ x: -20, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ delay: 0.4 }}
+            className="relative"
           >
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Correo electrónico
-            </label>
             <input
               type="email"
-              placeholder="juan@ejemplo.com"
+              id="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+              onChange={(e) => {
+                setEmail(e.target.value)
+                setErrors({ ...errors, email: "" })
+              }}
+              className={`
+                peer w-full px-4 pt-6 pb-2 border-2 rounded-xl 
+                bg-gray-50 dark:bg-gray-700 
+                text-gray-900 dark:text-white
+                focus:outline-none focus:ring-0 transition-all duration-300
+                ${errors.email 
+                  ? "border-red-500 focus:border-red-500" 
+                  : "border-gray-300 dark:border-gray-600 focus:border-purple-500 dark:focus:border-pink-500"
+                }
+              `}
+              placeholder=" "
             />
+            <label
+              htmlFor="email"
+              className="absolute left-4 top-2 text-xs font-medium text-gray-600 dark:text-gray-400 transition-all duration-300 peer-placeholder-shown:top-4 peer-placeholder-shown:text-base peer-focus:top-2 peer-focus:text-xs peer-focus:text-purple-600 dark:peer-focus:text-pink-500"
+            >
+              Correo electrónico
+            </label>
+            {errors.email && (
+              <motion.p
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-red-500 text-sm mt-1 ml-1"
+              >
+                {errors.email}
+              </motion.p>
+            )}
           </motion.div>
 
+          {/* Phone Field with Floating Label */}
           <motion.div
             initial={{ x: -20, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ delay: 0.5 }}
+            className="relative"
           >
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Teléfono
-            </label>
             <input
               type="tel"
-              placeholder="+52 123 456 7890"
+              id="phone"
               value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              required
-              className="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+              onChange={(e) => {
+                setPhone(e.target.value)
+                setErrors({ ...errors, phone: "" })
+              }}
+              className={`
+                peer w-full px-4 pt-6 pb-2 border-2 rounded-xl 
+                bg-gray-50 dark:bg-gray-700 
+                text-gray-900 dark:text-white
+                focus:outline-none focus:ring-0 transition-all duration-300
+                ${errors.phone 
+                  ? "border-red-500 focus:border-red-500" 
+                  : "border-gray-300 dark:border-gray-600 focus:border-purple-500 dark:focus:border-pink-500"
+                }
+              `}
+              placeholder=" "
             />
+            <label
+              htmlFor="phone"
+              className="absolute left-4 top-2 text-xs font-medium text-gray-600 dark:text-gray-400 transition-all duration-300 peer-placeholder-shown:top-4 peer-placeholder-shown:text-base peer-focus:top-2 peer-focus:text-xs peer-focus:text-purple-600 dark:peer-focus:text-pink-500"
+            >
+              Teléfono
+            </label>
+            {errors.phone && (
+              <motion.p
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-red-500 text-sm mt-1 ml-1"
+              >
+                {errors.phone}
+              </motion.p>
+            )}
           </motion.div>
 
+          {/* Submit Button */}
           <motion.button
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -119,20 +237,26 @@ export default function BuyerForm({ token, onComplete }: Props) {
             whileTap={{ scale: 0.98 }}
             type="submit"
             disabled={loading}
-            className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-3 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:from-blue-600 hover:to-blue-700 transition-all shadow-lg font-semibold"
+            className="w-full bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 text-white px-6 py-4 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-2xl hover:shadow-purple-500/50 transition-all duration-300 font-bold text-lg"
           >
             {loading ? (
-              <span className="flex items-center justify-center gap-2">
+              <span className="flex items-center justify-center gap-3">
                 <motion.span
                   animate={{ rotate: 360 }}
                   transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                  className="text-2xl"
                 >
                   ⏳
                 </motion.span>
                 Guardando...
               </span>
             ) : (
-              "Comenzar 🎯"
+              <span className="flex items-center justify-center gap-2">
+                Continuar
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </span>
             )}
           </motion.button>
         </form>
