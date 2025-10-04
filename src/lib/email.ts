@@ -147,11 +147,11 @@ export async function sendPurchaseConfirmation(
       </div>
 
       <!-- Premio -->
-      <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; padding: 30px; border-radius: 12px; text-align: center; margin: 25px 0;">
-        <div style="font-size: 40px; margin-bottom: 10px;">💰</div>
+      <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; border-radius: 12px; text-align: center; margin: 25px 0;">
+        <div style="font-size: 40px; margin-bottom: 10px;">📱</div>
         <div style="font-size: 24px; font-weight: bold; margin-bottom: 10px;">¡GRAN PREMIO!</div>
-        <div style="font-size: 36px; font-weight: 900; margin-bottom: 10px;">$2.500.000</div>
-        <div style="font-size: 18px; opacity: 0.95;">o iPhone 13 de 128GB 📱</div>
+        <div style="font-size: 36px; font-weight: 900; margin-bottom: 10px;">iPhone 13 de 128GB</div>
+        <div style="font-size: 18px; opacity: 0.95;">o $2.500.000 en efectivo 💰</div>
       </div>
 
       <!-- Información del Sorteo -->

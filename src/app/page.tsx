@@ -75,14 +75,14 @@ export default function Home() {
             🎉 Rifa de Boda
           </motion.p>
 
-          {/* PREMIO PRINCIPAL - DINERO */}
+          {/* PREMIO PRINCIPAL - iPHONE */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.7 }}
-            className="bg-gradient-to-r from-green-500 via-emerald-500 to-green-600 text-white px-12 py-6 rounded-3xl font-black text-4xl md:text-6xl mb-6 shadow-2xl inline-block"
+            className="bg-gradient-to-r from-purple-500 via-pink-500 to-purple-500 text-white px-12 py-6 rounded-3xl font-black text-4xl md:text-6xl mb-6 shadow-2xl inline-block"
           >
-            💰 $2.500.000 💰
+            📱 iPhone 13 de 128GB 📱
           </motion.div>
 
           <motion.p
@@ -91,7 +91,7 @@ export default function Home() {
             transition={{ delay: 0.8 }}
             className="text-2xl md:text-3xl font-semibold text-gray-700 dark:text-gray-300 mb-12"
           >
-            o iPhone 13 de 128GB 📱
+            o $2.500.000 en efectivo 💰
           </motion.p>
 
           {/* Description */}
