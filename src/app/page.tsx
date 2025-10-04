@@ -6,37 +6,53 @@ import ThemeToggle from "./components/ThemeToggle"
 
 export default function Home() {
   return (
-    <div className="h-screen w-full flex flex-col overflow-hidden">
+    <div className="min-h-screen w-full flex flex-col">
       {/* Theme Toggle Fixed */}
       <div className="fixed top-6 right-6 z-50">
         <ThemeToggle />
       </div>
 
-      <main className="flex-1 flex flex-col items-center justify-center p-6 md:p-12 overflow-y-auto">
+      <main className="flex-1 flex flex-col items-center justify-center p-6 md:p-12 py-20">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-center max-w-5xl"
+          className="text-center max-w-5xl w-full"
         >
           {/* iPhone 3D Giratorio */}
           <motion.div
-            initial={{ scale: 0, rotateY: -180 }}
-            animate={{ scale: 1, rotateY: 0 }}
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
             transition={{ delay: 0.2, type: "spring", stiffness: 100 }}
-            className="mb-8"
+            className="mb-12 perspective-1000"
           >
             <motion.div
-              animate={{ rotateY: 360 }}
+              animate={{ rotateY: [0, 360] }}
               transition={{
-                duration: 8,
+                duration: 10,
                 repeat: Infinity,
                 ease: "linear"
               }}
-              style={{ transformStyle: "preserve-3d" }}
-              className="text-9xl"
+              style={{ 
+                transformStyle: "preserve-3d",
+                transform: "rotateX(-15deg)"
+              }}
+              className="relative w-48 h-96 mx-auto"
             >
-              📱
+              {/* iPhone 3D */}
+              <div className="absolute inset-0 bg-gradient-to-br from-gray-800 via-gray-900 to-black rounded-[3rem] shadow-2xl border-8 border-gray-900 flex items-center justify-center"
+                style={{
+                  transformStyle: "preserve-3d",
+                  transform: "translateZ(10px)"
+                }}
+              >
+                {/* Pantalla */}
+                <div className="w-[90%] h-[94%] bg-gradient-to-br from-blue-400 via-purple-500 to-pink-500 rounded-[2.5rem] flex items-center justify-center overflow-hidden">
+                  <div className="text-white text-6xl">📱</div>
+                </div>
+                {/* Notch */}
+                <div className="absolute top-2 left-1/2 transform -translate-x-1/2 w-24 h-7 bg-black rounded-b-3xl z-10"></div>
+              </div>
             </motion.div>
           </motion.div>
 
@@ -54,28 +70,28 @@ export default function Home() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6 }}
-            className="text-xl md:text-3xl font-semibold text-gray-700 dark:text-gray-300 mb-4"
+            className="text-xl md:text-3xl font-semibold text-gray-700 dark:text-gray-300 mb-8"
           >
             🎉 Rifa de Boda
           </motion.p>
 
-          {/* Premio */}
+          {/* PREMIO PRINCIPAL - DINERO */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.7 }}
-            className="bg-gradient-to-r from-purple-500 via-pink-500 to-purple-500 text-white px-8 py-4 rounded-2xl font-bold text-2xl md:text-3xl mb-8 shadow-2xl inline-block"
+            className="bg-gradient-to-r from-green-500 via-emerald-500 to-green-600 text-white px-12 py-6 rounded-3xl font-black text-4xl md:text-6xl mb-6 shadow-2xl inline-block"
           >
-            ✨ iPhone 13 de 128GB ✨
+            💰 $2.500.000 💰
           </motion.div>
 
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.8 }}
-            className="text-xl md:text-2xl font-semibold text-gray-700 dark:text-gray-300 mb-12"
+            className="text-2xl md:text-3xl font-semibold text-gray-700 dark:text-gray-300 mb-12"
           >
-            o $2.500.000 en efectivo 💰
+            o iPhone 13 de 128GB 📱
           </motion.p>
 
           {/* Description */}
@@ -192,20 +208,15 @@ export default function Home() {
         </motion.div>
       </main>
 
-      {/* Footer */}
-      <motion.footer
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.6 }}
-        className="py-6 text-center bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border-t border-gray-200 dark:border-gray-700"
-      >
+      {/* Footer - Sticky */}
+      <footer className="py-6 text-center bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border-t border-gray-200 dark:border-gray-700 mt-auto">
         <p className="text-gray-500 dark:text-gray-400 text-sm">
           Desarrollado con ❤️ para Blessed Union
         </p>
         <p className="text-gray-400 dark:text-gray-500 text-xs mt-2">
           © 2025 - Todos los derechos reservados
         </p>
-      </motion.footer>
+      </footer>
     </div>
   )
 }

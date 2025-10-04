@@ -142,23 +142,21 @@ export async function sendPurchaseConfirmation(
       <div class="greeting">
         ¡Hola ${buyerName}! 👋
       </div>
-      
       <div class="message">
         Gracias por participar en nuestra rifa. Hemos registrado exitosamente tu compra.
       </div>
 
       <!-- Premio -->
-      <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 25px; border-radius: 12px; text-align: center; margin: 25px 0;">
-        <div style="font-size: 32px; margin-bottom: 10px;">🎁</div>
-        <div style="font-size: 22px; font-weight: bold; margin-bottom: 10px;">¡Gran Premio!</div>
-        <div style="font-size: 28px; font-weight: bold; margin-bottom: 5px;">iPhone 13 de 128GB</div>
-        <div style="font-size: 20px; opacity: 0.95;">o $2.500.000 en efectivo</div>
+      <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; padding: 30px; border-radius: 12px; text-align: center; margin: 25px 0;">
+        <div style="font-size: 40px; margin-bottom: 10px;">💰</div>
+        <div style="font-size: 24px; font-weight: bold; margin-bottom: 10px;">¡GRAN PREMIO!</div>
+        <div style="font-size: 36px; font-weight: 900; margin-bottom: 10px;">$2.500.000</div>
+        <div style="font-size: 18px; opacity: 0.95;">o iPhone 13 de 128GB 📱</div>
       </div>
 
       <!-- Información del Sorteo -->
       <div style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 20px; border-radius: 8px; margin: 25px 0;">
         <div style="font-size: 24px; margin-bottom: 10px;">📅</div>
-        <div style="font-weight: bold; font-size: 18px; color: #333; margin-bottom: 8px;">Fecha del Sorteo</div>
         <div style="font-size: 16px; color: #555; margin-bottom: 5px;">
           <strong>Sábado 1 de Noviembre de 2025</strong>
         </div>
