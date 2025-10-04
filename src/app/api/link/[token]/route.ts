@@ -14,7 +14,9 @@ export async function GET(
 
   const { data, error } = await supabase
     .from("links")
-    .select("token, opportunities, remaining, active, buyer_name, buyer_email")
+    .select(
+      "token, opportunities, remaining, active, buyer_name, buyer_email, buyer_phone, expires_at"
+    )
     .eq("token", token)
     .single();
 
@@ -28,6 +30,13 @@ export async function GET(
   if (!data.active) {
     return NextResponse.json(
       { ok: false, error: "link_inactive" },
+      { status: 403 }
+    );
+  }
+
+  if (data.expires_at && new Date(data.expires_at).getTime() < Date.now()) {
+    return NextResponse.json(
+      { ok: false, error: "link_expired" },
       { status: 403 }
     );
   }

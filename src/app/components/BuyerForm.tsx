@@ -10,6 +10,7 @@ type Props = {
 export default function BuyerForm({ token, onComplete }: Props) {
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
+  const [phone, setPhone] = useState("")
   const [loading, setLoading] = useState(false)
 
   async function handleSubmit(e: React.FormEvent) {
@@ -19,7 +20,7 @@ export default function BuyerForm({ token, onComplete }: Props) {
     const res = await fetch("/api/save-buyer", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ token, name, email }),
+      body: JSON.stringify({ token, name, email, phone }),
     })
 
     const data = await res.json()
@@ -47,6 +48,14 @@ export default function BuyerForm({ token, onComplete }: Props) {
         placeholder="Your email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
+        required
+        className="border p-2 rounded"
+      />
+      <input
+        type="tel"
+        placeholder="Your phone"
+        value={phone}
+        onChange={(e) => setPhone(e.target.value)}
         required
         className="border p-2 rounded"
       />

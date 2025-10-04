@@ -7,9 +7,9 @@ const supabaseService = createClient(
 );
 
 export async function POST(req: Request) {
-  const { token, name, email } = await req.json();
+  const { token, name, email, phone } = await req.json();
 
-  if (!token || !name || !email) {
+  if (!token || !name || !email || !phone) {
     return NextResponse.json(
       { ok: false, error: "missing_fields" },
       { status: 400 }
@@ -18,7 +18,7 @@ export async function POST(req: Request) {
 
   const { error } = await supabaseService
     .from("links")
-    .update({ buyer_name: name, buyer_email: email })
+    .update({ buyer_name: name, buyer_email: email, buyer_phone: phone })
     .eq("token", token);
 
   if (error) {
