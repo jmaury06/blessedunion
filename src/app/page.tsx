@@ -3,6 +3,7 @@
 import { motion } from "framer-motion"
 import Link from "next/link"
 import ThemeToggle from "./components/ThemeToggle"
+import iPhone3DViewer from "./components/iPhone3DViewer"
 
 export default function Home() {
   return (
@@ -19,41 +20,14 @@ export default function Home() {
           transition={{ duration: 0.8 }}
           className="text-center max-w-5xl w-full"
         >
-          {/* iPhone 3D Giratorio */}
+          {/* iPhone 3D Model */}
           <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2, type: "spring", stiffness: 100 }}
-            className="mb-12 perspective-1000"
+            className="mb-12 w-full max-w-lg mx-auto"
           >
-            <motion.div
-              animate={{ rotateY: [0, 360] }}
-              transition={{
-                duration: 10,
-                repeat: Infinity,
-                ease: "linear"
-              }}
-              style={{ 
-                transformStyle: "preserve-3d",
-                transform: "rotateX(-15deg)"
-              }}
-              className="relative w-48 h-96 mx-auto"
-            >
-              {/* iPhone 3D */}
-              <div className="absolute inset-0 bg-gradient-to-br from-gray-800 via-gray-900 to-black rounded-[3rem] shadow-2xl border-8 border-gray-900 flex items-center justify-center"
-                style={{
-                  transformStyle: "preserve-3d",
-                  transform: "translateZ(10px)"
-                }}
-              >
-                {/* Pantalla */}
-                <div className="w-[90%] h-[94%] bg-gradient-to-br from-blue-400 via-purple-500 to-pink-500 rounded-[2.5rem] flex items-center justify-center overflow-hidden">
-                  <div className="text-white text-6xl">📱</div>
-                </div>
-                {/* Notch */}
-                <div className="absolute top-2 left-1/2 transform -translate-x-1/2 w-24 h-7 bg-black rounded-b-3xl z-10"></div>
-              </div>
-            </motion.div>
+            <iPhone3DViewer />
           </motion.div>
 
           {/* Title */}
