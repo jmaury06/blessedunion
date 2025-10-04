@@ -12,6 +12,9 @@ type NumberItem = {
   number: string
   selected: boolean
   disabled: boolean
+  buyer_name?: string
+  buyer_email?: string
+  buyer_phone?: string
 }
 
 export default function RaffleBoard({ token }: Props) {
@@ -43,19 +46,35 @@ export default function RaffleBoard({ token }: Props) {
 
       setRemaining(linkData.link.remaining)
 
-      // Cargar números ya vendidos
+      // Cargar números ya vendidos con datos del comprador
       const soldRes = await fetch("/api/sold")
       const soldData = await soldRes.json()
-      const soldNumbers = soldData.ok ? new Set(soldData.sold) : new Set()
+      
+      // Crear un mapa: número -> datos del comprador
+      const soldMap = new Map<string, { buyer_name: string; buyer_email: string; buyer_phone: string }>()
+      if (soldData.ok && Array.isArray(soldData.sold)) {
+        soldData.sold.forEach((item: any) => {
+          soldMap.set(item.number, {
+            buyer_name: item.buyer_name,
+            buyer_email: item.buyer_email,
+            buyer_phone: item.buyer_phone,
+          })
+        })
+      }
 
       // Generar lista de números 000–999
       const nums: NumberItem[] = []
       for (let i = 0; i < 1000; i++) {
         const formatted = i.toString().padStart(3, "0")
+        const buyerData = soldMap.get(formatted)
+        
         nums.push({
           number: formatted,
           selected: false,
-          disabled: soldNumbers.has(formatted),
+          disabled: soldMap.has(formatted),
+          buyer_name: buyerData?.buyer_name,
+          buyer_email: buyerData?.buyer_email,
+          buyer_phone: buyerData?.buyer_phone,
         })
       }
 
@@ -108,6 +127,15 @@ export default function RaffleBoard({ token }: Props) {
       if (data.error === "numbers_already_sold") {
         alert(`Los siguientes números ya fueron vendidos: ${data.numbers.join(", ")}. Por favor, refresca la página y selecciona otros.`)
         window.location.reload()
+      } else if (data.error === "link_not_found") {
+        alert("Este link ya no está activo o no existe. Es posible que ya hayas reclamado tus números previamente.")
+        window.location.href = "/"
+      } else if (data.error === "link_inactive") {
+        alert("Este link ha sido desactivado. Todos los números ya fueron reclamados.")
+        window.location.href = "/"
+      } else if (data.error === "link_expired") {
+        alert("Este link ha expirado (30 minutos). Por favor solicita un nuevo link.")
+        window.location.href = "/"
       } else {
         alert("Error: " + data.error)
       }
@@ -294,47 +322,73 @@ export default function RaffleBoard({ token }: Props) {
             className="grid grid-cols-5 sm:grid-cols-10 gap-2 md:gap-2.5 mb-8"
           >
             {currentNumbers.map((item) => (
-              <motion.button
-                key={item.number}
-                whileHover={
-                  !item.disabled && (item.selected || remaining > 0)
-                    ? { scale: 1.1, rotate: 5 }
-                    : {}
-                }
-                whileTap={
-                  !item.disabled && (item.selected || remaining > 0)
-                    ? { scale: 0.95 }
-                    : {}
-                }
-                disabled={item.disabled || (!item.selected && remaining <= 0)}
-                onClick={() => toggleNumber(item.number)}
-                className={`
-                  aspect-square rounded-xl font-semibold text-xs md:text-sm
-                  transition-all duration-300 shadow-md relative overflow-hidden
-                  ${
-                    item.disabled
-                      ? "bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed opacity-50"
-                      : item.selected
-                        ? "bg-gradient-to-br from-purple-500 to-pink-500 text-white shadow-purple-500/50 dark:shadow-pink-500/50 scale-105"
-                        : "bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-600 text-gray-700 dark:text-gray-200 hover:from-blue-100 hover:to-purple-100 dark:hover:from-purple-900 dark:hover:to-pink-900"
+              <div key={item.number} className="relative group">
+                <motion.button
+                  whileHover={
+                    !item.disabled && (item.selected || remaining > 0)
+                      ? { scale: 1.1, rotate: 5 }
+                      : {}
                   }
-                `}
-              >
-                {item.disabled && (
-                  <svg
-                    className="absolute top-1 right-1 w-3 h-3 text-gray-500"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
+                  whileTap={
+                    !item.disabled && (item.selected || remaining > 0)
+                      ? { scale: 0.95 }
+                      : {}
+                  }
+                  disabled={item.disabled || (!item.selected && remaining <= 0)}
+                  onClick={() => toggleNumber(item.number)}
+                  title={item.disabled && item.buyer_name ? `Comprado por: ${item.buyer_name}` : ""}
+                  className={`
+                    w-full aspect-square rounded-xl font-semibold text-xs md:text-sm
+                    transition-all duration-300 shadow-md relative overflow-hidden
+                    ${
+                      item.disabled
+                        ? "bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed opacity-50"
+                        : item.selected
+                          ? "bg-gradient-to-br from-purple-500 to-pink-500 text-white shadow-purple-500/50 dark:shadow-pink-500/50 scale-105"
+                          : "bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-600 text-gray-700 dark:text-gray-200 hover:from-blue-100 hover:to-purple-100 dark:hover:from-purple-900 dark:hover:to-pink-900"
+                    }
+                  `}
+                >
+                  {item.disabled && (
+                    <svg
+                      className="absolute top-1 right-1 w-3 h-3 text-gray-500"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  )}
+                  {item.number}
+                </motion.button>
+                
+                {/* Tooltip con datos del comprador */}
+                {item.disabled && item.buyer_name && (
+                  <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block z-50 pointer-events-none">
+                    <div className="bg-gray-900 dark:bg-gray-700 text-white text-xs rounded-lg px-3 py-2 shadow-xl whitespace-nowrap">
+                      <div className="font-bold mb-1">🎫 Comprado por:</div>
+                      <div className="font-semibold">{item.buyer_name}</div>
+                      {item.buyer_email && (
+                        <div className="text-gray-300 dark:text-gray-400 text-[10px] mt-1">
+                          📧 {item.buyer_email}
+                        </div>
+                      )}
+                      {item.buyer_phone && (
+                        <div className="text-gray-300 dark:text-gray-400 text-[10px]">
+                          📱 {item.buyer_phone}
+                        </div>
+                      )}
+                      {/* Flecha del tooltip */}
+                      <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-1">
+                        <div className="w-0 h-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent border-t-gray-900 dark:border-t-gray-700"></div>
+                      </div>
+                    </div>
+                  </div>
                 )}
-                {item.number}
-              </motion.button>
+              </div>
             ))}
           </motion.div>
         </AnimatePresence>

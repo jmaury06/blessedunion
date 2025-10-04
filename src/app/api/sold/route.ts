@@ -7,7 +7,10 @@ const supabase = createClient(
 );
 
 export async function GET() {
-  const { data, error } = await supabase.from("purchases").select("number");
+  // Ahora devolvemos número + datos del comprador
+  const { data, error } = await supabase
+    .from("purchases")
+    .select("number, buyer_name, buyer_email, buyer_phone");
 
   if (error) {
     return NextResponse.json(
@@ -16,5 +19,6 @@ export async function GET() {
     );
   }
 
-  return NextResponse.json({ ok: true, sold: data.map((d) => d.number) });
+  // Retornar en formato { number, buyer_name, buyer_email, buyer_phone }
+  return NextResponse.json({ ok: true, sold: data });
 }

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { sendPurchaseConfirmation } from "../../../lib/email";
 
 const supabaseService = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -8,6 +9,9 @@ const supabaseService = createClient(
 
 export async function POST(req: Request) {
   const { token, numbers } = await req.json();
+
+  console.log("[CLAIM] Token recibido:", token);
+  console.log("[CLAIM] Números a reclamar:", numbers);
 
   if (!token || !Array.isArray(numbers) || numbers.length === 0) {
     return NextResponse.json(
@@ -19,11 +23,15 @@ export async function POST(req: Request) {
   // 1. Verificar que el link existe, está activo y no ha expirado
   const { data: link, error: linkError } = await supabaseService
     .from("links")
-    .select("id, remaining, active, expires_at")
+    .select("token, remaining, active, expires_at, buyer_name, buyer_email, buyer_phone")
     .eq("token", token)
     .single();
 
+  console.log("[CLAIM] Link encontrado:", link);
+  console.log("[CLAIM] Error al buscar link:", linkError);
+
   if (linkError || !link) {
+    console.error("[CLAIM] Link no encontrado o error:", linkError);
     return NextResponse.json(
       { ok: false, error: "link_not_found" },
       { status: 404 }
@@ -73,24 +81,34 @@ export async function POST(req: Request) {
     );
   }
 
-  // 4. Insertar las compras en la tabla purchases
+  // 4. Ya tenemos los datos del comprador en 'link', no necesitamos otra query
+  
+  // 5. Insertar las compras con TODOS los datos del comprador
   const purchaseRecords = numbers.map((num) => ({
-    link_id: link.id,
     number: num,
+    buyer_name: link.buyer_name,
+    buyer_email: link.buyer_email,
+    buyer_phone: link.buyer_phone,
+    token: link.token, // Usar token en lugar de link_id
   }));
+
+  console.log("[CLAIM] Insertando compras:", purchaseRecords);
 
   const { error: insertError } = await supabaseService
     .from("purchases")
     .insert(purchaseRecords);
 
   if (insertError) {
+    console.error("[CLAIM] Error al insertar:", insertError);
     return NextResponse.json(
       { ok: false, error: insertError.message },
       { status: 500 }
     );
   }
 
-  // 5. Actualizar remaining en la tabla links
+  console.log("[CLAIM] Compras insertadas exitosamente");
+
+  // 6. Actualizar remaining en la tabla links
   const newRemaining = link.remaining - numbers.length;
   const shouldDeactivate = newRemaining === 0;
 
@@ -100,7 +118,7 @@ export async function POST(req: Request) {
       remaining: newRemaining,
       active: shouldDeactivate ? false : link.active,
     })
-    .eq("id", link.id);
+    .eq("token", link.token);
 
   if (updateError) {
     return NextResponse.json(
@@ -108,6 +126,23 @@ export async function POST(req: Request) {
       { status: 500 }
     );
   }
+
+  // 7. Enviar email de confirmación (no bloqueante - si falla, no afecta la compra)
+  sendPurchaseConfirmation({
+    buyerName: link.buyer_name,
+    buyerEmail: link.buyer_email,
+    numbers: numbers,
+  })
+    .then((result) => {
+      if (result.success) {
+        console.log("[CLAIM] Email enviado exitosamente a:", link.buyer_email);
+      } else {
+        console.error("[CLAIM] Error al enviar email:", result.error);
+      }
+    })
+    .catch((err) => {
+      console.error("[CLAIM] Error inesperado al enviar email:", err);
+    });
 
   return NextResponse.json({
     ok: true,
