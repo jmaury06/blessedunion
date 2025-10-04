@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { useThemeStore } from "@/store/useRaffleStore"
+import { useThemeStore } from "../store/useRaffleStore"
 import { useEffect, useState } from "react"
 
 export default function ThemeToggle() {
@@ -13,26 +13,27 @@ export default function ThemeToggle() {
   }, [])
 
   if (!mounted) {
-    return <div className="w-14 h-7" /> // Placeholder to prevent layout shift
+    return <div className="w-16 h-8" /> // Placeholder to prevent layout shift
   }
 
   return (
     <motion.button
       onClick={toggleTheme}
-      className="relative w-14 h-7 bg-gradient-to-r from-purple-400 to-pink-400 dark:from-gray-700 dark:to-gray-600 rounded-full p-1 cursor-pointer shadow-lg transition-all duration-300"
+      className="relative w-16 h-8 bg-gradient-to-r from-purple-400 to-pink-400 dark:from-gray-700 dark:to-gray-600 rounded-full p-1 cursor-pointer shadow-xl hover:shadow-2xl transition-all duration-300 border-2 border-white/20 dark:border-gray-500/20"
+      whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
       aria-label="Toggle theme"
     >
       <motion.div
-        className="w-5 h-5 bg-white rounded-full shadow-md flex items-center justify-center"
+        className="w-6 h-6 bg-white rounded-full shadow-lg flex items-center justify-center"
         animate={{
-          x: theme === "dark" ? 24 : 0,
+          x: theme === "dark" ? 28 : 0,
         }}
         transition={{ type: "spring", stiffness: 500, damping: 30 }}
       >
         {theme === "light" ? (
           <svg
-            className="w-3 h-3 text-yellow-500"
+            className="w-4 h-4 text-yellow-500"
             fill="currentColor"
             viewBox="0 0 20 20"
           >
@@ -44,7 +45,7 @@ export default function ThemeToggle() {
           </svg>
         ) : (
           <svg
-            className="w-3 h-3 text-gray-700"
+            className="w-4 h-4 text-indigo-600"
             fill="currentColor"
             viewBox="0 0 20 20"
           >

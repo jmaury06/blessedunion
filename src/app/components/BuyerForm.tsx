@@ -62,10 +62,10 @@ export default function BuyerForm({ token, onComplete }: Props) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="max-w-lg mx-auto px-4"
+      className="w-full max-w-lg mx-auto px-4"
     >
       {/* Theme Toggle */}
-      <div className="flex justify-end mb-4">
+      <div className="flex justify-end mb-6">
         <ThemeToggle />
       </div>
 
@@ -73,7 +73,7 @@ export default function BuyerForm({ token, onComplete }: Props) {
         initial={{ scale: 0.95 }}
         animate={{ scale: 1 }}
         transition={{ delay: 0.1 }}
-        className="bg-white dark:bg-gray-800 shadow-2xl rounded-3xl p-8 md:p-10 border border-gray-200 dark:border-gray-700"
+        className="bg-white dark:bg-gray-800 shadow-2xl rounded-3xl p-8 md:p-12 border border-gray-200 dark:border-gray-700"
       >
         {/* Header with Icon */}
         <motion.div
@@ -95,7 +95,7 @@ export default function BuyerForm({ token, onComplete }: Props) {
           </p>
         </motion.div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-7">
           {/* Name Field with Floating Label */}
           <motion.div
             initial={{ x: -20, opacity: 0 }}
@@ -237,7 +237,7 @@ export default function BuyerForm({ token, onComplete }: Props) {
             whileTap={{ scale: 0.98 }}
             type="submit"
             disabled={loading}
-            className="w-full bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 text-white px-6 py-4 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-2xl hover:shadow-purple-500/50 transition-all duration-300 font-bold text-lg"
+            className="w-full bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 text-white px-6 py-5 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-2xl hover:shadow-purple-500/50 transition-all duration-300 font-bold text-lg mt-8"
           >
             {loading ? (
               <span className="flex items-center justify-center gap-3">

@@ -229,25 +229,25 @@ export default function RaffleBoard({ token }: Props) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="p-4 md:p-6 max-w-7xl mx-auto"
+      className="w-full p-4 md:p-6 max-w-7xl mx-auto"
     >
       {/* Header with Theme Toggle */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-12 gap-4">
         <motion.div
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.2 }}
-          className="flex items-center gap-4 bg-white dark:bg-gray-800 shadow-xl rounded-2xl px-6 py-4 border border-gray-200 dark:border-gray-700"
+          className="flex items-center justify-center gap-4 bg-white dark:bg-gray-800 shadow-xl rounded-2xl px-10 py-6 border border-gray-200 dark:border-gray-700 min-w-[200px]"
         >
-          <div className="flex flex-col">
-            <p className="text-sm text-gray-600 dark:text-gray-400">
+          <div className="flex flex-col items-center text-center">
+            <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">
               Oportunidades restantes
             </p>
             <motion.span
               key={remaining}
               initial={{ scale: 1.3 }}
               animate={{ scale: 1 }}
-              className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent"
+              className="text-5xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent"
             >
               {remaining}
             </motion.span>
@@ -261,10 +261,10 @@ export default function RaffleBoard({ token }: Props) {
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.3 }}
-        className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-6 md:p-8 border border-gray-200 dark:border-gray-700"
+        className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-10 md:p-12 border border-gray-200 dark:border-gray-700 my-8"
       >
         {/* Page Indicator */}
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center justify-between mb-8">
           <h3 className="text-xl font-bold text-gray-800 dark:text-white">
             Números {currentPage * numbersPerPage} - {Math.min((currentPage + 1) * numbersPerPage - 1, 999)}
           </h3>
@@ -291,7 +291,7 @@ export default function RaffleBoard({ token }: Props) {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -50 }}
             transition={{ duration: 0.3 }}
-            className="grid grid-cols-5 sm:grid-cols-10 gap-2 md:gap-3 mb-6"
+            className="grid grid-cols-5 sm:grid-cols-10 gap-2 md:gap-2.5 mb-8"
           >
             {currentNumbers.map((item) => (
               <motion.button
@@ -309,8 +309,8 @@ export default function RaffleBoard({ token }: Props) {
                 disabled={item.disabled || (!item.selected && remaining <= 0)}
                 onClick={() => toggleNumber(item.number)}
                 className={`
-                  aspect-square rounded-2xl font-bold text-sm md:text-base
-                  transition-all duration-300 shadow-lg relative overflow-hidden
+                  aspect-square rounded-xl font-semibold text-xs md:text-sm
+                  transition-all duration-300 shadow-md relative overflow-hidden
                   ${
                     item.disabled
                       ? "bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed opacity-50"
@@ -340,18 +340,18 @@ export default function RaffleBoard({ token }: Props) {
         </AnimatePresence>
 
         {/* Navigation Arrows */}
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between mt-8">
           <motion.button
             onClick={prevPage}
             disabled={currentPage === 0}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
             className={`
-              px-6 py-3 rounded-xl font-semibold transition-all duration-300
+              px-8 py-4 rounded-xl font-bold text-base md:text-lg transition-all duration-300
               ${
                 currentPage === 0
                   ? "bg-gray-200 dark:bg-gray-700 text-gray-400 cursor-not-allowed"
-                  : "bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg hover:shadow-xl"
+                  : "bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-xl hover:shadow-2xl"
               }
             `}
           >
@@ -361,14 +361,14 @@ export default function RaffleBoard({ token }: Props) {
           <motion.button
             onClick={nextPage}
             disabled={currentPage === totalPages - 1}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
             className={`
-              px-6 py-3 rounded-xl font-semibold transition-all duration-300
+              px-8 py-4 rounded-xl font-bold text-base md:text-lg transition-all duration-300
               ${
                 currentPage === totalPages - 1
                   ? "bg-gray-200 dark:bg-gray-700 text-gray-400 cursor-not-allowed"
-                  : "bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg hover:shadow-xl"
+                  : "bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-xl hover:shadow-2xl"
               }
             `}
           >
@@ -385,14 +385,14 @@ export default function RaffleBoard({ token }: Props) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ type: "spring", stiffness: 100 }}
-            className="mt-8 flex justify-center"
+            className="mt-10 flex justify-center"
           >
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={handleSubmit}
               disabled={submitting}
-              className="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-12 py-4 rounded-2xl disabled:opacity-50 shadow-2xl font-bold text-lg hover:shadow-green-500/50 transition-all duration-300"
+              className="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-16 py-5 rounded-2xl disabled:opacity-50 shadow-2xl font-bold text-xl hover:shadow-green-500/50 transition-all duration-300"
             >
               {submitting ? (
                 <span className="flex items-center gap-3">

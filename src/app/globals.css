@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+/* Tailwind v4 Configuration */
+@theme {
+  /* Dark mode configuration */
+  --dark-mode: class;
+}
+
 * {
   box-sizing: border-box;
   padding: 0;

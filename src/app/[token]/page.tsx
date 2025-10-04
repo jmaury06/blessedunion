@@ -2,8 +2,8 @@
 
 import { use, useEffect, useState } from "react"
 import { motion } from "framer-motion"
-import BuyerForm from "@/components/BuyerForm"
-import RaffleBoard from "@/components/RaffleBoard"
+import BuyerForm from "../components/BuyerForm"
+import RaffleBoard from "../components/RaffleBoard"
 
 export default function TokenPage({ params }: { params: Promise<{ token: string }> }) {
   const { token } = use(params)
@@ -105,17 +105,17 @@ export default function TokenPage({ params }: { params: Promise<{ token: string 
   }
 
   return (
-    <div className="min-h-screen p-4 md:p-8">
+    <div className="min-h-screen w-full flex flex-col items-center justify-center p-4 md:p-8">
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="max-w-7xl mx-auto"
+        className="w-full max-w-7xl mx-auto"
       >
         <motion.h1
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="text-3xl md:text-5xl font-bold text-center mb-8"
+          className="text-3xl md:text-5xl font-bold text-center mb-12"
         >
           <span className="bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 bg-clip-text text-transparent">
             💍 Rifa Blessed Union

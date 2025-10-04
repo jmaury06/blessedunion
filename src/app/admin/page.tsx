@@ -56,7 +56,7 @@ export default function AdminPage() {
   }
 
   return (
-    <div className="min-h-screen p-8">
+    <div className="min-h-screen w-full p-8">
       {/* Theme Toggle */}
       <div className="fixed top-6 right-6 z-50">
         <ThemeToggle />
@@ -66,19 +66,19 @@ export default function AdminPage() {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="max-w-7xl mx-auto"
+        className="w-full max-w-7xl mx-auto"
       >
         <motion.h1
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          className="text-4xl md:text-5xl font-bold mb-8"
+          className="text-4xl md:text-5xl font-bold mb-12 text-center"
         >
           <span className="bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 bg-clip-text text-transparent">
             📊 Dashboard de la Rifa
           </span>
         </motion.h1>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {/* Números Vendidos */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
@@ -230,7 +230,7 @@ export default function AdminPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7 }}
-          className="mt-8 bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-6 border border-gray-200 dark:border-gray-700"
+          className="mt-12 bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-8 border border-gray-200 dark:border-gray-700"
         >
           <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-6">
             Acciones Rápidas

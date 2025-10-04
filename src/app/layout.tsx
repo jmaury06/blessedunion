@@ -26,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang="es" suppressHydrationWarning>
       <body 
-        className={`${geistSans.variable} ${geistMono.variable} bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 dark:from-gray-900 dark:via-purple-900 dark:to-gray-900 min-h-screen transition-colors duration-300`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 dark:from-gray-900 dark:via-purple-900 dark:to-gray-900 min-h-screen transition-colors duration-500 w-full overflow-x-hidden`}
         suppressHydrationWarning
       >
         <ThemeProvider>
