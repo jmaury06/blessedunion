@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import ThemeToggle from "../components/ThemeToggle"
 
 type Stats = {
   links: {
@@ -149,10 +148,7 @@ export default function AdminPage() {
   // Login Screen
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center p-4">
-        <div className="fixed top-6 right-6 z-50">
-          <ThemeToggle />
-        </div>
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 flex items-center justify-center p-4">
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -236,8 +232,8 @@ export default function AdminPage() {
   // Dashboard Screen (after login)
   return (
     <div className="min-h-screen w-full p-4 md:p-8 bg-gradient-to-br from-purple-50 via-white to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
-      {/* Theme Toggle & Logout */}
-      <div className="fixed top-6 right-6 z-50 flex items-center gap-3">
+      {/* Logout */}
+      <div className="fixed top-6 right-6 z-50">
         <motion.button
           onClick={handleLogout}
           whileHover={{ scale: 1.05 }}
@@ -246,7 +242,6 @@ export default function AdminPage() {
         >
           🚪 Salir
         </motion.button>
-        <ThemeToggle />
       </div>
 
       <motion.div
