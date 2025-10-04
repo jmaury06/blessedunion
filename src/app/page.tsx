@@ -12,7 +12,7 @@ export default function Home() {
         <ThemeToggle />
       </div>
 
-      <main className="flex-1 flex flex-col items-center justify-center p-6 !md:p-40 overflow-y-auto">
+      <main className="flex-1 flex flex-col items-center justify-center p-6 md:p-12 overflow-y-auto">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}

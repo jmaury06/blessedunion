@@ -1,15 +1,13 @@
-@import "tailwindcss";
+@import "tailwindcss/theme" layer(theme);
+@import "tailwindcss/preflight" layer(base);
+@import "tailwindcss/utilities" layer(utilities);
 
-/* Tailwind v4 Configuration */
 @theme {
-  /* Dark mode configuration */
   --dark-mode: class;
 }
 
 * {
   box-sizing: border-box;
-  padding: 0;
-  margin: 0;
 }
 
 html,
