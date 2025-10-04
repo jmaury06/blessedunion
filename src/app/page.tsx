@@ -2,8 +2,13 @@
 
 import { motion } from "framer-motion"
 import Link from "next/link"
+import dynamic from "next/dynamic"
 import ThemeToggle from "./components/ThemeToggle"
-import iPhone3DViewer from "./components/iPhone3DViewer"
+
+const iPhone3DViewer = dynamic(() => import("./components/iPhone3DViewer"), {
+  ssr: false,
+  loading: () => <div className="w-full h-[400px] flex items-center justify-center"><div className="text-6xl">📱</div></div>
+})
 
 export default function Home() {
   return (

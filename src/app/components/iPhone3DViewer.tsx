@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import React, { useEffect, useRef } from "react"
 import "@google/model-viewer"
 
 declare global {
@@ -11,7 +11,7 @@ declare global {
   }
 }
 
-export default function iPhone3DViewer() {
+const iPhone3DViewer: React.FC = () => {
   const viewerRef = useRef<any>(null)
 
   useEffect(() => {
@@ -39,3 +39,5 @@ export default function iPhone3DViewer() {
     />
   )
 }
+
+export default iPhone3DViewer
