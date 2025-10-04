@@ -6,7 +6,10 @@
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "type-check": "tsc --noEmit",
+    "format": "prettier --write .",
+    "test": "echo \"No tests configured yet\" && exit 0"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.58.0",

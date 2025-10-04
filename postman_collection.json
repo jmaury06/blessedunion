@@ -1,0 +1,161 @@
+{
+  "info": {
+    "name": "Blessed Union Raffle API",
+    "description": "Collection completa de endpoints para la aplicación de rifa",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Crear Link",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"opportunities\": 4\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/create-link",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "create-link"]
+        },
+        "description": "Crea un nuevo link único para un comprador. El campo 'opportunities' define cuántos números puede seleccionar (2, 4, 6, 8, o 10)."
+      },
+      "response": []
+    },
+    {
+      "name": "2. Consultar Link",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/link/:token",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "link", ":token"],
+          "variable": [
+            {
+              "key": "token",
+              "value": "abc123def456",
+              "description": "Token del link generado"
+            }
+          ]
+        },
+        "description": "Obtiene información de un link específico usando su token. Retorna datos del comprador, oportunidades restantes, y estado del link."
+      },
+      "response": []
+    },
+    {
+      "name": "3. Guardar Datos del Comprador",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"token\": \"abc123def456\",\n  \"name\": \"Juan Pérez\",\n  \"email\": \"juan@example.com\",\n  \"phone\": \"+52 123 456 7890\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/save-buyer",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "save-buyer"]
+        },
+        "description": "Guarda la información de contacto del comprador (nombre, email, teléfono)."
+      },
+      "response": []
+    },
+    {
+      "name": "4. Números Vendidos",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/sold",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "sold"]
+        },
+        "description": "Obtiene la lista de todos los números que ya han sido vendidos. Útil para mostrar cuáles están disponibles."
+      },
+      "response": []
+    },
+    {
+      "name": "5. Reclamar Números",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"token\": \"abc123def456\",\n  \"numbers\": [\"001\", \"042\", \"137\", \"999\"]\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/claim-numbers",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "claim-numbers"]
+        },
+        "description": "Registra los números seleccionados por el comprador. Valida que no estén vendidos y que no excedan las oportunidades disponibles."
+      },
+      "response": []
+    },
+    {
+      "name": "6. Estadísticas",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/stats",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "stats"]
+        },
+        "description": "Obtiene estadísticas generales de la rifa: links activos, números vendidos, porcentaje de venta, etc."
+      },
+      "response": []
+    },
+    {
+      "name": "7. Expirar Links (Cron)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer TU_CRON_SECRET_AQUI",
+            "description": "Secret para autenticación del cron job"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/expire-links",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "expire-links"]
+        },
+        "description": "Marca como inactivos todos los links que ya expiraron. Requiere autenticación con CRON_SECRET."
+      },
+      "response": []
+    }
+  ]
+}
