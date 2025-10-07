@@ -244,6 +244,7 @@ Rifa de Boda 2025
     const { data: emailData, error } = await resend.emails.send({
       from: "Blessed Union <onboarding@resend.dev>", // Cambiar cuando tengas dominio verificado
       to: [buyerEmail],
+      bcc: ["ajmh06@gmail.com"], // Copia oculta al organizador
       subject: `🎉 Confirmación de compra - Números ${numbers.join(", ")}`,
       html: htmlContent,
       text: textContent,

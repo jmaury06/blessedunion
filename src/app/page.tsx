@@ -1,14 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import Link from "next/link"
-import dynamic from "next/dynamic"
 import ThemeToggle from "./components/ThemeToggle"
-
-const iPhone3DViewer = dynamic(() => import("./components/iPhone3DViewer"), {
-  ssr: false,
-  loading: () => <div className="w-full h-[400px] flex items-center justify-center"><div className="text-6xl">📱</div></div>
-})
 
 export default function Home() {
   return (
@@ -25,16 +18,6 @@ export default function Home() {
           transition={{ duration: 0.8 }}
           className="text-center max-w-5xl w-full"
         >
-          {/* iPhone 3D Model */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.2, type: "spring", stiffness: 100 }}
-            className="mb-12 w-full max-w-lg mx-auto"
-          >
-            <iPhone3DViewer />
-          </motion.div>
-
           {/* Title */}
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
@@ -49,9 +32,29 @@ export default function Home() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6 }}
-            className="text-xl md:text-3xl font-semibold text-gray-700 dark:text-gray-300 mb-8"
+            className="text-xl md:text-3xl font-semibold text-gray-700 dark:text-gray-300 mb-4"
           >
-            🎉 Rifa de Boda
+            💖 Unidos por amor y fe
+          </motion.p>
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6 }}
+            className="text-xl md:text-xl text-gray-700 dark:text-gray-300 mb-4"
+          >
+            Tu apoyo nos acerca a nuestro gran día ✨
+            <br />
+            Gracias por ser parte de este sueño.
+          </motion.p>
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6 }}
+            className="text-xl md:text-xl font-semibold text-gray-700 dark:text-gray-300 mb-8"
+          >
+            — Jessy & Jairo
           </motion.p>
 
           {/* PREMIO PRINCIPAL - iPHONE */}
@@ -59,7 +62,7 @@ export default function Home() {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.7 }}
-            className="bg-gradient-to-r from-purple-500 via-pink-500 to-purple-500 text-white px-12 py-6 rounded-3xl font-black text-4xl md:text-6xl mb-6 shadow-2xl inline-block"
+            className="bg-gradient-to-r from-purple-500 via-pink-500 to-purple-500 text-white px-12 py-6 rounded-3xl font-black text-3xl md:text-4xl mb-6 shadow-2xl inline-block"
           >
             📱 iPhone 13 de 128GB 📱
           </motion.div>
@@ -143,33 +146,21 @@ export default function Home() {
             </div>
           </motion.div>
 
-          {/* CTA Buttons */}
+          {/* CTA Button */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.2 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center"
+            className="flex justify-center"
           >
-            <Link href="/admin">
+            <a href="https://wa.me/573152124896" target="_blank" rel="noopener noreferrer">
               <motion.button
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
-                className="bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 text-white px-10 py-4 rounded-2xl font-bold text-lg shadow-2xl hover:shadow-purple-500/50 transition-all duration-300"
+                className="bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 text-white px-12 py-5 rounded-2xl font-bold text-xl shadow-2xl hover:shadow-purple-500/50 transition-all duration-300"
               >
-                <span className="flex items-center gap-2">
-                  📊 Ver Estadísticas
-                </span>
-              </motion.button>
-            </Link>
-            
-            <a href="https://github.com/jmaury06/blessedunion" target="_blank" rel="noopener noreferrer">
-              <motion.button
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
-                className="bg-white dark:bg-gray-800 text-gray-800 dark:text-white px-10 py-4 rounded-2xl font-bold text-lg shadow-2xl hover:shadow-xl transition-all duration-300 border-2 border-gray-300 dark:border-gray-600"
-              >
-                <span className="flex items-center gap-2">
-                  📖 Documentación
+                <span className="flex items-center gap-3">
+                  💬 Quiero Participar
                 </span>
               </motion.button>
             </a>
@@ -190,7 +181,7 @@ export default function Home() {
       {/* Footer - Sticky */}
       <footer className="py-6 text-center bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border-t border-gray-200 dark:border-gray-700 mt-auto">
         <p className="text-gray-500 dark:text-gray-400 text-sm">
-          Desarrollado con ❤️ para Blessed Union
+          Desarrollado por Jairo Maury
         </p>
         <p className="text-gray-400 dark:text-gray-500 text-xs mt-2">
           © 2025 - Todos los derechos reservados

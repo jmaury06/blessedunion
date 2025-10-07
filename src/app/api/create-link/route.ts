@@ -40,6 +40,6 @@ export async function POST(req: Request) {
 
   return NextResponse.json({
     ok: true,
-    link: `${process.env.NEXT_PUBLIC_BASE_URL}/${token}`,
+    token: token,
   });
 }
