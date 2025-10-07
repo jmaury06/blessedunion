@@ -15,6 +15,7 @@ export default function BuyerForm({ token, onComplete }: Props) {
   const [phone, setPhone] = useState("")
   const [loading, setLoading] = useState(false)
   const [errors, setErrors] = useState({ name: "", email: "", phone: "" })
+  const [serverError, setServerError] = useState("")
 
   const validateEmail = (email: string) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -53,7 +54,7 @@ export default function BuyerForm({ token, onComplete }: Props) {
     if (data.ok) {
       onComplete()
     } else {
-      alert("Error: " + data.error)
+      setServerError(data.error || "Error al guardar información")
     }
   }
 
@@ -110,6 +111,7 @@ export default function BuyerForm({ token, onComplete }: Props) {
               onChange={(e) => {
                 setName(e.target.value)
                 setErrors({ ...errors, name: "" })
+                setServerError("")
               }}
               className={`
                 peer w-full px-4 pt-6 pb-2 border-2 rounded-xl 
@@ -154,6 +156,7 @@ export default function BuyerForm({ token, onComplete }: Props) {
               onChange={(e) => {
                 setEmail(e.target.value)
                 setErrors({ ...errors, email: "" })
+                setServerError("")
               }}
               className={`
                 peer w-full px-4 pt-6 pb-2 border-2 rounded-xl 
@@ -198,6 +201,7 @@ export default function BuyerForm({ token, onComplete }: Props) {
               onChange={(e) => {
                 setPhone(e.target.value)
                 setErrors({ ...errors, phone: "" })
+                setServerError("")
               }}
               className={`
                 peer w-full px-4 pt-6 pb-2 border-2 rounded-xl 
@@ -227,6 +231,19 @@ export default function BuyerForm({ token, onComplete }: Props) {
               </motion.p>
             )}
           </motion.div>
+
+          {/* Server Error Message */}
+          {serverError && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-red-50 dark:bg-red-900/20 border-2 border-red-500 dark:border-red-700 rounded-xl p-4 text-center"
+            >
+              <p className="text-red-600 dark:text-red-400 font-semibold">
+                ❌ {serverError}
+              </p>
+            </motion.div>
+          )}
 
           {/* Submit Button */}
           <motion.button

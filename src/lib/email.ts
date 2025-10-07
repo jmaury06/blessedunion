@@ -12,7 +12,19 @@ export async function sendPurchaseConfirmation(
   data: PurchaseConfirmationData
 ): Promise<{ success: boolean; error?: string }> {
   try {
+    // Verificar que la API key esté configurada
+    if (!process.env.RESEND_API_KEY) {
+      console.error("[EMAIL] ⚠️ RESEND_API_KEY no está configurada en las variables de entorno");
+      return { 
+        success: false, 
+        error: "RESEND_API_KEY no configurada. Por favor, agrega tu API key de Resend en .env.local" 
+      };
+    }
+
     const { buyerName, buyerEmail, numbers } = data;
+    
+    console.log("[EMAIL] 📧 Intentando enviar email a:", buyerEmail);
+    console.log("[EMAIL] 📊 Cantidad de números:", numbers.length);
 
     const numbersList = numbers
       .sort((a, b) => parseInt(a) - parseInt(b))
@@ -148,10 +160,10 @@ export async function sendPurchaseConfirmation(
 
       <!-- Premio -->
       <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; border-radius: 12px; text-align: center; margin: 25px 0;">
-        <div style="font-size: 40px; margin-bottom: 10px;">📱</div>
-        <div style="font-size: 24px; font-weight: bold; margin-bottom: 10px;">¡GRAN PREMIO!</div>
-        <div style="font-size: 36px; font-weight: 900; margin-bottom: 10px;">iPhone 13 de 128GB</div>
-        <div style="font-size: 18px; opacity: 0.95;">o $2.500.000 en efectivo 💰</div>
+        <div style="font-size: 48px; font-weight: 900; margin-bottom: 15px; letter-spacing: 2px;">GANATE 📱💰</div>
+        <div style="font-size: 22px; font-weight: 600; opacity: 0.95; line-height: 1.6;">
+          Un hermoso iPhone 13 de 128GB<br/>o $2.500.000 en efectivo
+        </div>
       </div>
 
       <!-- Información del Sorteo -->
@@ -217,10 +229,10 @@ ${numbersList}
 Total: ${numbers.length} ${numbers.length === 1 ? "número" : "números"}
 
 ━━━━━━━━━━━━━━━━━━━━━━
-🎁 GRAN PREMIO
+GANATE 📱💰
 ━━━━━━━━━━━━━━━━━━━━━━
-📱 iPhone 13 de 128GB
-💰 o $2.500.000 en efectivo
+Un hermoso iPhone 13 de 128GB
+o $2.500.000 en efectivo
 
 ━━━━━━━━━━━━━━━━━━━━━━
 📅 FECHA DEL SORTEO
@@ -241,21 +253,26 @@ Blessed Union
 Rifa de Boda 2025
     `;
 
+    const fromEmail = process.env.RESEND_FROM_EMAIL || "Blessed Union <onboarding@resend.dev>";
+    
+    console.log("[EMAIL] 📮 Enviando desde:", fromEmail);
+    
     const { data: emailData, error } = await resend.emails.send({
-      from: "Blessed Union <onboarding@resend.dev>", // Cambiar cuando tengas dominio verificado
-      to: [buyerEmail],
-      bcc: ["ajmh06@gmail.com"], // Copia oculta al organizador
+      from: fromEmail,
+      to: buyerEmail,
       subject: `🎉 Confirmación de compra - Números ${numbers.join(", ")}`,
       html: htmlContent,
       text: textContent,
     });
 
     if (error) {
-      console.error("[EMAIL] Error al enviar:", error);
+      console.error("[EMAIL] ❌ Error al enviar:", error);
+      console.error("[EMAIL] 🔍 Detalles del error:", JSON.stringify(error, null, 2));
       return { success: false, error: error.message };
     }
 
-    console.log("[EMAIL] Email enviado exitosamente:", emailData);
+    console.log("[EMAIL] ✅ Email enviado exitosamente!");
+    console.log("[EMAIL] 📬 ID del email:", emailData?.id);
     return { success: true };
   } catch (error: any) {
     console.error("[EMAIL] Error inesperado:", error);

@@ -34,6 +34,7 @@ export default function AdminPage() {
   const [generatingLink, setGeneratingLink] = useState(false)
   const [selectedOpportunities, setSelectedOpportunities] = useState<2 | 4 | 6 | 8 | 10>(2)
   const [generatedLink, setGeneratedLink] = useState("")
+  const [copied, setCopied] = useState(false)
 
   // Check if already authenticated
   useEffect(() => {
@@ -135,7 +136,8 @@ export default function AdminPage() {
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(generatedLink)
-    alert("¡Link copiado al portapapeles!")
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
   }
 
   if (loading) {
@@ -334,9 +336,13 @@ export default function AdminPage() {
                   onClick={copyToClipboard}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold whitespace-nowrap"
+                  className={`${
+                    copied
+                      ? "bg-purple-600 hover:bg-purple-700"
+                      : "bg-green-600 hover:bg-green-700"
+                  } text-white px-6 py-3 rounded-lg font-semibold whitespace-nowrap transition-colors`}
                 >
-                  📋 Copiar
+                  {copied ? "✅ Copiado" : "📋 Copiar"}
                 </motion.button>
               </div>
             </motion.div>

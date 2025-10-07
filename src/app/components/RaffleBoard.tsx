@@ -1,8 +1,81 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef, useCallback } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import ThemeToggle from "./ThemeToggle"
+import confetti from "canvas-confetti"
+import html2canvas from "html2canvas"
+
+type ModalProps = {
+  isOpen: boolean
+  title: string
+  message: string
+  type: "error" | "success" | "warning"
+  onClose: () => void
+  showHomeButton?: boolean
+}
+
+function Modal({ isOpen, title, message, type, onClose, showHomeButton }: ModalProps) {
+  if (!isOpen) return null
+
+  const icons = {
+    error: "❌",
+    success: "✅",
+    warning: "⚠️",
+  }
+
+  const colors = {
+    error: "from-red-500 to-rose-600",
+    success: "from-green-500 to-emerald-600",
+    warning: "from-yellow-500 to-orange-600",
+  }
+
+  return (
+    <AnimatePresence>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+        onClick={onClose}
+      >
+        <motion.div
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          exit={{ scale: 0.8, opacity: 0 }}
+          onClick={(e) => e.stopPropagation()}
+          className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-8 max-w-md w-full border border-gray-200 dark:border-gray-700"
+        >
+          <div className="text-center">
+            <div className="text-6xl mb-4">{icons[type]}</div>
+            <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">{title}</h3>
+            <p className="text-gray-600 dark:text-gray-300 mb-6 whitespace-pre-line">{message}</p>
+            <div className="flex gap-3 justify-center">
+              {showHomeButton && (
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => window.location.href = "/"}
+                  className={`bg-gradient-to-r ${colors[type]} text-white px-6 py-3 rounded-xl font-semibold shadow-lg`}
+                >
+                  🏠 Ir al Inicio
+                </motion.button>
+              )}
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={onClose}
+                className="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white px-6 py-3 rounded-xl font-semibold"
+              >
+                Cerrar
+              </motion.button>
+            </div>
+          </div>
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>
+  )
+}
 
 type Props = {
   token: string
@@ -24,6 +97,16 @@ export default function RaffleBoard({ token }: Props) {
   const [submitting, setSubmitting] = useState(false)
   const [success, setSuccess] = useState(false)
   const [currentPage, setCurrentPage] = useState(0)
+  const [modal, setModal] = useState<{
+    isOpen: boolean
+    title: string
+    message: string
+    type: "error" | "success" | "warning"
+    showHomeButton?: boolean
+  }>({ isOpen: false, title: "", message: "", type: "error" })
+  const confirmButtonRef = useRef<HTMLDivElement>(null)
+  const successScreenRef = useRef<HTMLDivElement>(null)
+  const [isDownloading, setIsDownloading] = useState(false)
   
   const numbersPerPage = 100
   const totalPages = Math.ceil(numbers.length / numbersPerPage)
@@ -31,6 +114,48 @@ export default function RaffleBoard({ token }: Props) {
     currentPage * numbersPerPage,
     (currentPage + 1) * numbersPerPage
   )
+
+  // Función de confeti (debe estar antes de cualquier return)
+  const fireConfetti = useCallback(() => {
+    const duration = 3000
+    const animationEnd = Date.now() + duration
+    const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 }
+
+    function randomInRange(min: number, max: number) {
+      return Math.random() * (max - min) + min
+    }
+
+    const interval: any = setInterval(function() {
+      const timeLeft = animationEnd - Date.now()
+
+      if (timeLeft <= 0) {
+        return clearInterval(interval)
+      }
+
+      const particleCount = 50 * (timeLeft / duration)
+      
+      // Lanzar confeti desde diferentes posiciones
+      confetti({
+        ...defaults,
+        particleCount,
+        origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+        colors: ['#9333ea', '#ec4899', '#a855f7', '#f472b6']
+      })
+      confetti({
+        ...defaults,
+        particleCount,
+        origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+        colors: ['#9333ea', '#ec4899', '#a855f7', '#f472b6']
+      })
+    }, 250)
+  }, [])
+
+  // Scroll automático cuando remaining llega a 0
+  useEffect(() => {
+    if (remaining === 0 && confirmButtonRef.current) {
+      confirmButtonRef.current.scrollIntoView({ behavior: "smooth", block: "center" })
+    }
+  }, [remaining])
 
   // cargar info inicial
   useEffect(() => {
@@ -84,6 +209,16 @@ export default function RaffleBoard({ token }: Props) {
     fetchData()
   }, [token])
 
+  // Efecto de confeti cuando se muestra la pantalla de éxito
+  useEffect(() => {
+    if (success) {
+      // Pequeño delay para que la animación se vea mejor
+      setTimeout(() => {
+        fireConfetti()
+      }, 300)
+    }
+  }, [success, fireConfetti])
+
   function toggleNumber(n: string) {
     const current = numbers.find((item) => item.number === n)
     if (!current || current.disabled) return
@@ -104,7 +239,38 @@ export default function RaffleBoard({ token }: Props) {
     setRemaining((r) => current.selected ? r + 1 : r - 1)
   }
 
+  async function handleDownloadConfirmation() {
+    if (!successScreenRef.current) return;
+    
+    setIsDownloading(true);
+    
+    try {
+      const canvas = await html2canvas(successScreenRef.current, {
+        backgroundColor: '#ffffff',
+        scale: 2,
+        logging: false,
+        useCORS: true,
+      });
+      
+      const link = document.createElement('a');
+      const timestamp = new Date().toISOString().slice(0, 10);
+      link.download = `confirmacion-rifa-${timestamp}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+      
+      console.log('[DOWNLOAD] ✅ Imagen descargada exitosamente');
+    } catch (error) {
+      console.error('[DOWNLOAD] ❌ Error al generar imagen:', error);
+      alert('Error al generar la imagen. Por favor, toma una captura de pantalla.');
+    } finally {
+      setIsDownloading(false);
+    }
+  }
+
   async function handleSubmit() {
+    // Lanzar confeti al hacer click
+    fireConfetti()
+    
     setSubmitting(true)
     const selected = numbers.filter((n) => n.selected).map((n) => n.number)
 
@@ -119,25 +285,47 @@ export default function RaffleBoard({ token }: Props) {
 
     if (data.ok) {
       setSuccess(true)
-      // Mostrar confirmación por 3 segundos antes de redirigir
-      setTimeout(() => {
-        window.location.href = "/"
-      }, 3000)
     } else {
       if (data.error === "numbers_already_sold") {
-        alert(`Los siguientes números ya fueron vendidos: ${data.numbers.join(", ")}. Por favor, refresca la página y selecciona otros.`)
-        window.location.reload()
+        setModal({
+          isOpen: true,
+          title: "Números ya vendidos",
+          message: `Los siguientes números ya fueron vendidos:\n${data.numbers.join(", ")}\n\nPor favor, refresca la página y selecciona otros.`,
+          type: "warning",
+          showHomeButton: false,
+        })
       } else if (data.error === "link_not_found") {
-        alert("Este link ya no está activo o no existe. Es posible que ya hayas reclamado tus números previamente.")
-        window.location.href = "/"
+        setModal({
+          isOpen: true,
+          title: "Link no válido",
+          message: "Este link ya no está activo o no existe.\nEs posible que ya hayas reclamado tus números previamente.",
+          type: "error",
+          showHomeButton: true,
+        })
       } else if (data.error === "link_inactive") {
-        alert("Este link ha sido desactivado. Todos los números ya fueron reclamados.")
-        window.location.href = "/"
+        setModal({
+          isOpen: true,
+          title: "Link desactivado",
+          message: "Este link ha sido desactivado.\nTodos los números ya fueron reclamados.",
+          type: "error",
+          showHomeButton: true,
+        })
       } else if (data.error === "link_expired") {
-        alert("Este link ha expirado (30 minutos). Por favor solicita un nuevo link.")
-        window.location.href = "/"
+        setModal({
+          isOpen: true,
+          title: "Link expirado",
+          message: "Este link ha expirado (30 minutos).\nPor favor solicita un nuevo link.",
+          type: "error",
+          showHomeButton: true,
+        })
       } else {
-        alert("Error: " + data.error)
+        setModal({
+          isOpen: true,
+          title: "Error",
+          message: data.error,
+          type: "error",
+          showHomeButton: false,
+        })
       }
     }
   }
@@ -159,9 +347,10 @@ export default function RaffleBoard({ token }: Props) {
     
     return (
       <motion.div
+        ref={successScreenRef}
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="flex flex-col items-center justify-center min-h-[500px] p-8"
+        className="flex flex-col items-center justify-center min-h-[500px] p-8 bg-gradient-to-br from-purple-50 via-pink-50 to-white dark:from-gray-900 dark:via-purple-900 dark:to-gray-800"
       >
         {/* Animated Checkmark */}
         <motion.div
@@ -190,11 +379,25 @@ export default function RaffleBoard({ token }: Props) {
           </motion.div>
         </motion.div>
 
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+          className="text-center mb-6 max-w-xl"
+        >
+          <p className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 bg-clip-text text-transparent mb-2">
+            ¡Gracias por tu compra!
+          </p>
+          <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 font-semibold">
+            Estás haciendo un sueño realidad ✨
+          </p>
+        </motion.div>
+
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
-          className="text-3xl font-bold text-gray-800 dark:text-white mb-3 text-center"
+          transition={{ delay: 0.7 }}
+          className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white mb-3 text-center"
         >
           ¡Números registrados con éxito!
         </motion.h2>
@@ -202,7 +405,7 @@ export default function RaffleBoard({ token }: Props) {
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.7 }}
+          transition={{ delay: 0.8 }}
           className="text-gray-600 dark:text-gray-300 mb-6 text-center"
         >
           Tus números de la suerte han sido guardados
@@ -212,7 +415,7 @@ export default function RaffleBoard({ token }: Props) {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8 }}
+          transition={{ delay: 0.9 }}
           className="flex flex-wrap gap-2 justify-center mb-8 max-w-md"
         >
           {selectedNumbers.map((item, index) => (
@@ -220,7 +423,7 @@ export default function RaffleBoard({ token }: Props) {
               key={item.number}
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
-              transition={{ delay: 0.9 + index * 0.05 }}
+              transition={{ delay: 1.0 + index * 0.05 }}
               className="px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full text-lg font-bold shadow-lg"
             >
               {item.number}
@@ -228,14 +431,56 @@ export default function RaffleBoard({ token }: Props) {
           ))}
         </motion.div>
 
+        {/* Botones de acción */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1.2 }}
-          className="text-sm text-gray-500 dark:text-gray-400"
+          transition={{ delay: 1.3 }}
+          className="flex flex-col sm:flex-row gap-4 items-center justify-center"
         >
-          Redirigiendo automáticamente...
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={handleDownloadConfirmation}
+            disabled={isDownloading}
+            className="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl transition-all disabled:opacity-50 flex items-center gap-2"
+          >
+            {isDownloading ? (
+              <>
+                <motion.span
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                >
+                  ⏳
+                </motion.span>
+                Generando...
+              </>
+            ) : (
+              <>
+                📥 Descargar Confirmación
+              </>
+            )}
+          </motion.button>
+          
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => window.location.href = "/"}
+            className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl transition-all"
+          >
+            🏠 Volver al Inicio
+          </motion.button>
         </motion.div>
+        
+        {/* Mensaje sobre el email */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.5 }}
+          className="text-sm text-gray-600 dark:text-gray-400 mt-6 text-center max-w-md"
+        >
+          📧 Se ha enviado un correo de confirmación a tu email con todos los detalles de tu compra.
+        </motion.p>
       </motion.div>
     )
   }
@@ -401,7 +646,7 @@ export default function RaffleBoard({ token }: Props) {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className={`
-              px-8 py-4 rounded-xl font-bold text-base md:text-lg transition-all duration-300
+              px-4 py-2 md:px-8 md:py-4 rounded-xl font-bold text-sm md:text-lg transition-all duration-300
               ${
                 currentPage === 0
                   ? "bg-gray-200 dark:bg-gray-700 text-gray-400 cursor-not-allowed"
@@ -418,7 +663,7 @@ export default function RaffleBoard({ token }: Props) {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className={`
-              px-8 py-4 rounded-xl font-bold text-base md:text-lg transition-all duration-300
+              px-4 py-2 md:px-8 md:py-4 rounded-xl font-bold text-sm md:text-lg transition-all duration-300
               ${
                 currentPage === totalPages - 1
                   ? "bg-gray-200 dark:bg-gray-700 text-gray-400 cursor-not-allowed"
@@ -435,6 +680,7 @@ export default function RaffleBoard({ token }: Props) {
       <AnimatePresence>
         {remaining === 0 && (
           <motion.div
+            ref={confirmButtonRef}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
@@ -465,6 +711,21 @@ export default function RaffleBoard({ token }: Props) {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Modal */}
+      <Modal
+        isOpen={modal.isOpen}
+        title={modal.title}
+        message={modal.message}
+        type={modal.type}
+        showHomeButton={modal.showHomeButton}
+        onClose={() => {
+          setModal({ ...modal, isOpen: false })
+          if (modal.message.includes("refresca")) {
+            window.location.reload()
+          }
+        }}
+      />
     </motion.div>
   )
 }
