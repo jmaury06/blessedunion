@@ -105,7 +105,7 @@ export default function Home() {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.7 }}
-            className="bg-gradient-to-r from-purple-500 via-pink-500 to-purple-500 text-white px-12 py-8 rounded-3xl shadow-2xl inline-block mb-8"
+            className="bg-gradient-to-r from-purple-500 via-pink-500 to-purple-500 text-white p-8 md:p-12 rounded-3xl shadow-2xl mb-8 w-full text-center"
           >
             <div className="text-4xl md:text-5xl font-black mb-4 tracking-wider">
               GANATE 📱💰
@@ -122,26 +122,34 @@ export default function Home() {
             transition={{ delay: 0.8 }}
             className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-8 md:p-12 mb-12 border border-gray-200 dark:border-gray-700 w-full"
           >
-            {/* Fecha y Lotería */}
-            <div className="mb-10 p-6 bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 rounded-2xl border-2 border-yellow-300 dark:border-yellow-700">
-              <div className="text-4xl mb-3">📅</div>
-              <h3 className="font-bold text-gray-800 dark:text-white mb-2 text-2xl">Sorteo</h3>
-              <p className="text-lg font-semibold text-gray-700 dark:text-gray-300">
-                Sábado 1 de Noviembre de 2025
-              </p>
-              <p className="text-base text-gray-600 dark:text-gray-400 mt-2">
-                🎲 Con las <span className="font-bold">3 últimas cifras</span> de la Lotería de Boyacá
-              </p>
-            </div>
-
-            {/* Regla de Aplazamiento */}
-            <div className="mb-12 p-6 bg-gradient-to-r from-red-50 to-pink-50 dark:from-red-900/20 dark:to-pink-900/20 rounded-2xl border-2 border-red-300 dark:border-red-700">
-              <div className="text-4xl mb-3">⚠️</div>
-              <h3 className="font-bold text-gray-800 dark:text-white mb-2 text-xl">Importante</h3>
-              <p className="text-base text-gray-700 dark:text-gray-300">
-                Si al día del sorteo no se ha vendido el <span className="font-bold">75% de los números</span>, 
-                la rifa se <span className="font-bold">aplazará 1 semana más</span>
-              </p>
+            {/* Información del Sorteo */}
+            <div className="mb-12 p-6 bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 rounded-2xl border-2 border-yellow-300 dark:border-yellow-700">
+              <div className="mb-4">
+                <div className="flex items-center gap-3 mb-2">
+                  <span className="text-3xl">📅</span>
+                  <p className="text-lg font-bold text-gray-800 dark:text-white">
+                    Sorteo: Sábado 1 de Noviembre de 2025
+                  </p>
+                </div>
+                <p className="text-base text-gray-600 dark:text-gray-400 ml-12">
+                  🎲 Con las <span className="font-bold">3 últimas cifras</span> de la Lotería de Boyacá
+                </p>
+              </div>
+              
+              <div className="border-t border-yellow-300 dark:border-yellow-600 pt-4 mt-4">
+                <div className="flex items-start gap-3">
+                  <span className="text-3xl">⚠️</span>
+                  <div>
+                    <p className="text-base font-bold text-gray-800 dark:text-white mb-1">
+                      Importante:
+                    </p>
+                    <p className="text-base text-gray-700 dark:text-gray-300">
+                      Si al día del sorteo no se ha vendido el <span className="font-bold">75% de los números</span>, 
+                      la rifa se <span className="font-bold">aplazará 1 semana más</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
 
 
