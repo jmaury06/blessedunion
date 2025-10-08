@@ -34,7 +34,7 @@ export default function Home() {
             transition={{ delay: 0.4 }}
             className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 bg-clip-text text-transparent mb-4"
           >
-            Blessed Union
+            Bendecidos en Amor
           </motion.h1>
 
           <motion.p

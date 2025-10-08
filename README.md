@@ -1,4 +1,4 @@
-# Blessed Union - Raffle Management App
+# Bendecidos en Amor - Raffle Management App
 
 Sistema de gestión de rifas para bodas. Permite a los compradores seleccionar números de rifa mediante links únicos con expiración automática.
 
@@ -33,7 +33,7 @@ Sistema de gestión de rifas para bodas. Permite a los compradores seleccionar n
 1. Clonar el repositorio:
 ```bash
 git clone <tu-repo>
-cd blessedunion
+cd bendecidos-en-amor
 ```
 
 2. Instalar dependencias:

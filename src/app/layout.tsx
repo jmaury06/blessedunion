@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Blessed Union - Rifa de Boda",
+  title: "Bendecidos en Amor - Rifa de Boda",
   description: "Sistema de gestión de rifas para bodas. Selecciona tus números de la suerte del 000 al 999.",
   icons: {
     icon: [

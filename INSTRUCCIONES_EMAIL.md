@@ -35,10 +35,10 @@ Abre tu archivo `.env.local` y agrega las siguientes líneas:
 RESEND_API_KEY=re_tu_api_key_aqui
 
 # Opcional: Si verificaste tu dominio, usa tu email
-RESEND_FROM_EMAIL=Blessed Union <noreply@tudominio.com>
+RESEND_FROM_EMAIL=Bendecidos en Amor <noreply@tudominio.com>
 
 # Si no tienes dominio verificado, puedes usar el de prueba
-# RESEND_FROM_EMAIL=Blessed Union <onboarding@resend.dev>
+# RESEND_FROM_EMAIL=Bendecidos en Amor <onboarding@resend.dev>
 ```
 
 ### Paso 4: Reiniciar el servidor de desarrollo
@@ -105,7 +105,7 @@ Cuando se envía un email, verás estos logs en la consola del servidor:
 ```
 [EMAIL] 📧 Intentando enviar email a: cliente@example.com
 [EMAIL] 📊 Cantidad de números: 3
-[EMAIL] 📮 Enviando desde: Blessed Union <onboarding@resend.dev>
+[EMAIL] 📮 Enviando desde: Bendecidos en Amor <onboarding@resend.dev>
 [EMAIL] ✅ Email enviado exitosamente!
 [EMAIL] 📬 ID del email: abc123...
 ```

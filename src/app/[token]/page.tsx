@@ -131,7 +131,7 @@ export default function TokenPage({ params }: { params: Promise<{ token: string 
         className="fixed inset-0 bg-cover bg-no-repeat opacity-20 dark:opacity-10 -z-10"
         style={{
           backgroundImage: "url('/beach-couple.jpg')",
-          backgroundPosition: "center 35%",
+          backgroundPosition: "center 75%",
         }}
       />
       <motion.div
@@ -146,7 +146,7 @@ export default function TokenPage({ params }: { params: Promise<{ token: string 
           className="text-3xl md:text-5xl font-bold text-center mb-12"
         >
           <span className="bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 bg-clip-text text-transparent">
-            💍 Rifa Blessed Union
+            💍 Rifa Bendecidos en Amor
           </span>
         </motion.h1>
 

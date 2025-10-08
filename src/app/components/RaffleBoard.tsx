@@ -237,17 +237,64 @@ export default function RaffleBoard({ token }: Props) {
         scale: 2,
         logging: false,
         useCORS: true,
+        allowTaint: true,
+        foreignObjectRendering: true,
+        width: successScreenRef.current.scrollWidth,
+        height: successScreenRef.current.scrollHeight,
       });
       
-      const link = document.createElement('a');
-      const timestamp = new Date().toISOString().slice(0, 10);
-      link.download = `confirmacion-rifa-${timestamp}.png`;
-      link.href = canvas.toDataURL('image/png');
-      link.click();
+      // Convertir a blob para mejor compatibilidad
+      canvas.toBlob((blob) => {
+        if (!blob) {
+          throw new Error('No se pudo generar la imagen');
+        }
+
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        const timestamp = new Date().toISOString().slice(0, 10);
+
+        link.download = `confirmacion-rifa-bendecidos-en-amor-${timestamp}.png`;
+        link.href = url;
+        link.style.display = 'none';
+
+        // Agregar al DOM temporalmente para asegurar compatibilidad
+        document.body.appendChild(link);
+        link.click();
+
+        // Limpiar
+        setTimeout(() => {
+          document.body.removeChild(link);
+          URL.revokeObjectURL(url);
+        }, 100);
+
+      }, 'image/png', 1.0);
 
     } catch (error) {
       console.error('[DOWNLOAD] ❌ Error al generar imagen:', error);
-      alert('Error al generar la imagen. Por favor, toma una captura de pantalla.');
+
+      // Fallback: intentar con dataURL
+      try {
+        const canvas = await html2canvas(successScreenRef.current, {
+          backgroundColor: '#ffffff',
+          scale: 1,
+          logging: false,
+        });
+
+        const dataURL = canvas.toDataURL('image/png');
+        const link = document.createElement('a');
+        const timestamp = new Date().toISOString().slice(0, 10);
+
+        link.download = `confirmacion-rifa-${timestamp}.png`;
+        link.href = dataURL;
+        link.click();
+
+      } catch (fallbackError) {
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        const instructions = isMobile
+          ? 'Error al generar la imagen. Por favor, toma una captura de pantalla manualmente (mantén presionado el botón de encendido + volumen abajo).'
+          : 'Error al generar la imagen. Por favor, toma una captura de pantalla manualmente (Ctrl+Shift+S en Windows/Linux o Cmd+Shift+4 en Mac).';
+        alert(instructions);
+      }
     } finally {
       setIsDownloading(false);
     }
@@ -350,7 +397,7 @@ export default function RaffleBoard({ token }: Props) {
         ref={successScreenRef}
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="flex flex-col items-center justify-center min-h-[500px] p-8 bg-gradient-to-br from-purple-50 via-pink-50 to-white dark:from-gray-900 dark:via-purple-900 dark:to-gray-800"
+        className="flex flex-col items-center justify-center !opacity-70 min-h-[500px] p-8 bg-gradient-to-br from-purple-50 via-pink-50 to-white dark:from-gray-900 dark:via-purple-900 dark:to-gray-800"
       >
         {/* Animated Checkmark */}
         <motion.div
@@ -457,7 +504,7 @@ export default function RaffleBoard({ token }: Props) {
               </>
             ) : (
               <>
-                📥 Descargar Confirmación
+                  📥 Guardar Imagen
               </>
             )}
           </motion.button>
@@ -481,6 +528,17 @@ export default function RaffleBoard({ token }: Props) {
         >
           📧 Se ha enviado un correo de confirmación a tu email con todos los detalles de tu compra.
         </motion.p>
+
+        {/* Instrucciones de descarga */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.7 }}
+          className="text-xs text-gray-500 dark:text-gray-500 mt-4 text-center max-w-lg bg-gray-50 dark:bg-gray-800 p-3 rounded-lg"
+        >
+          💡 <strong>Tip:</strong> El botón "Descargar Confirmación" guarda una imagen de esta pantalla en tu dispositivo.
+          Si no funciona automáticamente, puedes tomar una captura de pantalla manualmente.
+        </motion.div>
       </motion.div>
     )
   }

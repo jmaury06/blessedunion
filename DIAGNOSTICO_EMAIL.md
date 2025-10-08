@@ -68,7 +68,7 @@ Este script verificará:
    RESEND_API_KEY=re_tu_api_key_aqui_sin_comillas
    
    # Opcional: Email remitente verificado
-   RESEND_FROM_EMAIL=Blessed Union <onboarding@resend.dev>
+   RESEND_FROM_EMAIL=Bendecidos en Amor <onboarding@resend.dev>
    ```
 
 4. **Guarda el archivo** (Ctrl+O y Ctrl+X en nano)
@@ -198,7 +198,7 @@ Si ves el error, regresa al [Paso 3](#paso-3-configurar-resend_api_key)
 **Solución:**
 1. **Opción A (Rápida):** Usa el dominio de prueba
    ```bash
-   RESEND_FROM_EMAIL=Blessed Union <onboarding@resend.dev>
+   RESEND_FROM_EMAIL=Bendecidos en Amor <onboarding@resend.dev>
    ```
 
 2. **Opción B (Producción):** Verifica tu dominio

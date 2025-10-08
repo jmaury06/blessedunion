@@ -183,7 +183,7 @@ export default function AdminPage() {
                 Admin Panel
               </h1>
               <p className="text-gray-600 dark:text-gray-400 mt-2">
-                Blessed Union Raffle
+                Bendecidos en Amor
               </p>
             </motion.div>
 
@@ -250,7 +250,7 @@ export default function AdminPage() {
         className="fixed inset-0 bg-cover bg-no-repeat opacity-15 dark:opacity-8 -z-10"
         style={{
           backgroundImage: "url('/beach-couple.jpg')",
-          backgroundPosition: "center 35%",
+          backgroundPosition: "center 75%",
         }}
       />
       <div className="fixed top-6 right-6 z-50 flex items-center gap-3">

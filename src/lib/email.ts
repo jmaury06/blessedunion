@@ -145,7 +145,7 @@ export async function sendPurchaseConfirmation(
   <div class="container">
     <div class="header">
       <div class="emoji">📱</div>
-      <h1>Unión Bendecida</h1>
+      <h1>Bendecidos en Amor</h1>
       <p>Confirmación de Compra - Rifa pro-Boda</p>
     </div>
     
@@ -254,13 +254,13 @@ la rifa se aplazará 1 semana más.
 Dios te Bendiga 🙏✨
 
 ---
-Unión Bendecida
+Bendecidos en Amor
 Rifa pro-Boda 2025
     `;
 
     const fromEmail =
       process.env.RESEND_FROM_EMAIL ||
-      "Unión Bendecida <onboarding@resend.dev>";
+      "Bendecidos en Amor <onboarding@resend.dev>";
 
     const { data: emailData, error } = await resend.emails.send({
       from: fromEmail,
