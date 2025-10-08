@@ -1,31 +1,53 @@
-import { Resend } from "resend";
+#!/usr/bin/env node
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+/**
+ * Script de prueba directa de email
+ * Envía un email sin tocar la base de datos
+ * 
+ * Uso: node scripts/test-email-directo.js
+ */
 
-export interface PurchaseConfirmationData {
-  buyerName: string;
-  buyerEmail: string;
-  numbers: string[];
+// Cargar variables de entorno
+require('dotenv').config({ path: '.env.local' });
+
+console.log("\n📧 PRUEBA DIRECTA DE EMAIL (Sin base de datos)\n");
+console.log("═".repeat(60));
+
+// Verificar API key
+const apiKey = process.env.RESEND_API_KEY;
+if (!apiKey) {
+  console.error("\n❌ ERROR: RESEND_API_KEY no está configurada");
+  console.error("   → Configura tu API key en .env.local");
+  console.error("   → Ejecuta: pnpm check-email\n");
+  process.exit(1);
 }
 
-export async function sendPurchaseConfirmation(
-  data: PurchaseConfirmationData
-): Promise<{ success: boolean; error?: string }> {
+console.log("✅ RESEND_API_KEY encontrada");
+console.log("✅ Preparando email de prueba...\n");
+
+// Datos de prueba
+const testData = {
+  buyerName: "Jairo Maury (PRUEBA)",
+  buyerEmail: "ajmh06@gmail.com",
+  numbers: ["006", "025"]
+};
+
+console.log("📋 DATOS DE PRUEBA:");
+console.log("   • Nombre:", testData.buyerName);
+console.log("   • Email:", testData.buyerEmail);
+console.log("   • Números:", testData.numbers.join(", "));
+console.log("");
+
+// Función de envío (copiada de src/lib/email.ts)
+async function sendTestEmail() {
   try {
-    // Verificar que la API key esté configurada
-    if (!process.env.RESEND_API_KEY) {
-      console.error("[EMAIL] ⚠️ RESEND_API_KEY no está configurada en las variables de entorno");
-      return { 
-        success: false, 
-        error: "RESEND_API_KEY no configurada. Por favor, agrega tu API key de Resend en .env.local" 
-      };
-    }
+    const { Resend } = require('resend');
+    const resend = new Resend(apiKey);
 
-    const { buyerName, buyerEmail, numbers } = data;
+    const { buyerName, buyerEmail, numbers } = testData;
     
-    console.log("[EMAIL] 📧 Intentando enviar email a:", buyerEmail);
-    console.log("[EMAIL] 📊 Cantidad de números:", numbers.length);
-
+    console.log("📧 Generando contenido del email...");
+    
     const numbersList = numbers
       .sort((a, b) => parseInt(a) - parseInt(b))
       .map((num) => `• ${num}`)
@@ -95,8 +117,6 @@ export async function sendPurchaseConfirmation(
       font-size: 18px;
       color: #333;
       margin-bottom: 15px;
-      display: flex;
-      align-items: center;
     }
     .numbers-list {
       font-size: 20px;
@@ -115,37 +135,30 @@ export async function sendPurchaseConfirmation(
       font-weight: bold;
       margin: 20px 0;
     }
-    .luck {
-      text-align: center;
-      font-size: 24px;
-      margin: 30px 0;
-    }
     .footer {
       background: #f8f9fa;
       padding: 30px;
       text-align: center;
       border-top: 1px solid #e9ecef;
     }
-    .footer-title {
-      font-size: 20px;
+    .test-banner {
+      background: #ffc107;
+      color: #000;
+      padding: 15px;
+      text-align: center;
       font-weight: bold;
-      color: #333;
-      margin-bottom: 5px;
-    }
-    .footer-subtitle {
       font-size: 14px;
-      color: #666;
-    }
-    .emoji {
-      font-size: 40px;
-      margin-bottom: 10px;
     }
   </style>
 </head>
 <body>
   <div class="container">
+    <div class="test-banner">
+      🧪 ESTO ES UNA PRUEBA - NO ES UNA COMPRA REAL
+    </div>
+    
     <div class="header">
-      <div class="emoji">📱</div>
+      <div style="font-size: 40px; margin-bottom: 10px;">📱</div>
       <h1>Unión Bendecida</h1>
       <p>Confirmación de Compra - Rifa pro-Boda</p>
     </div>
@@ -155,6 +168,7 @@ export async function sendPurchaseConfirmation(
         ¡Hola ${buyerName}! 👋
       </div>
       <div class="message">
+        <strong>🧪 Este es un email de PRUEBA del sistema.</strong><br>
         Gracias por participar en nuestra rifa.<br/>
         Nos ayudas a acercarnos más a nuestro sueño.<br/>
         Hemos registrado exitosamente tu compra.
@@ -178,40 +192,26 @@ export async function sendPurchaseConfirmation(
           🎲 Con las <strong>3 últimas cifras</strong> de la <strong>Lotería de Boyacá</strong>
         </div>
       </div>
-
-      <!-- Regla de Aplazamiento -->
-      <div style="background: #f8d7da; border-left: 4px solid #dc3545; padding: 20px; border-radius: 8px; margin: 25px 0;">
-        <div style="font-size: 24px; margin-bottom: 10px;">⚠️</div>
-        <div style="font-weight: bold; font-size: 16px; color: #721c24; margin-bottom: 8px;">Importante</div>
-        <div style="font-size: 14px; color: #721c24;">
-          Si al día del sorteo no se ha vendido el <strong>75% de los números</strong>, 
-          la rifa se <strong>aplazará 1 semana más</strong>.
-        </div>
-      </div>
       
       <div class="numbers-box">
         <div class="numbers-title">
-          🎫 Tus números de la suerte:
+          🎫 Tus números de la suerte (PRUEBA):
         </div>
         <div class="numbers-list">${numbersList}</div>
       </div>
       
       <div class="total">
-        📊 Total de números comprados: ${numbers.length}
-      </div>
-      
-      <div class="luck">
-        Dios te Bendiga 🙏✨
+        📊 Total de números: ${numbers.length}
       </div>
       
       <div class="message" style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e9ecef; font-size: 14px; color: #666;">
-        <strong>Nota:</strong> Guarda este correo como comprobante de tu compra. Los números seleccionados son únicos y ya están registrados a tu nombre.
+        <strong>Nota:</strong> Este es un email de prueba del sistema. En compras reales, el cliente recibirá un email similar con sus números seleccionados.
       </div>
     </div>
     
     <div class="footer">
-      <div class="footer-title">Unión Bendecida</div>
-      <div class="footer-subtitle">Rifa pro-Boda 2025</div>
+      <div style="font-size: 20px; font-weight: bold; color: #333; margin-bottom: 5px;">Unión Bendecida</div>
+      <div style="font-size: 14px; color: #666;">Rifa pro-Boda 2025</div>
     </div>
   </div>
 </body>
@@ -219,17 +219,18 @@ export async function sendPurchaseConfirmation(
     `;
 
     const textContent = `
-🎉 ¡Gracias por tu compra!
+🧪 ESTO ES UNA PRUEBA - NO ES UNA COMPRA REAL
 
-Unión Bendecida - Confirmación de Números
+🎉 Unión Bendecida - Confirmación de Números
 
 Hola ${buyerName},
 
+Este es un email de PRUEBA del sistema.
 Gracias por participar en nuestra rifa.
 Nos ayudas a acercarnos más a nuestro sueño.
 Hemos registrado exitosamente tu compra.
 
-Has comprado exitosamente los siguientes números:
+Números de prueba:
 ${numbersList}
 
 Total: ${numbers.length} ${numbers.length === 1 ? "número" : "números"}
@@ -238,7 +239,7 @@ Total: ${numbers.length} ${numbers.length === 1 ? "número" : "números"}
 GANATE 📱💰
 ━━━━━━━━━━━━━━━━━━━━━━
 Un hermoso iPhone 13 de 128GB
-o 2.500.000 COP
+o $2.500.000 en efectivo
 
 ━━━━━━━━━━━━━━━━━━━━━━
 📅 FECHA DEL SORTEO
@@ -246,42 +247,73 @@ o 2.500.000 COP
 Sábado 1 de Noviembre de 2025
 🎲 Con las 3 últimas cifras de la Lotería de Boyacá
 
-━━━━━━━━━━━━━━━━━━━━━━
-⚠️ IMPORTANTE
-━━━━━━━━━━━━━━━━━━━━━━
-Si al día del sorteo no se ha vendido el 75% de los números,
-la rifa se aplazará 1 semana más.
-
-Dios te Bendiga 🙏✨
+¡Mucha suerte en la rifa! 🍀✨
 
 ---
-Unión Bendecida
-Rifa pro-Boda 2025
+Blessed Union - Rifa de Boda 2025
+🧪 Email de prueba del sistema
     `;
 
     const fromEmail = process.env.RESEND_FROM_EMAIL || "Unión Bendecida <onboarding@resend.dev>";
     
-    console.log("[EMAIL] 📮 Enviando desde:", fromEmail);
+    console.log("📮 Enviando desde:", fromEmail);
+    console.log("📬 Enviando a:", buyerEmail);
+    console.log("");
+    console.log("⏳ Enviando email...\n");
     
-    const { data: emailData, error } = await resend.emails.send({
+    const { data, error } = await resend.emails.send({
       from: fromEmail,
       to: buyerEmail,
-      subject: `🎉 Confirmación de compra - Números ${numbers.join(", ")}`,
+      subject: `🧪 [PRUEBA] Confirmación de compra - Números ${numbers.join(", ")}`,
       html: htmlContent,
       text: textContent,
     });
 
     if (error) {
-      console.error("[EMAIL] ❌ Error al enviar:", error);
-      console.error("[EMAIL] 🔍 Detalles del error:", JSON.stringify(error, null, 2));
-      return { success: false, error: error.message };
+      console.error("❌❌❌ ERROR AL ENVIAR ❌❌❌\n");
+      console.error("Tipo de error:", error.name || 'Error');
+      console.error("Mensaje:", error.message);
+      console.error("\n🔍 Detalles completos:");
+      console.error(JSON.stringify(error, null, 2));
+      
+      console.log("\n💡 POSIBLES SOLUCIONES:");
+      console.log("   1. Verifica que tu RESEND_API_KEY sea correcta");
+      console.log("   2. Si usas dominio personalizado, verifica que esté verificado");
+      console.log("   3. Revisa límites del plan (100 emails/día en plan gratis)");
+      console.log("   4. Ejecuta: pnpm check-email");
+      console.log("");
+      process.exit(1);
     }
 
-    console.log("[EMAIL] ✅ Email enviado exitosamente!");
-    console.log("[EMAIL] 📬 ID del email:", emailData?.id);
-    return { success: true };
-  } catch (error: any) {
-    console.error("[EMAIL] Error inesperado:", error);
-    return { success: false, error: error.message };
+    console.log("✅✅✅ EMAIL ENVIADO EXITOSAMENTE ✅✅✅\n");
+    console.log("═".repeat(60));
+    console.log("");
+    console.log("📬 ID del email:", data.id);
+    console.log("");
+    console.log("📝 PRÓXIMOS PASOS:");
+    console.log("   1. Revisa tu bandeja de entrada: ajmh06@gmail.com");
+    console.log("   2. Si no lo ves, revisa SPAM/Correo no deseado");
+    console.log("   3. Puede demorar 1-2 minutos en llegar");
+    console.log("   4. Revisa el estado en: https://resend.com/emails");
+    console.log("");
+    console.log("✨ Si recibiste el email:");
+    console.log("   → Tu configuración está PERFECTA");
+    console.log("   → Los emails de compras reales se enviarán automáticamente");
+    console.log("   → No necesitas hacer nada más");
+    console.log("");
+    console.log("🎉 ¡PRUEBA COMPLETADA CON ÉXITO!");
+    console.log("");
+    
+  } catch (error) {
+    console.error("\n❌ ERROR CRÍTICO:", error.message);
+    console.error("\n🔍 Stack trace:");
+    console.error(error.stack);
+    console.log("\n💡 Solución:");
+    console.log("   → Ejecuta: pnpm install resend dotenv");
+    console.log("");
+    process.exit(1);
   }
 }
+
+// Ejecutar la prueba
+sendTestEmail();

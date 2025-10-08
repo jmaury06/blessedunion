@@ -128,6 +128,11 @@ export async function POST(req: Request) {
   }
 
   // 7. Enviar email de confirmación (no bloqueante - si falla, no afecta la compra)
+  console.log("[CLAIM] 📧 Iniciando envío de email de confirmación...");
+  console.log("[CLAIM] 📧 Destinatario:", link.buyer_email);
+  console.log("[CLAIM] 📧 Nombre:", link.buyer_name);
+  console.log("[CLAIM] 📧 Números:", numbers.join(", "));
+  
   sendPurchaseConfirmation({
     buyerName: link.buyer_name,
     buyerEmail: link.buyer_email,
@@ -135,13 +140,20 @@ export async function POST(req: Request) {
   })
     .then((result) => {
       if (result.success) {
-        console.log("[CLAIM] Email enviado exitosamente a:", link.buyer_email);
+        console.log("[CLAIM] ✅ Email enviado exitosamente a:", link.buyer_email);
+        console.log("[CLAIM] ✅ Revisa tu bandeja de entrada (y spam)");
       } else {
-        console.error("[CLAIM] Error al enviar email:", result.error);
+        console.error("[CLAIM] ❌❌❌ ERROR AL ENVIAR EMAIL ❌❌❌");
+        console.error("[CLAIM] ❌ Destinatario:", link.buyer_email);
+        console.error("[CLAIM] ❌ Error:", result.error);
+        console.error("[CLAIM] ❌ SOLUCIÓN: Revisa INSTRUCCIONES_EMAIL.md");
+        console.error("[CLAIM] ❌ O ejecuta: node scripts/check-email-config.js");
       }
     })
     .catch((err) => {
-      console.error("[CLAIM] Error inesperado al enviar email:", err);
+      console.error("[CLAIM] ❌❌❌ ERROR CRÍTICO AL ENVIAR EMAIL ❌❌❌");
+      console.error("[CLAIM] ❌ Error inesperado:", err);
+      console.error("[CLAIM] ❌ Stack:", err.stack);
     });
 
   return NextResponse.json({
