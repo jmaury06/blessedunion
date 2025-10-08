@@ -207,6 +207,33 @@ export async function sendPurchaseConfirmation(
         <strong>Nota:</strong> Guarda este correo como comprobante de tu compra. Los números seleccionados son únicos y ya están registrados a tu nombre.
       </div>
 
+      <!-- QR de Pago -->
+      <div style="background: #fff3e0; border-left: 4px solid #ff9800; padding: 25px; border-radius: 8px; margin: 25px 0; text-align: center;">
+        <div style="font-size: 24px; margin-bottom: 15px;">💳</div>
+        <div style="font-weight: bold; font-size: 18px; color: #e65100; margin-bottom: 20px;">Realiza tu Pago</div>
+        
+        <div style="background: white; padding: 15px; border-radius: 12px; display: inline-block; box-shadow: 0 4px 8px rgba(0,0,0,0.1); margin-bottom: 20px;">
+          <div style="width: 200px; height: 200px; background: #f5f5f5; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 48px;">
+            📱💳
+          </div>
+          <div style="font-size: 12px; color: #666; margin-top: 8px;">
+            Código QR para pago<br>
+            (Disponible en la confirmación web)
+          </div>
+        </div>
+        
+        <div style="background: #ffe0b2; border: 1px solid #ffb74d; padding: 12px; border-radius: 8px; margin-bottom: 15px;">
+          <div style="font-weight: bold; font-size: 16px; color: #e65100;">
+            📱 Nequi: <span style="font-family: monospace; font-size: 18px;">3152124896</span>
+          </div>
+        </div>
+        
+        <div style="font-size: 14px; color: #bf360c; line-height: 1.6;">
+          Escanea el código QR o usa el número de Nequi para realizar tu pago cuando quieras.<br>
+          <strong>Una vez realizado el pago, contacta para activar tus números.</strong>
+        </div>
+      </div>
+
       <!-- Mensaje de Contacto -->
       <div style="background: #e3f2fd; border-left: 4px solid #2196f3; padding: 20px; border-radius: 8px; margin: 25px 0;">
         <div style="font-size: 24px; margin-bottom: 10px;">📱</div>
@@ -272,6 +299,14 @@ Sábado 1 de Noviembre de 2025
 ━━━━━━━━━━━━━━━━━━━━━━
 Si al día del sorteo no se ha vendido el 75% de los números,
 la rifa se aplazará 1 semana más.
+
+━━━━━━━━━━━━━━━━━━━━━━
+💳 REALIZA TU PAGO
+━━━━━━━━━━━━━━━━━━━━━━
+📱 Nequi: 3152124896
+
+Puedes usar el número de Nequi para realizar tu pago cuando quieras.
+Una vez realizado el pago, contacta para activar tus números.
 
 ━━━━━━━━━━━━━━━━━━━━━━
 📱 ¡IMPORTANTE!

@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef, useCallback } from "react"
 import { motion, AnimatePresence } from "framer-motion"
+import Image from "next/image"
 import ThemeToggle from "./ThemeToggle"
 import confetti from "canvas-confetti"
 
@@ -452,6 +453,42 @@ export default function RaffleBoard({ token }: Props) {
               </div>
             </div>
           </div>
+
+          {/* QR de Pago */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 2.0 }}
+            className="bg-gradient-to-br from-orange-50 to-yellow-50 dark:from-orange-900/20 dark:to-yellow-900/20 border border-orange-200 dark:border-orange-700 rounded-xl p-6 mb-4"
+          >
+            <div className="text-center">
+              <h4 className="text-lg font-bold text-orange-800 dark:text-orange-300 mb-4">
+                💳 Realiza tu Pago
+              </h4>
+              
+              <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-lg border border-orange-200 dark:border-orange-600 mb-4 inline-block">
+                <Image 
+                  src="/qr.png" 
+                  alt="Código QR para realizar el pago" 
+                  width={160}
+                  height={160}
+                  className="w-40 h-40 mx-auto rounded-lg"
+                />
+              </div>
+              
+              <div className="bg-orange-100 dark:bg-orange-900/40 border border-orange-300 dark:border-orange-600 rounded-lg p-3 mb-4">
+                <p className="text-sm font-bold text-orange-800 dark:text-orange-300">
+                  📱 Nequi: <span className="font-mono text-lg">3152124896</span>
+                </p>
+              </div>
+              
+              <p className="text-sm text-orange-700 dark:text-orange-400">
+                Escanea el QR o usa el número de Nequi para realizar tu pago cuando quieras.
+                <br />
+                <strong>Una vez realizado el pago, contacta para activar tus números.</strong>
+              </p>
+            </div>
+          </motion.div>
 
           <div className="bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-700 rounded-lg p-4">
             <p className="text-xs text-green-700 dark:text-green-300 text-center">
