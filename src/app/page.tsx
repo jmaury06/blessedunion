@@ -115,33 +115,6 @@ export default function Home() {
             </div>
           </motion.div>
 
-          {/* PRECIO */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8 }}
-            className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-8 mb-8 border-2 border-green-400 dark:border-green-600 max-w-2xl mx-auto"
-          >
-            <div className="text-center">
-              <div className="text-5xl mb-4">💵</div>
-              <h3 className="text-3xl md:text-4xl font-black text-gray-800 dark:text-white mb-4">
-                $20.000 pesos
-              </h3>
-              <div className="text-xl md:text-2xl font-semibold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-2">
-                Por cada 2 números
-              </div>
-              <p className="text-sm text-gray-600 dark:text-gray-400 mt-3">
-                🎫 2 números = $20.000 | 4 números = $40.000 | <span className="text-orange-600 dark:text-orange-400 font-bold">6 números = $50.000 🔥</span>
-              </p>
-              <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                🎫 8 números = $70.000 | <span className="text-orange-600 dark:text-orange-400 font-bold">10 números = $80.000 🔥</span>
-              </p>
-            </div>
-          </motion.div>
-
-          {/* PROGRESO DE LA RIFA */}
-          <RaffleProgress />
-
           {/* Description */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -171,10 +144,6 @@ export default function Home() {
               </p>
             </div>
 
-            <p className="text-lg md:text-xl text-gray-700 dark:text-gray-300 mb-12 leading-relaxed text-center max-w-4xl mx-auto">
-              Cada comprador recibe un link único para seleccionar sus números de la suerte del{" "}
-              <span className="font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">000 al 999</span>.
-            </p>
 
             <div className="grid md:grid-cols-3 gap-8 md:gap-10">
               <motion.div
