@@ -175,21 +175,75 @@ export default function Home() {
             </div>
           </motion.div>
 
+          {/* Comprar Créditos Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.0 }}
+            className="mt-12 mb-8"
+          >
+            <motion.h3
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.1 }}
+              className="text-2xl md:text-3xl font-bold text-center mb-6 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent"
+            >
+              💳 Comprar Créditos
+            </motion.h3>
+            
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 1.2 }}
+              className="flex flex-col items-center"
+            >
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 mb-4">
+                <img 
+                  src="/qr.png" 
+                  alt="Código QR para comprar créditos" 
+                  className="w-48 h-48 md:w-56 md:h-56 mx-auto rounded-lg"
+                />
+              </div>
+              
+              {/* Número de Nequi */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.25 }}
+                className="bg-gradient-to-r from-orange-50 to-orange-100 dark:from-orange-900/20 dark:to-orange-800/20 border border-orange-200 dark:border-orange-700 rounded-xl p-4 mb-6"
+              >
+                <p className="text-center font-bold text-orange-800 dark:text-orange-300 text-lg">
+                  📱 Nequi: <span className="font-mono">3152124896</span>
+                </p>
+              </motion.div>
+              
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.3 }}
+                className="text-center text-gray-600 dark:text-gray-400 mb-6 max-w-lg"
+              >
+                Escanea el código QR o usa el número de Nequi para realizar tu pago. 
+                <strong className="text-gray-800 dark:text-gray-200"> Te enviaré el link de participación cuando confirme que el depósito está OK.</strong>
+              </motion.p>
+            </motion.div>
+          </motion.div>
+
           {/* CTA Button */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.2 }}
+            transition={{ delay: 1.4 }}
             className="flex justify-center"
           >
             <a href="https://wa.me/573152124896" target="_blank" rel="noopener noreferrer">
               <motion.button
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
-                className="bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 text-white px-12 py-5 rounded-2xl font-bold text-xl shadow-2xl hover:shadow-purple-500/50 transition-all duration-300"
+                className="bg-gradient-to-r from-green-500 via-green-600 to-green-500 text-white px-12 py-5 rounded-2xl font-bold text-xl shadow-2xl hover:shadow-green-500/50 transition-all duration-300"
               >
                 <span className="flex items-center gap-3">
-                  💬 Quiero Participar
+                  📱 Ir a WhatsApp
                 </span>
               </motion.button>
             </a>
@@ -199,10 +253,10 @@ export default function Home() {
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 1.4 }}
+            transition={{ delay: 1.6 }}
             className="mt-10 text-gray-600 dark:text-gray-400 text-center max-w-2xl mx-auto"
           >
-            Los compradores recibirán un link único y seguro para acceder al sistema de selección de números
+            Después del pago, recibirás un link único y seguro para acceder al sistema de selección de números
           </motion.p>
         </motion.div>
       </main>
