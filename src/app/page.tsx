@@ -120,26 +120,26 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8 }}
-            className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-8 md:p-12 mb-12 border border-gray-200 dark:border-gray-700 w-full"
+            className="bg-white/75 dark:bg-gray-800/75 rounded-3xl shadow-2xl p-8 md:p-12 mb-12 border border-gray-200 dark:border-gray-700 w-full backdrop-blur-sm"
           >
             {/* Información del Sorteo */}
-            <div className="mb-12 p-6 bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 rounded-2xl border-2 border-yellow-300 dark:border-yellow-700">
+            <div className="mb-12 p-6 bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 rounded-2xl border-2 border-yellow-300 dark:border-yellow-700 text-center">
               <div className="mb-4">
-                <div className="flex items-center gap-3 mb-2">
+                <div className="flex items-center justify-center gap-3 mb-2">
                   <span className="text-3xl">📅</span>
                   <p className="text-lg font-bold text-gray-800 dark:text-white">
                     Sorteo: Sábado 1 de Noviembre de 2025
                   </p>
                 </div>
-                <p className="text-base text-gray-600 dark:text-gray-400 ml-12">
+                <p className="text-base text-gray-600 dark:text-gray-400">
                   🎲 Con las <span className="font-bold">3 últimas cifras</span> de la Lotería de Boyacá
                 </p>
               </div>
               
               <div className="border-t border-yellow-300 dark:border-yellow-600 pt-4 mt-4">
-                <div className="flex items-start gap-3">
+                <div className="flex items-start justify-center gap-3">
                   <span className="text-3xl">⚠️</span>
-                  <div>
+                  <div className="text-center">
                     <p className="text-base font-bold text-gray-800 dark:text-white mb-1">
                       Importante:
                     </p>
