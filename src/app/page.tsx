@@ -131,7 +131,10 @@ export default function Home() {
                 Por cada 2 números
               </div>
               <p className="text-sm text-gray-600 dark:text-gray-400 mt-3">
-                🎫 Compra 2 números = $20.000 | 4 números = $40.000 | 6 números = $60.000
+                🎫 2 números = $20.000 | 4 números = $40.000 | <span className="text-orange-600 dark:text-orange-400 font-bold">6 números = $50.000 🔥</span>
+              </p>
+              <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                🎫 8 números = $70.000 | <span className="text-orange-600 dark:text-orange-400 font-bold">10 números = $80.000 🔥</span>
               </p>
             </div>
           </motion.div>
@@ -231,26 +234,54 @@ export default function Home() {
               transition={{ delay: 1.2 }}
               className="grid grid-cols-2 md:grid-cols-5 gap-4 max-w-4xl mx-auto"
             >
-              {[2, 4, 6, 8, 10].map((opportunities, index) => (
-                <motion.button
-                  key={opportunities}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 1.3 + index * 0.1 }}
-                  whileHover={{ scale: 1.05, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => handleOpportunitySelect(opportunities)}
-                  disabled={isGenerating}
-                  className="bg-gradient-to-br from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white p-6 rounded-2xl font-bold text-lg shadow-2xl hover:shadow-purple-500/50 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  <div className="text-3xl mb-2">🎫</div>
-                  <div className="text-2xl font-bold">{opportunities}</div>
-                  <div className="text-sm opacity-90">números</div>
-                  <div className="text-xs mt-2 opacity-80">
-                    ${(opportunities * 10000).toLocaleString()}
-                  </div>
-                </motion.button>
-              ))}
+              {[2, 4, 6, 8, 10].map((opportunities, index) => {
+                const prices = { 2: 20000, 4: 40000, 6: 50000, 8: 70000, 10: 80000 }
+                const isPromo = opportunities === 6 || opportunities === 10
+                const regularPrice = opportunities * 10000
+                const promoPrice = prices[opportunities as keyof typeof prices]
+                
+                return (
+                  <motion.button
+                    key={opportunities}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 1.3 + index * 0.1 }}
+                    whileHover={{ scale: 1.05, y: -2 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => handleOpportunitySelect(opportunities)}
+                    disabled={isGenerating}
+                    className={`${
+                      isPromo 
+                        ? "bg-gradient-to-br from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 shadow-2xl hover:shadow-orange-500/50 ring-2 ring-yellow-300 ring-offset-2" 
+                        : "bg-gradient-to-br from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 shadow-2xl hover:shadow-purple-500/50"
+                    } text-white p-6 rounded-2xl font-bold text-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden`}
+                  >
+                    {isPromo && (
+                      <div className="absolute -top-1 -right-1 bg-yellow-400 text-black text-xs font-bold px-2 py-1 rounded-bl-lg rounded-tr-2xl">
+                        🔥 PROMO
+                      </div>
+                    )}
+                    <div className="text-3xl mb-2">🎫</div>
+                    <div className="text-2xl font-bold">{opportunities}</div>
+                    <div className="text-sm opacity-90">números</div>
+                    <div className="text-xs mt-2">
+                      {isPromo && (
+                        <div className="line-through opacity-60 text-xs">
+                          ${regularPrice.toLocaleString()}
+                        </div>
+                      )}
+                      <div className={`${isPromo ? 'text-yellow-200 font-bold' : 'opacity-80'}`}>
+                        ${promoPrice.toLocaleString()}
+                      </div>
+                      {isPromo && (
+                        <div className="text-yellow-200 text-xs font-bold mt-1">
+                          ¡Ahorra ${(regularPrice - promoPrice).toLocaleString()}!
+                        </div>
+                      )}
+                    </div>
+                  </motion.button>
+                )
+              })}
             </motion.div>
 
             {isGenerating && (
