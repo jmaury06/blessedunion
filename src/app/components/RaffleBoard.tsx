@@ -121,7 +121,7 @@ export default function RaffleBoard({ token }: Props) {
       return Math.random() * (max - min) + min
     }
 
-    const interval: any = setInterval(function() {
+    const interval: NodeJS.Timeout = setInterval(function() {
       const timeLeft = animationEnd - Date.now()
 
       if (timeLeft <= 0) {
@@ -168,7 +168,7 @@ export default function RaffleBoard({ token }: Props) {
 
       const soldMap = new Map<string, { buyer_name: string; buyer_email: string; buyer_phone: string }>()
       if (soldData.ok && Array.isArray(soldData.sold)) {
-        soldData.sold.forEach((item: any) => {
+        soldData.sold.forEach((item: { number: string; buyer_name: string; buyer_email: string; buyer_phone: string }) => {
           soldMap.set(item.number, {
             buyer_name: item.buyer_name,
             buyer_email: item.buyer_email,
@@ -289,7 +289,7 @@ export default function RaffleBoard({ token }: Props) {
         })
       }
     }
-    } catch (error) {
+    } catch {
       setSubmitting(false)
       setModal({
         isOpen: true,

@@ -13,7 +13,7 @@ interface SessionPayload {
 const key = new TextEncoder().encode(SECRET);
 
 export async function encrypt(payload: SessionPayload) {
-  return new SignJWT(payload as any)
+  return new SignJWT(payload as unknown as Record<string, unknown>)
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
     .setExpirationTime("7d")
@@ -26,7 +26,7 @@ export async function decrypt(session: string | undefined = "") {
       algorithms: ["HS256"],
     });
     return payload as unknown as SessionPayload;
-  } catch (error) {
+  } catch {
     return null;
   }
 }

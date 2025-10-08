@@ -262,7 +262,7 @@ Rifa pro-Boda 2025
       process.env.RESEND_FROM_EMAIL ||
       "Bendecidos en Amor <onboarding@resend.dev>";
 
-    const { data: emailData, error } = await resend.emails.send({
+    const { error } = await resend.emails.send({
       from: fromEmail,
       to: buyerEmail,
       subject: `🎉 Confirmación de compra - Números ${numbers.join(", ")}`,
@@ -280,8 +280,9 @@ Rifa pro-Boda 2025
     }
 
     return { success: true };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("[EMAIL] Error inesperado:", error);
-    return { success: false, error: error.message };
+    const errorMessage = error instanceof Error ? error.message : 'Error desconocido';
+    return { success: false, error: errorMessage };
   }
 }

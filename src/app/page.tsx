@@ -1,6 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
+import Image from "next/image"
 import ThemeToggle from "./components/ThemeToggle"
 import RaffleProgress from "./components/RaffleProgress"
 
@@ -198,9 +199,11 @@ export default function Home() {
               className="flex flex-col items-center"
             >
               <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 mb-4">
-                <img 
+                <Image 
                   src="/qr.png" 
                   alt="Código QR para comprar créditos" 
+                  width={224}
+                  height={224}
                   className="w-48 h-48 md:w-56 md:h-56 mx-auto rounded-lg"
                 />
               </div>
