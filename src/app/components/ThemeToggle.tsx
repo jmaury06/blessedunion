@@ -13,7 +13,7 @@ export default function ThemeToggle() {
   }, [])
 
   if (!mounted) {
-    return <div className="w-16 h-8" /> // Placeholder to prevent layout shift
+    return <div className="w-16 h-8" />
   }
 
   return (

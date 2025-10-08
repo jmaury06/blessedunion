@@ -8,13 +8,11 @@ const supabaseService = createClient(
 
 export async function GET() {
   try {
-    // Obtener total de números vendidos
     const { count: soldCount, error } = await supabaseService
       .from("purchases")
       .select("*", { count: "exact", head: true });
 
     if (error) {
-      console.error("[STATS] Error al obtener números vendidos:", error);
       return NextResponse.json(
         { ok: false, error: error.message },
         { status: 500 }
@@ -25,13 +23,11 @@ export async function GET() {
     const numbersSold = soldCount || 0;
     const percentage = Math.round((numbersSold / totalNumbers) * 100);
 
-    // Calcular días faltantes hasta el 1 de noviembre de 2025
-    const raffleDate = new Date("2025-11-01T00:00:00-05:00"); // Sábado 1 de Noviembre 2025
+    const raffleDate = new Date("2025-11-01T00:00:00-05:00");
     const today = new Date();
     const diffTime = raffleDate.getTime() - today.getTime();
     const daysRemaining = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-    // Determinar si se cumple el mínimo del 75%
     const minimumReached = percentage >= 75;
 
     return NextResponse.json({

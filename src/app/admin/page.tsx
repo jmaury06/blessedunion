@@ -36,7 +36,6 @@ export default function AdminPage() {
   const [generatedLink, setGeneratedLink] = useState("")
   const [copied, setCopied] = useState(false)
 
-  // Check if already authenticated
   useEffect(() => {
     async function checkAuth() {
       try {
@@ -45,7 +44,6 @@ export default function AdminPage() {
         
         if (data.authenticated) {
           setIsAuthenticated(true)
-          // Fetch stats
           const statsRes = await fetch("/api/stats")
           if (statsRes.ok) {
             const statsData = await statsRes.json()
@@ -79,7 +77,6 @@ export default function AdminPage() {
 
       if (data.ok) {
         setIsAuthenticated(true)
-        // Fetch stats
         const statsRes = await fetch("/api/stats")
         const statsData = await statsRes.json()
         if (statsData.ok) {
@@ -119,8 +116,7 @@ export default function AdminPage() {
       if (data.ok) {
         const fullLink = `${window.location.origin}/${data.token}`
         setGeneratedLink(fullLink)
-        
-        // Refresh stats
+
         const statsRes = await fetch("/api/stats")
         const statsData = await statsRes.json()
         if (statsData.ok) {
@@ -148,7 +144,6 @@ export default function AdminPage() {
     )
   }
 
-  // Login Screen
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center p-4">
@@ -235,10 +230,8 @@ export default function AdminPage() {
     )
   }
 
-  // Dashboard Screen (after login)
   return (
     <div className="min-h-screen w-full p-4 md:p-8 bg-gradient-to-br from-purple-50 via-white to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
-      {/* Theme Toggle & Logout */}
       <div className="fixed top-6 right-6 z-50 flex items-center gap-3">
         <motion.button
           onClick={handleLogout}

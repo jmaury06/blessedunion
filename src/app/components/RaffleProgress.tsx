@@ -35,7 +35,6 @@ export default function RaffleProgress() {
 
     fetchStats()
 
-    // Actualizar cada 30 segundos
     const interval = setInterval(fetchStats, 30000)
 
     return () => clearInterval(interval)

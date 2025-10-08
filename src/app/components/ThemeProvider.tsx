@@ -7,11 +7,9 @@ export default function ThemeProvider({ children }: { children: React.ReactNode 
   const theme = useThemeStore((state) => state.theme)
   const [mounted, setMounted] = useState(false)
 
-  // Apply theme immediately on mount
   useEffect(() => {
     setMounted(true)
     
-    // Apply initial theme
     const root = window.document.documentElement
     const storedTheme = localStorage.getItem("theme-storage")
     
@@ -25,13 +23,11 @@ export default function ThemeProvider({ children }: { children: React.ReactNode 
         root.classList.add("light")
       }
     } else {
-      // Detect system preference
       const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches
       root.classList.add(prefersDark ? "dark" : "light")
     }
   }, [])
 
-  // Update theme when it changes
   useEffect(() => {
     if (mounted) {
       const root = window.document.documentElement

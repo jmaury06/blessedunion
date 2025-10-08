@@ -29,7 +29,6 @@ export default function BuyerForm({ token, onComplete }: Props) {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     
-    // Validaciones
     const newErrors = { name: "", email: "", phone: "" }
     if (!name.trim()) newErrors.name = "El nombre es requerido"
     if (!email.trim()) newErrors.email = "El email es requerido"

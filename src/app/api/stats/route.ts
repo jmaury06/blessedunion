@@ -7,13 +7,8 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
-/**
- * Obtiene estadísticas generales de la rifa
- * REQUIERE AUTENTICACIÓN
- */
 export async function GET() {
   try {
-    // Verificar sesión
     const session = await verifySession();
     if (!session) {
       return NextResponse.json(
@@ -21,24 +16,20 @@ export async function GET() {
         { status: 401 }
       );
     }
-    // Total de links creados
     const { count: totalLinks } = await supabase
       .from("links")
       .select("*", { count: "exact", head: true });
 
-    // Links activos
     const { count: activeLinks } = await supabase
       .from("links")
       .select("*", { count: "exact", head: true })
       .eq("active", true);
 
-    // Links expirados
     const { count: expiredLinks } = await supabase
       .from("links")
       .select("*", { count: "exact", head: true })
       .eq("active", false);
 
-    // Números vendidos
     const { data: purchases } = await supabase
       .from("purchases")
       .select("number");
@@ -46,7 +37,6 @@ export async function GET() {
     const numbersSold = purchases?.length || 0;
     const numbersAvailable = 1000 - numbersSold;
 
-    // Total de oportunidades vendidas
     const { data: links } = await supabase
       .from("links")
       .select("opportunities");
@@ -56,7 +46,6 @@ export async function GET() {
       0
     ) || 0;
 
-    // Oportunidades utilizadas (números vendidos)
     const opportunitiesUsed = numbersSold;
     const opportunitiesRemaining = totalOpportunities - opportunitiesUsed;
 

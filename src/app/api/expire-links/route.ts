@@ -11,7 +11,6 @@ const supabaseService = createClient(
  * Puede ser llamado por un cron job externo (Vercel Cron, GitHub Actions, etc.)
  */
 export async function POST(req: Request) {
-  // Verificar autenticación (bearer token o secret key)
   const authHeader = req.headers.get("authorization");
   const cronSecret = process.env.CRON_SECRET;
 
@@ -22,7 +21,6 @@ export async function POST(req: Request) {
     );
   }
 
-  // Actualizar links expirados
   const { data, error } = await supabaseService
     .from("links")
     .update({ active: false })

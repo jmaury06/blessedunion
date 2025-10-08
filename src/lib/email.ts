@@ -12,19 +12,18 @@ export async function sendPurchaseConfirmation(
   data: PurchaseConfirmationData
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    // Verificar que la API key esté configurada
     if (!process.env.RESEND_API_KEY) {
-      console.error("[EMAIL] ⚠️ RESEND_API_KEY no está configurada en las variables de entorno");
-      return { 
-        success: false, 
-        error: "RESEND_API_KEY no configurada. Por favor, agrega tu API key de Resend en .env.local" 
+      console.error(
+        "[EMAIL] ⚠️ RESEND_API_KEY no está configurada en las variables de entorno"
+      );
+      return {
+        success: false,
+        error:
+          "RESEND_API_KEY no configurada. Por favor, agrega tu API key de Resend en .env.local",
       };
     }
 
     const { buyerName, buyerEmail, numbers } = data;
-    
-    console.log("[EMAIL] 📧 Intentando enviar email a:", buyerEmail);
-    console.log("[EMAIL] 📊 Cantidad de números:", numbers.length);
 
     const numbersList = numbers
       .sort((a, b) => parseInt(a) - parseInt(b))
@@ -259,10 +258,10 @@ Unión Bendecida
 Rifa pro-Boda 2025
     `;
 
-    const fromEmail = process.env.RESEND_FROM_EMAIL || "Unión Bendecida <onboarding@resend.dev>";
-    
-    console.log("[EMAIL] 📮 Enviando desde:", fromEmail);
-    
+    const fromEmail =
+      process.env.RESEND_FROM_EMAIL ||
+      "Unión Bendecida <onboarding@resend.dev>";
+
     const { data: emailData, error } = await resend.emails.send({
       from: fromEmail,
       to: buyerEmail,
@@ -273,12 +272,13 @@ Rifa pro-Boda 2025
 
     if (error) {
       console.error("[EMAIL] ❌ Error al enviar:", error);
-      console.error("[EMAIL] 🔍 Detalles del error:", JSON.stringify(error, null, 2));
+      console.error(
+        "[EMAIL] 🔍 Detalles del error:",
+        JSON.stringify(error, null, 2)
+      );
       return { success: false, error: error.message };
     }
 
-    console.log("[EMAIL] ✅ Email enviado exitosamente!");
-    console.log("[EMAIL] 📬 ID del email:", emailData?.id);
     return { success: true };
   } catch (error: any) {
     console.error("[EMAIL] Error inesperado:", error);

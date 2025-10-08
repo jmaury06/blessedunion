@@ -17,9 +17,8 @@ export async function POST(req: Request) {
     );
   }
 
-  // generar token encriptado
-  const token = crypto.randomBytes(6).toString("hex"); // ej: "a1b2c3d4e5f6"
-  const expiresAt = new Date(Date.now() + 30 * 60 * 1000).toISOString(); // ahora + 30 minutos
+  const token = crypto.randomBytes(6).toString("hex");
+  const expiresAt = new Date(Date.now() + 30 * 60 * 1000).toISOString();
 
   const { error } = await supabaseService.from("links").insert([
     {
@@ -27,7 +26,7 @@ export async function POST(req: Request) {
       opportunities,
       remaining: opportunities,
       active: true,
-      expires_at: expiresAt, // 👈 nuevo
+      expires_at: expiresAt,
     },
   ]);
 

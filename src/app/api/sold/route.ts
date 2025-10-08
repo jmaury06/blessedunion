@@ -3,11 +3,10 @@ import { createClient } from "@supabase/supabase-js";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY! // ojo: usamos anon, es solo lectura
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
 export async function GET() {
-  // Ahora devolvemos número + datos del comprador
   const { data, error } = await supabase
     .from("purchases")
     .select("number, buyer_name, buyer_email, buyer_phone");
@@ -19,6 +18,5 @@ export async function GET() {
     );
   }
 
-  // Retornar en formato { number, buyer_name, buyer_email, buyer_phone }
   return NextResponse.json({ ok: true, sold: data });
 }

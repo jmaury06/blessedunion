@@ -10,9 +10,6 @@ const supabaseService = createClient(
 export async function POST(req: Request) {
   const { token, numbers } = await req.json();
 
-  console.log("[CLAIM] Token recibido:", token);
-  console.log("[CLAIM] Números a reclamar:", numbers);
-
   if (!token || !Array.isArray(numbers) || numbers.length === 0) {
     return NextResponse.json(
       { ok: false, error: "invalid_input" },
@@ -20,15 +17,13 @@ export async function POST(req: Request) {
     );
   }
 
-  // 1. Verificar que el link existe, está activo y no ha expirado
   const { data: link, error: linkError } = await supabaseService
     .from("links")
-    .select("token, remaining, active, expires_at, buyer_name, buyer_email, buyer_phone")
+    .select(
+      "token, remaining, active, expires_at, buyer_name, buyer_email, buyer_phone"
+    )
     .eq("token", token)
     .single();
-
-  console.log("[CLAIM] Link encontrado:", link);
-  console.log("[CLAIM] Error al buscar link:", linkError);
 
   if (linkError || !link) {
     console.error("[CLAIM] Link no encontrado o error:", linkError);
@@ -52,15 +47,12 @@ export async function POST(req: Request) {
     );
   }
 
-  // 2. Verificar que no está intentando reclamar más números de los que tiene disponibles
   if (numbers.length > link.remaining) {
     return NextResponse.json(
       { ok: false, error: "not_enough_remaining" },
       { status: 400 }
     );
   }
-
-  // 3. Verificar que los números no están ya comprados
   const { data: existingPurchases, error: checkError } = await supabaseService
     .from("purchases")
     .select("number")
@@ -81,18 +73,13 @@ export async function POST(req: Request) {
     );
   }
 
-  // 4. Ya tenemos los datos del comprador en 'link', no necesitamos otra query
-  
-  // 5. Insertar las compras con TODOS los datos del comprador
   const purchaseRecords = numbers.map((num) => ({
     number: num,
     buyer_name: link.buyer_name,
     buyer_email: link.buyer_email,
     buyer_phone: link.buyer_phone,
-    token: link.token, // Usar token en lugar de link_id
+    token: link.token,
   }));
-
-  console.log("[CLAIM] Insertando compras:", purchaseRecords);
 
   const { error: insertError } = await supabaseService
     .from("purchases")
@@ -105,10 +92,6 @@ export async function POST(req: Request) {
       { status: 500 }
     );
   }
-
-  console.log("[CLAIM] Compras insertadas exitosamente");
-
-  // 6. Actualizar remaining en la tabla links
   const newRemaining = link.remaining - numbers.length;
   const shouldDeactivate = newRemaining === 0;
 
@@ -127,34 +110,11 @@ export async function POST(req: Request) {
     );
   }
 
-  // 7. Enviar email de confirmación (no bloqueante - si falla, no afecta la compra)
-  console.log("[CLAIM] 📧 Iniciando envío de email de confirmación...");
-  console.log("[CLAIM] 📧 Destinatario:", link.buyer_email);
-  console.log("[CLAIM] 📧 Nombre:", link.buyer_name);
-  console.log("[CLAIM] 📧 Números:", numbers.join(", "));
-  
   sendPurchaseConfirmation({
     buyerName: link.buyer_name,
     buyerEmail: link.buyer_email,
     numbers: numbers,
-  })
-    .then((result) => {
-      if (result.success) {
-        console.log("[CLAIM] ✅ Email enviado exitosamente a:", link.buyer_email);
-        console.log("[CLAIM] ✅ Revisa tu bandeja de entrada (y spam)");
-      } else {
-        console.error("[CLAIM] ❌❌❌ ERROR AL ENVIAR EMAIL ❌❌❌");
-        console.error("[CLAIM] ❌ Destinatario:", link.buyer_email);
-        console.error("[CLAIM] ❌ Error:", result.error);
-        console.error("[CLAIM] ❌ SOLUCIÓN: Revisa INSTRUCCIONES_EMAIL.md");
-        console.error("[CLAIM] ❌ O ejecuta: node scripts/check-email-config.js");
-      }
-    })
-    .catch((err) => {
-      console.error("[CLAIM] ❌❌❌ ERROR CRÍTICO AL ENVIAR EMAIL ❌❌❌");
-      console.error("[CLAIM] ❌ Error inesperado:", err);
-      console.error("[CLAIM] ❌ Stack:", err.stack);
-    });
+  }).catch(() => {});
 
   return NextResponse.json({
     ok: true,

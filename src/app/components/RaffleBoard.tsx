@@ -115,7 +115,6 @@ export default function RaffleBoard({ token }: Props) {
     (currentPage + 1) * numbersPerPage
   )
 
-  // Función de confeti (debe estar antes de cualquier return)
   const fireConfetti = useCallback(() => {
     const duration = 3000
     const animationEnd = Date.now() + duration
@@ -133,8 +132,7 @@ export default function RaffleBoard({ token }: Props) {
       }
 
       const particleCount = 50 * (timeLeft / duration)
-      
-      // Lanzar confeti desde diferentes posiciones
+
       confetti({
         ...defaults,
         particleCount,
@@ -150,17 +148,14 @@ export default function RaffleBoard({ token }: Props) {
     }, 250)
   }, [])
 
-  // Scroll automático cuando remaining llega a 0
   useEffect(() => {
     if (remaining === 0 && confirmButtonRef.current) {
       confirmButtonRef.current.scrollIntoView({ behavior: "smooth", block: "center" })
     }
   }, [remaining])
 
-  // cargar info inicial
   useEffect(() => {
     async function fetchData() {
-      // Cargar info del link
       const linkRes = await fetch(`/api/link/${token}`)
       const linkData = await linkRes.json()
 
@@ -171,11 +166,9 @@ export default function RaffleBoard({ token }: Props) {
 
       setRemaining(linkData.link.remaining)
 
-      // Cargar números ya vendidos con datos del comprador
       const soldRes = await fetch("/api/sold")
       const soldData = await soldRes.json()
-      
-      // Crear un mapa: número -> datos del comprador
+
       const soldMap = new Map<string, { buyer_name: string; buyer_email: string; buyer_phone: string }>()
       if (soldData.ok && Array.isArray(soldData.sold)) {
         soldData.sold.forEach((item: any) => {
@@ -187,7 +180,6 @@ export default function RaffleBoard({ token }: Props) {
         })
       }
 
-      // Generar lista de números 000–999
       const nums: NumberItem[] = []
       for (let i = 0; i < 1000; i++) {
         const formatted = i.toString().padStart(3, "0")
@@ -209,10 +201,8 @@ export default function RaffleBoard({ token }: Props) {
     fetchData()
   }, [token])
 
-  // Efecto de confeti cuando se muestra la pantalla de éxito
   useEffect(() => {
     if (success) {
-      // Pequeño delay para que la animación se vea mejor
       setTimeout(() => {
         fireConfetti()
       }, 300)
@@ -223,8 +213,6 @@ export default function RaffleBoard({ token }: Props) {
     const current = numbers.find((item) => item.number === n)
     if (!current || current.disabled) return
 
-    // Si ya está seleccionado, permitir deseleccionar
-    // Si no está seleccionado, solo permitir si hay remaining > 0
     if (!current.selected && remaining <= 0) return
 
     setNumbers((prev) =>
@@ -234,8 +222,7 @@ export default function RaffleBoard({ token }: Props) {
           : item
       )
     )
-    
-    // Ajustar remaining: si está seleccionado -> +1, si no está seleccionado -> -1
+
     setRemaining((r) => current.selected ? r + 1 : r - 1)
   }
 
@@ -257,8 +244,7 @@ export default function RaffleBoard({ token }: Props) {
       link.download = `confirmacion-rifa-${timestamp}.png`;
       link.href = canvas.toDataURL('image/png');
       link.click();
-      
-      console.log('[DOWNLOAD] ✅ Imagen descargada exitosamente');
+
     } catch (error) {
       console.error('[DOWNLOAD] ❌ Error al generar imagen:', error);
       alert('Error al generar la imagen. Por favor, toma una captura de pantalla.');
@@ -268,7 +254,6 @@ export default function RaffleBoard({ token }: Props) {
   }
 
   async function handleSubmit() {
-    // Lanzar confeti al hacer click
     fireConfetti()
     
     setSubmitting(true)

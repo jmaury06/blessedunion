@@ -32,7 +32,7 @@ export async function decrypt(session: string | undefined = "") {
 }
 
 export async function createSession(email: string) {
-  const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days
+  const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
   const session = await encrypt({ email, expiresAt });
 
   (await cookies()).set("session", session, {

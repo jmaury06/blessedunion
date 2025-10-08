@@ -12,7 +12,6 @@ export async function POST(req: Request) {
       );
     }
 
-    // Verificar credenciales
     if (!verifyCredentials(email, password)) {
       return NextResponse.json(
         { ok: false, error: "Credenciales inválidas" },
@@ -20,7 +19,6 @@ export async function POST(req: Request) {
       );
     }
 
-    // Crear sesión
     await createSession(email);
 
     return NextResponse.json({
