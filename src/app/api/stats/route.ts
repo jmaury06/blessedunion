@@ -3,8 +3,8 @@ import { createClient } from "@supabase/supabase-js";
 import { verifySession } from "../../../lib/auth";
 
 const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  process.env.NEXT_PUBLIC_SUPABASE_URL || "dummy_url",
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "dummy_key"
 );
 
 export async function GET() {
