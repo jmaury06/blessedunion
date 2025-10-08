@@ -13,6 +13,7 @@ export async function GET() {
       .select("*", { count: "exact", head: true });
 
     if (error) {
+      console.error("[STATS] Error al obtener números vendidos:", error);
       return NextResponse.json(
         { ok: false, error: error.message },
         { status: 500 }

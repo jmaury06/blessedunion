@@ -211,7 +211,7 @@ export default function RaffleBoard({ token }: Props) {
 
   function toggleNumber(n: string) {
     const current = numbers.find((item) => item.number === n)
-    if (!current || current.disabled) return
+    if (!current || current.disabled || submitting) return
 
     if (!current.selected && remaining <= 0) return
 
@@ -259,14 +259,19 @@ export default function RaffleBoard({ token }: Props) {
     setSubmitting(true)
     const selected = numbers.filter((n) => n.selected).map((n) => n.number)
 
-    const res = await fetch("/api/claim-numbers", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ token, numbers: selected }),
-    })
+    try {
+      const res = await fetch("/api/claim-numbers", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token, numbers: selected }),
+      })
 
-    const data = await res.json()
-    setSubmitting(false)
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`)
+      }
+
+      const data = await res.json()
+      setSubmitting(false)
 
     if (data.ok) {
       setSuccess(true)
@@ -312,6 +317,16 @@ export default function RaffleBoard({ token }: Props) {
           showHomeButton: false,
         })
       }
+    }
+    } catch (error) {
+      setSubmitting(false)
+      setModal({
+        isOpen: true,
+        title: "Error de conexión",
+        message: "No se pudo conectar con el servidor. Por favor, intenta de nuevo.",
+        type: "error",
+        showHomeButton: false,
+      })
     }
   }
 

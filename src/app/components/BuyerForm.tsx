@@ -40,20 +40,30 @@ export default function BuyerForm({ token, onComplete }: Props) {
     if (Object.values(newErrors).some(err => err)) return
     
     setLoading(true)
+    setServerError("")
 
-    const res = await fetch("/api/save-buyer", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ token, name, email, phone }),
-    })
+    try {
+      const res = await fetch("/api/save-buyer", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token, name: name.trim(), email: email.trim(), phone: phone.trim() }),
+      })
 
-    const data = await res.json()
-    setLoading(false)
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`)
+      }
 
-    if (data.ok) {
-      onComplete()
-    } else {
-      setServerError(data.error || "Error al guardar información")
+      const data = await res.json()
+
+      if (data.ok) {
+        onComplete()
+      } else {
+        setServerError(data.error || "Error al guardar información")
+      }
+    } catch (error) {
+      setServerError("Error de conexión. Por favor, intenta de nuevo.")
+    } finally {
+      setLoading(false)
     }
   }
 

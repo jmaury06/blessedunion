@@ -165,10 +165,12 @@ export default function RaffleProgress() {
           }`}>
           {minimumReached ? (
             <>
-              ✅ ¡Aplazada - La rifa jugará el 8 de Noviembre de 2025!
+              ✅ ¡Meta alcanzada! La rifa jugará el {stats.raffleDate}
             </>
           ) : (
-            <></>
+              <>
+                🎯 Necesitamos alcanzar el 75% de ventas para tirar la rifa el 1ero de Noviembre
+              </>
           )}
         </p>
         {!minimumReached && (

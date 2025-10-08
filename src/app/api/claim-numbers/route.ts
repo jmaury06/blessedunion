@@ -73,6 +73,13 @@ export async function POST(req: Request) {
     );
   }
 
+  if (!link.buyer_name || !link.buyer_email || !link.buyer_phone) {
+    return NextResponse.json(
+      { ok: false, error: "buyer_data_missing" },
+      { status: 400 }
+    );
+  }
+
   const purchaseRecords = numbers.map((num) => ({
     number: num,
     buyer_name: link.buyer_name,

@@ -9,9 +9,7 @@
     "lint": "eslint",
     "type-check": "tsc --noEmit",
     "format": "prettier --write .",
-    "test": "echo \"No tests configured yet\" && exit 0",
-    "check-email": "node scripts/check-email-config.js",
-    "test-email": "node scripts/test-send-email.js"
+    "test": "echo \"No tests configured yet\" && exit 0"
   },
   "dependencies": {
     "@react-email/render": "^1.3.1",

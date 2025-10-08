@@ -6,7 +6,15 @@ import RaffleProgress from "./components/RaffleProgress"
 
 export default function Home() {
   return (
-    <div className="min-h-screen w-full flex flex-col">
+    <div className="min-h-screen w-full flex flex-col relative">
+      {/* Background Image */}
+      <div 
+        className="fixed inset-0 bg-cover bg-no-repeat opacity-20 dark:opacity-10 -z-10"
+        style={{
+          backgroundImage: "url('/beach-couple.jpg')",
+          backgroundPosition: "center 75%",
+        }}
+      />
       {/* Theme Toggle Fixed */}
       <div className="fixed top-6 right-6 z-50">
         <ThemeToggle />

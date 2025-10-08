@@ -138,7 +138,14 @@ export default function AdminPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 relative">
+        <div 
+          className="fixed inset-0 bg-cover bg-no-repeat opacity-15 dark:opacity-8 -z-10"
+          style={{
+            backgroundImage: "url('/beach-couple.jpg')",
+            backgroundPosition: "center 75%",
+          }}
+        />
         <div className="text-xl text-gray-700 dark:text-gray-300">Cargando...</div>
       </div>
     )
@@ -146,7 +153,14 @@ export default function AdminPage() {
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center p-4 relative">
+        <div 
+          className="fixed inset-0 bg-cover bg-no-repeat opacity-15 dark:opacity-8 -z-10"
+          style={{
+            backgroundImage: "url('/beach-couple.jpg')",
+            backgroundPosition: "center 75%",
+          }}
+        />
         <div className="fixed top-6 right-6 z-50">
           <ThemeToggle />
         </div>
@@ -231,7 +245,14 @@ export default function AdminPage() {
   }
 
   return (
-    <div className="min-h-screen w-full p-4 md:p-8 bg-gradient-to-br from-purple-50 via-white to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+    <div className="min-h-screen w-full p-4 md:p-8 bg-gradient-to-br from-purple-50 via-white to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 relative">
+      <div 
+        className="fixed inset-0 bg-cover bg-no-repeat opacity-15 dark:opacity-8 -z-10"
+        style={{
+          backgroundImage: "url('/beach-couple.jpg')",
+          backgroundPosition: "center 35%",
+        }}
+      />
       <div className="fixed top-6 right-6 z-50 flex items-center gap-3">
         <motion.button
           onClick={handleLogout}

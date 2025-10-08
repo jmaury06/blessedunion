@@ -1,9 +1,9 @@
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 
-const SECRET = process.env.JWT_SECRET || "blessed-union-secret-key-2025";
-const ADMIN_EMAIL = "ajmh06@gmail.com";
-const ADMIN_PASSWORD = "Jairomh06++";
+const SECRET = process.env.JWT_SECRET;
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 
 interface SessionPayload {
   email: string;

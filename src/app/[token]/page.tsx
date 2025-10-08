@@ -32,7 +32,14 @@ export default function TokenPage({ params }: { params: Promise<{ token: string 
 
   if (step === "loading") {
     return (
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="flex items-center justify-center min-h-screen relative">
+        <div 
+          className="fixed inset-0 bg-cover bg-no-repeat opacity-20 dark:opacity-10 -z-10"
+          style={{
+            backgroundImage: "url('/beach-couple.jpg')",
+            backgroundPosition: "center 75%",
+          }}
+        />
         <motion.div
           animate={{ rotate: 360 }}
           transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
@@ -44,7 +51,14 @@ export default function TokenPage({ params }: { params: Promise<{ token: string 
 
   if (step === "invalid") {
     return (
-      <div className="flex items-center justify-center min-h-screen p-4">
+      <div className="flex items-center justify-center min-h-screen p-4 relative">
+        <div 
+          className="fixed inset-0 bg-cover bg-no-repeat opacity-20 dark:opacity-10 -z-10"
+          style={{
+            backgroundImage: "url('/beach-couple.jpg')",
+            backgroundPosition: "center 75%",
+          }}
+        />
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -71,7 +85,14 @@ export default function TokenPage({ params }: { params: Promise<{ token: string 
 
   if (step === "expired") {
     return (
-      <div className="flex items-center justify-center min-h-screen p-4">
+      <div className="flex items-center justify-center min-h-screen p-4 relative">
+        <div 
+          className="fixed inset-0 bg-cover bg-no-repeat opacity-20 dark:opacity-10 -z-10"
+          style={{
+            backgroundImage: "url('/beach-couple.jpg')",
+            backgroundPosition: "center 75%",
+          }}
+        />
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -105,7 +126,14 @@ export default function TokenPage({ params }: { params: Promise<{ token: string 
   }
 
   return (
-    <div className="min-h-screen w-full flex flex-col items-center justify-center p-4 md:p-8">
+    <div className="min-h-screen w-full flex flex-col items-center justify-center p-4 md:p-8 relative">
+      <div 
+        className="fixed inset-0 bg-cover bg-no-repeat opacity-20 dark:opacity-10 -z-10"
+        style={{
+          backgroundImage: "url('/beach-couple.jpg')",
+          backgroundPosition: "center 35%",
+        }}
+      />
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
