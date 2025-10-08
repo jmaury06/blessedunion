@@ -206,6 +206,28 @@ export async function sendPurchaseConfirmation(
       <div class="message" style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e9ecef; font-size: 14px; color: #666;">
         <strong>Nota:</strong> Guarda este correo como comprobante de tu compra. Los números seleccionados son únicos y ya están registrados a tu nombre.
       </div>
+
+      <!-- Mensaje de Contacto -->
+      <div style="background: #e3f2fd; border-left: 4px solid #2196f3; padding: 20px; border-radius: 8px; margin: 25px 0;">
+        <div style="font-size: 24px; margin-bottom: 10px;">📱</div>
+        <div style="font-weight: bold; font-size: 16px; color: #1565c0; margin-bottom: 12px;">¡Importante!</div>
+        <div style="font-size: 14px; color: #1565c0; margin-bottom: 15px;">
+          Ponte en contacto para cancelar y que tus números queden activos:
+        </div>
+        <div style="font-size: 14px; color: #1565c0;">
+          <div style="margin-bottom: 8px;">
+            <strong>📞 Jairo:</strong> 
+            <a href="https://wa.me/573152124896" style="color: #4caf50; text-decoration: none; font-family: monospace;">3152124896</a>
+          </div>
+          <div style="margin-bottom: 8px;">
+            <strong>📞 Jessy:</strong> 
+            <a href="https://wa.me/572012918573" style="color: #4caf50; text-decoration: none; font-family: monospace;">2012918573</a>
+          </div>
+        </div>
+        <div style="font-size: 14px; color: #1565c0; margin-top: 15px; text-align: center; font-weight: bold;">
+          ¡Muchas gracias por tu apoyo!
+        </div>
+      </div>
     </div>
     
     <div class="footer">
@@ -250,6 +272,16 @@ Sábado 1 de Noviembre de 2025
 ━━━━━━━━━━━━━━━━━━━━━━
 Si al día del sorteo no se ha vendido el 75% de los números,
 la rifa se aplazará 1 semana más.
+
+━━━━━━━━━━━━━━━━━━━━━━
+📱 ¡IMPORTANTE!
+━━━━━━━━━━━━━━━━━━━━━━
+Ponte en contacto para cancelar y que tus números queden activos:
+
+📞 Jairo: 3152124896 (WhatsApp)
+📞 Jessy: 2012918573 (WhatsApp)
+
+¡Muchas gracias por tu apoyo!
 
 Dios te Bendiga 🙏✨
 

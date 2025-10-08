@@ -1,11 +1,44 @@
 "use client"
 
 import { motion } from "framer-motion"
+import { useState } from "react"
+import { useRouter } from "next/navigation"
 import Image from "next/image"
 import ThemeToggle from "./components/ThemeToggle"
 import RaffleProgress from "./components/RaffleProgress"
 
 export default function Home() {
+  const [isGenerating, setIsGenerating] = useState(false)
+  const router = useRouter()
+
+  const handleOpportunitySelect = async (opportunities: number) => {
+    setIsGenerating(true)
+    
+    try {
+      const response = await fetch("/api/create-link", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ opportunities }),
+      })
+
+      const data = await response.json()
+
+      if (data.ok) {
+        // Redirigir inmediatamente al link generado
+        router.push(`/${data.token}`)
+      } else {
+        alert("Error al generar el link. Por favor, intenta de nuevo.")
+      }
+    } catch (error) {
+      console.error("Error:", error)
+      alert("Error de conexión. Por favor, intenta de nuevo.")
+    } finally {
+      setIsGenerating(false)
+    }
+  }
+
   return (
     <div className="min-h-screen w-full flex flex-col relative">
       {/* Background Image */}
@@ -176,7 +209,7 @@ export default function Home() {
             </div>
           </motion.div>
 
-          {/* Comprar Créditos Section */}
+          {/* Selector de Oportunidades */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -187,80 +220,61 @@ export default function Home() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1.1 }}
-              className="text-2xl md:text-3xl font-bold text-center mb-6 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent"
+              className="text-2xl md:text-3xl font-bold text-center mb-8 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent"
             >
-              💳 Comprar Créditos
+              🎯 ¿Con Cuántas Oportunidades Colaborar?
             </motion.h3>
             
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 1.2 }}
-              className="flex flex-col items-center"
+              className="grid grid-cols-2 md:grid-cols-5 gap-4 max-w-4xl mx-auto"
             >
-              <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 mb-4">
-                <Image 
-                  src="/qr.png" 
-                  alt="Código QR para comprar créditos" 
-                  width={224}
-                  height={224}
-                  className="w-48 h-48 md:w-56 md:h-56 mx-auto rounded-lg"
-                />
-              </div>
-              
-              {/* Número de Nequi */}
+              {[2, 4, 6, 8, 10].map((opportunities, index) => (
+                <motion.button
+                  key={opportunities}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 1.3 + index * 0.1 }}
+                  whileHover={{ scale: 1.05, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => handleOpportunitySelect(opportunities)}
+                  disabled={isGenerating}
+                  className="bg-gradient-to-br from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white p-6 rounded-2xl font-bold text-lg shadow-2xl hover:shadow-purple-500/50 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <div className="text-3xl mb-2">🎫</div>
+                  <div className="text-2xl font-bold">{opportunities}</div>
+                  <div className="text-sm opacity-90">números</div>
+                  <div className="text-xs mt-2 opacity-80">
+                    ${(opportunities * 10000).toLocaleString()}
+                  </div>
+                </motion.button>
+              ))}
+            </motion.div>
+
+            {isGenerating && (
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 1.25 }}
-                className="bg-gradient-to-r from-orange-50 to-orange-100 dark:from-orange-900/20 dark:to-orange-800/20 border border-orange-200 dark:border-orange-700 rounded-xl p-4 mb-6"
+                className="text-center mt-6"
               >
-                <p className="text-center font-bold text-orange-800 dark:text-orange-300 text-lg">
-                  📱 Nequi: <span className="font-mono">3152124896</span>
-                </p>
+                <div className="inline-flex items-center gap-3 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 px-6 py-3 rounded-full">
+                  <div className="animate-spin rounded-full h-5 w-5 border-2 border-blue-500 border-t-transparent"></div>
+                  Generando tu link personalizado...
+                </div>
               </motion.div>
-              
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 1.3 }}
-                className="text-center text-gray-600 dark:text-gray-400 mb-6 max-w-lg"
-              >
-                Escanea el código QR o usa el número de Nequi para realizar tu pago. 
-                <strong className="text-gray-800 dark:text-gray-200"> Te enviaré el link de participación cuando confirme que el depósito está OK.</strong>
-              </motion.p>
-            </motion.div>
-          </motion.div>
+            )}
 
-          {/* CTA Button */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.4 }}
-            className="flex justify-center"
-          >
-            <a href="https://wa.me/573152124896" target="_blank" rel="noopener noreferrer">
-              <motion.button
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
-                className="bg-gradient-to-r from-green-500 via-green-600 to-green-500 text-white px-12 py-5 rounded-2xl font-bold text-xl shadow-2xl hover:shadow-green-500/50 transition-all duration-300"
-              >
-                <span className="flex items-center gap-3">
-                  📱 Ir a WhatsApp
-                </span>
-              </motion.button>
-            </a>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.8 }}
+              className="text-center text-gray-600 dark:text-gray-400 mt-8 max-w-2xl mx-auto"
+            >
+              Selecciona la cantidad de números que deseas y serás redirigido automáticamente a tu link personalizado para elegir tus números de la suerte.
+            </motion.p>
           </motion.div>
-
-          {/* Info Note */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.6 }}
-            className="mt-10 text-gray-600 dark:text-gray-400 text-center max-w-2xl mx-auto"
-          >
-            Después del pago, recibirás un link único y seguro para acceder al sistema de selección de números
-          </motion.p>
         </motion.div>
       </main>
 
