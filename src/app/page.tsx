@@ -105,7 +105,7 @@ export default function Home() {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.7 }}
-            className="bg-gradient-to-r from-purple-500/70 via-pink-500/70 to-purple-500/70 text-white p-8 md:p-12 rounded-3xl shadow-2xl mb-8 w-full text-center backdrop-blur-sm"
+            className="bg-gradient-to-r from-purple-500/70 via-pink-500/70 to-purple-500/70 text-white p-8 md:p-12 rounded-3xl shadow-2xl mb-8 w-full text-center backdrop-blur-sm !opacity-80"
           >
             <div className="text-4xl md:text-5xl font-black mb-4 tracking-wider">
               GANATE 📱💰
@@ -120,7 +120,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8 }}
-            className="bg-white dark:bg-gray-800 !opacity-50 rounded-3xl shadow-2xl p-8 md:p-12 mb-12 border border-gray-200 dark:border-gray-700 w-full backdrop-blur-sm"
+            className="bg-white dark:bg-gray-800 !opacity-80 rounded-3xl shadow-2xl p-8 md:p-12 mb-12 border border-gray-200 dark:border-gray-700 w-full backdrop-blur-sm"
           >
             {/* Información del Sorteo */}
             <div className="mb-12 p-6 bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 rounded-2xl border-2 border-yellow-300 dark:border-yellow-700 text-center">
