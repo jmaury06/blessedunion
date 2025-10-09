@@ -15,11 +15,16 @@ type Stats = {
     available: number
     total: number
     percentage: string
+    paid: number
   }
   opportunities: {
     total: number
     used: number
     remaining: number
+  }
+  revenue: {
+    total: number
+    formatted: string
   }
 }
 
@@ -507,6 +512,61 @@ export default function AdminPage() {
                 </p>
                 <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
                   pendientes
+                </p>
+              </motion.div>
+
+              {/* Números Pagados */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.9 }}
+                className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 border-l-4 border-emerald-500 dark:border-emerald-400"
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-300">
+                    Números Pagados
+                  </h3>
+                  <span className="text-3xl">💚</span>
+                </div>
+                <p className="text-4xl font-bold bg-gradient-to-r from-emerald-600 to-green-600 bg-clip-text text-transparent">
+                  {stats.numbers.paid}
+                </p>
+                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                  de {stats.numbers.sold} vendidos
+                </p>
+                <div className="mt-3">
+                  <div className="bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                    <motion.div
+                      initial={{ width: 0 }}
+                      animate={{ width: `${stats.numbers.sold > 0 ? (stats.numbers.paid / stats.numbers.sold) * 100 : 0}%` }}
+                      transition={{ duration: 1 }}
+                      className="bg-gradient-to-r from-emerald-500 to-green-500 h-2 rounded-full"
+                    />
+                  </div>
+                  <p className="text-xs text-gray-600 dark:text-gray-400 mt-1 text-right font-semibold">
+                    {stats.numbers.sold > 0 ? Math.round((stats.numbers.paid / stats.numbers.sold) * 100) : 0}% pagado
+                  </p>
+                </div>
+              </motion.div>
+
+              {/* Ingresos Totales */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 1.0 }}
+                className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 border-l-4 border-yellow-500 dark:border-yellow-400"
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-300">
+                    Total Sumado
+                  </h3>
+                  <span className="text-3xl">💰</span>
+                </div>
+                <p className="text-3xl font-bold bg-gradient-to-r from-yellow-600 to-orange-600 bg-clip-text text-transparent">
+                  {stats.revenue.formatted}
+                </p>
+                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                  ingresos confirmados
                 </p>
               </motion.div>
             </div>

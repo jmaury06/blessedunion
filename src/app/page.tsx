@@ -135,20 +135,23 @@ export default function Home() {
                   🎲 Con las <span className="font-bold">3 últimas cifras</span> de la Lotería de Boyacá
                 </p>
               </div>
-              
               <div className="border-t border-yellow-300 dark:border-yellow-600 pt-4 mt-4">
                 <div className="text-center">
                   <p className="text-base font-bold text-gray-800 dark:text-white mb-1">
                     Importante:
                   </p>
-                  <p className="text-base text-gray-700 dark:text-gray-300">
-                    Si al día del sorteo no se ha vendido el <span className="font-bold">75% de los números</span>,
+                  <p className="text-base text-gray-700 dark:text-gray-300 mb-4">
+                    Si al día del sorteo no se ha vendido el <span className="font-bold">75% de los números</span>, 
                     la rifa se <span className="font-bold">aplazará 1 semana más</span>
                   </p>
+                  
+                  {/* Barra de Progreso */}
+                  <div className="mt-4 pt-4 border-t border-yellow-300 dark:border-yellow-600">
+                    <RaffleProgress />
+                  </div>
                 </div>
               </div>
             </div>
-
 
             <div className="grid md:grid-cols-3 gap-8 md:gap-10">
               <motion.div
@@ -157,7 +160,7 @@ export default function Home() {
                 transition={{ delay: 0.9 }}
                 className="p-8 bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-2xl border-2 border-purple-200 dark:border-purple-700 text-center"
               >
-                <div className="text-5xl mb-4">🎫</div>
+                <div className="text-5xl mb-4">💵</div>
                 <h3 className="font-bold text-gray-800 dark:text-white mb-2 text-xl">1000 Números</h3>
                 <p className="text-gray-600 dark:text-gray-400 text-base">Del 000 al 999</p>
               </motion.div>
@@ -168,7 +171,7 @@ export default function Home() {
                 transition={{ delay: 1.0 }}
                 className="p-8 bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-2xl border-2 border-blue-200 dark:border-blue-700 text-center"
               >
-                <div className="text-5xl mb-4">⏱️</div>
+                <div className="text-5xl mb-4">💸</div>
                 <h3 className="font-bold text-gray-800 dark:text-white mb-2 text-xl">Links Seguros</h3>
                 <p className="text-gray-600 dark:text-gray-400 text-base">Expiran en 30 minutos</p>
               </motion.div>
@@ -179,7 +182,7 @@ export default function Home() {
                 transition={{ delay: 1.1 }}
                 className="p-8 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-2xl border-2 border-green-200 dark:border-green-700 text-center"
               >
-                <div className="text-5xl mb-4">✅</div>
+                <div className="text-5xl mb-4">💰</div>
                 <h3 className="font-bold text-gray-800 dark:text-white mb-2 text-xl">Sin Duplicados</h3>
                 <p className="text-gray-600 dark:text-gray-400 text-base">Cada número es único</p>
               </motion.div>
