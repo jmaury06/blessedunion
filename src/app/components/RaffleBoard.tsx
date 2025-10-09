@@ -625,8 +625,8 @@ export default function RaffleBoard({ token }: Props) {
                     ${
                       item.disabled
                         ? item.paid
-                          ? "bg-gradient-to-br from-green-400 to-green-600 text-white cursor-pointer hover:from-green-500 hover:to-green-700 shadow-green-500/30"
-                          : "bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-pointer opacity-70 hover:opacity-90"
+                          ? "bg-gradient-to-br from-green-300 to-green-500 text-white cursor-pointer hover:from-green-400 hover:to-green-600 shadow-green-400/20"
+                          : "bg-gradient-to-br from-red-700 to-red-900 text-white cursor-pointer hover:from-red-600 hover:to-red-800 shadow-red-800/20"
                         : item.selected
                           ? "bg-gradient-to-br from-purple-500 to-pink-500 text-white shadow-purple-500/50 dark:shadow-pink-500/50 scale-105"
                           : "bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-600 text-gray-700 dark:text-gray-200 hover:from-blue-100 hover:to-purple-100 dark:hover:from-purple-900 dark:hover:to-pink-900"
