@@ -626,7 +626,7 @@ export default function RaffleBoard({ token }: Props) {
                       item.disabled
                         ? item.paid
                           ? "bg-gradient-to-br from-green-300 to-green-500 text-white cursor-pointer hover:from-green-400 hover:to-green-600 shadow-green-400/20"
-                          : "bg-gradient-to-br from-red-500/70 to-red-700/80 text-white cursor-pointer hover:from-red-500/80 hover:to-red-700/90 shadow-red-600/15"
+                      : "bg-gradient-to-br from-red-500/50 to-red-700/50 text-white cursor-pointer hover:from-red-500/60 hover:to-red-700/60 shadow-red-600/15"
                         : item.selected
                           ? "bg-gradient-to-br from-purple-500 to-pink-500 text-white shadow-purple-500/50 dark:shadow-pink-500/50 scale-105"
                           : "bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-600 text-gray-700 dark:text-gray-200 hover:from-blue-100 hover:to-purple-100 dark:hover:from-purple-900 dark:hover:to-pink-900"
@@ -655,16 +655,7 @@ export default function RaffleBoard({ token }: Props) {
                     <div className="bg-gray-900 dark:bg-gray-700 text-white text-xs rounded-lg px-3 py-2 shadow-xl whitespace-nowrap">
                       <div className="font-bold mb-1">🎫 Comprado por:</div>
                       <div className="font-semibold">{item.buyer_name}</div>
-                      {item.buyer_email && (
-                        <div className="text-gray-300 dark:text-gray-400 text-[10px] mt-1">
-                          📧 {item.buyer_email}
-                        </div>
-                      )}
-                      {item.buyer_phone && (
-                        <div className="text-gray-300 dark:text-gray-400 text-[10px]">
-                          📱 {item.buyer_phone}
-                        </div>
-                      )}
+
                       {/* Flecha del tooltip */}
                       <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-1">
                         <div className="w-0 h-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent border-t-gray-900 dark:border-t-gray-700"></div>
