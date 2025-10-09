@@ -446,7 +446,7 @@ export default function RaffleBoard({ token }: Props) {
             <div className="mt-3 space-y-2">
               <div className="flex items-center justify-center gap-2">
                 <span className="text-blue-600 dark:text-blue-400">📞</span>
-                <strong>Jairo:</strong>
+                <strong className="text-white">Jairo:</strong>
                 <a href="https://wa.me/573152124896" target="_blank" rel="noopener noreferrer" 
                    className="text-green-600 dark:text-green-400 hover:underline font-mono">
                   3152124896
@@ -454,7 +454,7 @@ export default function RaffleBoard({ token }: Props) {
               </div>
               <div className="flex items-center justify-center gap-2">
                 <span className="text-blue-600 dark:text-blue-400">📞</span>
-                <strong>Jessy:</strong>
+                <strong className="text-white">Jessy:</strong>
                 <a href="https://wa.me/572012918573" target="_blank" rel="noopener noreferrer" 
                    className="text-green-600 dark:text-green-400 hover:underline font-mono">
                   2012918573

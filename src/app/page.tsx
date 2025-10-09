@@ -238,7 +238,13 @@ export default function Home() {
                         🔥 PROMO
                       </div>
                     )}
-                    <div className="text-3xl mb-2">🎫</div>
+                    <div className="text-3xl mb-2">
+                      {opportunities === 2 && "💵"}
+                      {opportunities === 4 && "💶"}
+                      {opportunities === 6 && "💷"}
+                      {opportunities === 8 && "💴"}
+                      {opportunities === 10 && "💰"}
+                    </div>
                     <div className="text-2xl font-bold">{opportunities}</div>
                     <div className="text-sm opacity-90">números</div>
                     <div className="text-xs mt-2">
