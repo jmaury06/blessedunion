@@ -120,7 +120,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8 }}
-            className="bg-white/75 dark:bg-gray-800/75 rounded-3xl shadow-2xl p-8 md:p-12 mb-12 border border-gray-200 dark:border-gray-700 w-full backdrop-blur-sm"
+            className="bg-white dark:bg-gray-800 !opacity-70 rounded-3xl shadow-2xl p-8 md:p-12 mb-12 border border-gray-200 dark:border-gray-700 w-full backdrop-blur-sm"
           >
             {/* Información del Sorteo */}
             <div className="mb-12 p-6 bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 rounded-2xl border-2 border-yellow-300 dark:border-yellow-700 text-center">
@@ -137,17 +137,14 @@ export default function Home() {
               </div>
               
               <div className="border-t border-yellow-300 dark:border-yellow-600 pt-4 mt-4">
-                <div className="flex items-start justify-center gap-3">
-                  <span className="text-3xl">⚠️</span>
-                  <div className="text-center">
-                    <p className="text-base font-bold text-gray-800 dark:text-white mb-1">
-                      Importante:
-                    </p>
-                    <p className="text-base text-gray-700 dark:text-gray-300">
-                      Si al día del sorteo no se ha vendido el <span className="font-bold">75% de los números</span>, 
-                      la rifa se <span className="font-bold">aplazará 1 semana más</span>
-                    </p>
-                  </div>
+                <div className="text-center">
+                  <p className="text-base font-bold text-gray-800 dark:text-white mb-1">
+                    Importante:
+                  </p>
+                  <p className="text-base text-gray-700 dark:text-gray-300">
+                    Si al día del sorteo no se ha vendido el <span className="font-bold">75% de los números</span>,
+                    la rifa se <span className="font-bold">aplazará 1 semana más</span>
+                  </p>
                 </div>
               </div>
             </div>
