@@ -9,7 +9,7 @@ const supabase = createClient(
 export async function GET() {
   const { data, error } = await supabase
     .from("purchases")
-    .select("number, buyer_name, buyer_email, buyer_phone");
+    .select("number, buyer_name, buyer_email, buyer_phone, paid");
 
   if (error) {
     return NextResponse.json(

@@ -88,6 +88,7 @@ type NumberItem = {
   buyer_name?: string
   buyer_email?: string
   buyer_phone?: string
+  paid?: boolean
 }
 
 export default function RaffleBoard({ token }: Props) {
@@ -104,6 +105,12 @@ export default function RaffleBoard({ token }: Props) {
     type: "error" | "success" | "warning"
     showHomeButton?: boolean
   }>({ isOpen: false, title: "", message: "", type: "error" })
+  const [numberInfoModal, setNumberInfoModal] = useState<{
+    isOpen: boolean
+    number: string
+    buyer_name: string
+    paid: boolean
+  }>({ isOpen: false, number: "", buyer_name: "", paid: false })
   const confirmButtonRef = useRef<HTMLDivElement>(null)
   
   const numbersPerPage = 100
@@ -167,13 +174,14 @@ export default function RaffleBoard({ token }: Props) {
       const soldRes = await fetch("/api/sold")
       const soldData = await soldRes.json()
 
-      const soldMap = new Map<string, { buyer_name: string; buyer_email: string; buyer_phone: string }>()
+      const soldMap = new Map<string, { buyer_name: string; buyer_email: string; buyer_phone: string; paid: boolean }>()
       if (soldData.ok && Array.isArray(soldData.sold)) {
-        soldData.sold.forEach((item: { number: string; buyer_name: string; buyer_email: string; buyer_phone: string }) => {
+        soldData.sold.forEach((item: { number: string; buyer_name: string; buyer_email: string; buyer_phone: string; paid: boolean }) => {
           soldMap.set(item.number, {
             buyer_name: item.buyer_name,
             buyer_email: item.buyer_email,
             buyer_phone: item.buyer_phone,
+            paid: item.paid || false,
           })
         })
       }
@@ -190,6 +198,7 @@ export default function RaffleBoard({ token }: Props) {
           buyer_name: buyerData?.buyer_name,
           buyer_email: buyerData?.buyer_email,
           buyer_phone: buyerData?.buyer_phone,
+          paid: buyerData?.paid || false,
         })
       }
 
@@ -594,15 +603,30 @@ export default function RaffleBoard({ token }: Props) {
                       ? { scale: 0.95 }
                       : {}
                   }
-                  disabled={item.disabled || (!item.selected && remaining <= 0)}
-                  onClick={() => toggleNumber(item.number)}
-                  title={item.disabled && item.buyer_name ? `Comprado por: ${item.buyer_name}` : ""}
+                  disabled={!item.disabled && (!item.selected && remaining <= 0)}
+                  onClick={() => {
+                    if (item.disabled && item.buyer_name) {
+                      // Mostrar modal con información del comprador
+                      setNumberInfoModal({
+                        isOpen: true,
+                        number: item.number,
+                        buyer_name: item.buyer_name,
+                        paid: item.paid || false
+                      })
+                    } else if (!item.disabled) {
+                      // Seleccionar/deseleccionar número
+                      toggleNumber(item.number)
+                    }
+                  }}
+                  title={item.disabled && item.buyer_name ? `Comprado por: ${item.buyer_name} - Click para más info` : ""}
                   className={`
                     w-full aspect-square rounded-xl font-semibold text-xs md:text-sm
                     transition-all duration-300 shadow-md relative overflow-hidden
                     ${
                       item.disabled
-                        ? "bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed opacity-50"
+                        ? item.paid
+                          ? "bg-gradient-to-br from-green-400 to-green-600 text-white cursor-pointer hover:from-green-500 hover:to-green-700 shadow-green-500/30"
+                          : "bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-pointer opacity-70 hover:opacity-90"
                         : item.selected
                           ? "bg-gradient-to-br from-purple-500 to-pink-500 text-white shadow-purple-500/50 dark:shadow-pink-500/50 scale-105"
                           : "bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-600 text-gray-700 dark:text-gray-200 hover:from-blue-100 hover:to-purple-100 dark:hover:from-purple-900 dark:hover:to-pink-900"
@@ -741,6 +765,72 @@ export default function RaffleBoard({ token }: Props) {
           }
         }}
       />
+
+      {/* Modal de Información del Número */}
+      <AnimatePresence>
+        {numberInfoModal.isOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+            onClick={() => setNumberInfoModal({ ...numberInfoModal, isOpen: false })}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="bg-white dark:bg-gray-800 rounded-2xl p-6 max-w-sm w-full shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="text-center">
+                <div className="text-4xl mb-4">
+                  {numberInfoModal.paid ? "💚" : "📋"}
+                </div>
+                
+                <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2">
+                  Número {numberInfoModal.number}
+                </h3>
+                
+                <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 mb-4">
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">
+                    Comprado por:
+                  </p>
+                  <p className="font-semibold text-gray-800 dark:text-white">
+                    {numberInfoModal.buyer_name}
+                  </p>
+                </div>
+
+                <div className={`rounded-lg p-3 mb-4 ${
+                  numberInfoModal.paid 
+                    ? "bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700"
+                    : "bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-700"
+                }`}>
+                  <div className="flex items-center justify-center gap-2">
+                    <span className="text-lg">
+                      {numberInfoModal.paid ? "✅" : "⏳"}
+                    </span>
+                    <span className={`font-semibold ${
+                      numberInfoModal.paid 
+                        ? "text-green-700 dark:text-green-300"
+                        : "text-orange-700 dark:text-orange-300"
+                    }`}>
+                      {numberInfoModal.paid ? "Pagado" : "Pendiente de pago"}
+                    </span>
+                  </div>
+                </div>
+
+                <button
+                  onClick={() => setNumberInfoModal({ ...numberInfoModal, isOpen: false })}
+                  className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold py-3 px-6 rounded-xl hover:from-purple-600 hover:to-pink-600 transition-all duration-200"
+                >
+                  Cerrar
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   )
 }
