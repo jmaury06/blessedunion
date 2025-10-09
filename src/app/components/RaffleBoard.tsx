@@ -618,7 +618,7 @@ export default function RaffleBoard({ token }: Props) {
                       toggleNumber(item.number)
                     }
                   }}
-                  title={item.disabled && item.buyer_name ? `Comprado por: ${item.buyer_name} - Click para más info` : ""}
+                  title={item.disabled && item.buyer_name ? `${item.buyer_name} - ${item.paid ? 'Pagado ✅' : 'Pendiente ⏳'} - Click para más info` : ""}
                   className={`
                     w-full aspect-square rounded-xl font-semibold text-xs md:text-sm
                     transition-all duration-300 shadow-md relative overflow-hidden
@@ -626,7 +626,7 @@ export default function RaffleBoard({ token }: Props) {
                       item.disabled
                         ? item.paid
                           ? "bg-gradient-to-br from-green-300 to-green-500 text-white cursor-pointer hover:from-green-400 hover:to-green-600 shadow-green-400/20"
-                          : "bg-gradient-to-br from-red-700 to-red-900 text-white cursor-pointer hover:from-red-600 hover:to-red-800 shadow-red-800/20"
+                          : "bg-gradient-to-br from-red-500/70 to-red-700/80 text-white cursor-pointer hover:from-red-500/80 hover:to-red-700/90 shadow-red-600/15"
                         : item.selected
                           ? "bg-gradient-to-br from-purple-500 to-pink-500 text-white shadow-purple-500/50 dark:shadow-pink-500/50 scale-105"
                           : "bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-600 text-gray-700 dark:text-gray-200 hover:from-blue-100 hover:to-purple-100 dark:hover:from-purple-900 dark:hover:to-pink-900"
