@@ -105,13 +105,13 @@ export default function Home() {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.7 }}
-            className="bg-gradient-to-r from-purple-500 via-pink-500 to-purple-500 text-white p-8 md:p-12 rounded-3xl shadow-2xl mb-8 w-full text-center"
+            className="bg-gradient-to-r from-purple-500/70 via-pink-500/70 to-purple-500/70 text-white p-8 md:p-12 rounded-3xl shadow-2xl mb-8 w-full text-center backdrop-blur-sm"
           >
             <div className="text-4xl md:text-5xl font-black mb-4 tracking-wider">
               GANATE 📱💰
             </div>
             <div className="text-xl md:text-2xl font-semibold leading-relaxed">
-              Un hermoso iPhone 13 de 128GB<br/>o $2.500.000 en efectivo
+              Un hermoso iPhone 13 de 128GB o $2.500.000 en efectivo
             </div>
           </motion.div>
 
