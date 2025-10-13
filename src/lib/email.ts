@@ -145,8 +145,8 @@ export async function sendPurchaseConfirmation(
   <div class="container">
     <div class="header">
       <div class="emoji">📱</div>
-      <h1>Bendecidos en Amor</h1>
-      <p>Confirmación de Compra - Rifa pro-Boda</p>
+      <h1>Rifa Digital</h1>
+      <p>Confirmación de Compra</p>
     </div>
     
     <div class="content">
@@ -155,7 +155,7 @@ export async function sendPurchaseConfirmation(
       </div>
       <div class="message">
         Gracias por participar en nuestra rifa.<br/>
-        Nos ayudas a acercarnos más a nuestro sueño.<br/>
+        ¡Tu apoyo es muy valioso para nosotros!<br/>
         Hemos registrado exitosamente tu compra.
       </div>
 
@@ -243,11 +243,11 @@ export async function sendPurchaseConfirmation(
         </div>
         <div style="font-size: 14px; color: #1565c0;">
           <div style="margin-bottom: 8px;">
-            <strong>📞 Jairo:</strong> 
+            <strong>📞 Contacto 1:</strong> 
             <a href="https://wa.me/573152124896" style="color: #4caf50; text-decoration: none; font-family: monospace;">3152124896</a>
           </div>
           <div style="margin-bottom: 8px;">
-            <strong>📞 Jessy:</strong> 
+            <strong>📞 Contacto 2:</strong> 
             <a href="https://wa.me/572012918573" style="color: #4caf50; text-decoration: none; font-family: monospace;">2012918573</a>
           </div>
         </div>
@@ -258,8 +258,8 @@ export async function sendPurchaseConfirmation(
     </div>
     
     <div class="footer">
-      <div class="footer-title">Unión Bendecida</div>
-      <div class="footer-subtitle">Rifa pro-Boda 2025</div>
+      <div class="footer-title">Rifa Digital</div>
+      <div class="footer-subtitle">Sistema de Rifas 2025</div>
     </div>
   </div>
 </body>
@@ -269,12 +269,12 @@ export async function sendPurchaseConfirmation(
     const textContent = `
 🎉 ¡Gracias por tu compra!
 
-Unión Bendecida - Confirmación de Números
+Rifa Digital - Confirmación de Números
 
 Hola ${buyerName},
 
 Gracias por participar en nuestra rifa.
-Nos ayudas a acercarnos más a nuestro sueño.
+¡Tu apoyo es muy valioso para nosotros!
 Hemos registrado exitosamente tu compra.
 
 Has comprado exitosamente los siguientes números:
@@ -313,21 +313,21 @@ Una vez realizado el pago, contacta para activar tus números.
 ━━━━━━━━━━━━━━━━━━━━━━
 Ponte en contacto para cancelar y que tus números queden activos:
 
-📞 Jairo: 3152124896 (WhatsApp)
-📞 Jessy: 2012918573 (WhatsApp)
+📞 Contacto 1: 3152124896 (WhatsApp)
+📞 Contacto 2: 2012918573 (WhatsApp)
 
 ¡Muchas gracias por tu apoyo!
 
 Dios te Bendiga 🙏✨
 
 ---
-Bendecidos en Amor
-Rifa pro-Boda 2025
+Rifa Digital
+Sistema de Rifas 2025
     `;
 
     const fromEmail =
       process.env.RESEND_FROM_EMAIL ||
-      "Bendecidos en Amor <onboarding@resend.dev>";
+      "Rifa Digital <onboarding@resend.dev>";
 
     const { error } = await resend.emails.send({
       from: fromEmail,

@@ -146,7 +146,7 @@ export default function TokenPage({ params }: { params: Promise<{ token: string 
           className="text-3xl md:text-5xl font-bold text-center mb-12"
         >
           <span className="bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 bg-clip-text text-transparent">
-            💍 Rifa Bendecidos en Amor
+            🎫 Rifa Digital
           </span>
         </motion.h1>
 

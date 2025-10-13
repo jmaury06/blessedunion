@@ -68,7 +68,7 @@ export default function Home() {
             transition={{ delay: 0.4 }}
             className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 bg-clip-text text-transparent mb-4"
           >
-            Bendecidos en Amor
+            Rifa Digital
           </motion.h1>
 
           <motion.p
@@ -77,27 +77,18 @@ export default function Home() {
             transition={{ delay: 0.6 }}
             className="text-xl md:text-3xl font-semibold text-gray-700 dark:text-gray-300 mb-4"
           >
-            💖 Unidos por amor y fe
+            🎯 Tu oportunidad de ganar
           </motion.p>
 
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6 }}
-            className="text-xl md:text-xl text-gray-700 dark:text-gray-300 mb-4"
+            className="text-xl md:text-xl text-gray-700 dark:text-gray-300 mb-12"
           >
-            Tu apoyo nos acerca a nuestro gran día ✨
+            Participa en nuestra rifa y gana increíbles premios ✨
             <br />
-            Gracias por ser parte de este sueño.
-          </motion.p>
-
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.6 }}
-            className="text-xl md:text-xl font-semibold text-gray-700 dark:text-gray-300 mb-12"
-          >
-            — Jessy & Jairo
+            ¡La suerte está de tu lado!
           </motion.p>
 
           {/* PREMIO PRINCIPAL */}
@@ -295,7 +286,7 @@ export default function Home() {
       {/* Footer - Sticky */}
       <footer className="py-6 text-center bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border-t border-gray-200 dark:border-gray-700 mt-auto">
         <p className="text-gray-500 dark:text-gray-400 text-sm">
-          Desarrollado por Jairo Maury
+          Sistema de Rifas Digital
         </p>
         <p className="text-gray-400 dark:text-gray-500 text-xs mt-2">
           © 2025 - Todos los derechos reservados

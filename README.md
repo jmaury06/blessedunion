@@ -1,6 +1,6 @@
-# Bendecidos en Amor - Raffle Management App
+# Rifa Digital - Raffle Management System
 
-Sistema de gestión de rifas para bodas. Permite a los compradores seleccionar números de rifa mediante links únicos con expiración automática.
+Sistema profesional de gestión de rifas. Permite a los compradores seleccionar números de rifa mediante links únicos con expiración automática.
 
 ## 🎯 Características
 
@@ -33,7 +33,7 @@ Sistema de gestión de rifas para bodas. Permite a los compradores seleccionar n
 1. Clonar el repositorio:
 ```bash
 git clone <tu-repo>
-cd bendecidos-en-amor
+cd rifa-digital
 ```
 
 2. Instalar dependencias:

@@ -188,7 +188,7 @@ export default function AdminPage() {
                 Admin Panel
               </h1>
               <p className="text-gray-600 dark:text-gray-400 mt-2">
-                Bendecidos en Amor
+                Sistema de Rifas Digital
               </p>
             </motion.div>
 
