@@ -91,6 +91,8 @@ type NumberItem = {
   paid?: boolean
 }
 
+type TabType = "available" | "occupied" | "mine"
+
 export default function RaffleBoard({ token }: Props) {
   const [numbers, setNumbers] = useState<NumberItem[]>([])
   const [remaining, setRemaining] = useState(0)
@@ -98,6 +100,8 @@ export default function RaffleBoard({ token }: Props) {
   const [submitting, setSubmitting] = useState(false)
   const [success, setSuccess] = useState(false)
   const [currentPage, setCurrentPage] = useState(0)
+  const [activeTab, setActiveTab] = useState<TabType>("available")
+  const [currentBuyerEmail, setCurrentBuyerEmail] = useState<string>("")
   const [modal, setModal] = useState<{
     isOpen: boolean
     title: string
@@ -113,9 +117,21 @@ export default function RaffleBoard({ token }: Props) {
   }>({ isOpen: false, number: "", buyer_name: "", paid: false })
   const confirmButtonRef = useRef<HTMLDivElement>(null)
   
+  // Filtrar números según el tab activo
+  const filteredNumbers = numbers.filter((item) => {
+    if (activeTab === "available") {
+      return !item.disabled // Solo números disponibles
+    } else if (activeTab === "occupied") {
+      return item.disabled && item.buyer_email !== currentBuyerEmail // Ocupados por otros
+    } else if (activeTab === "mine") {
+      return item.disabled && item.buyer_email === currentBuyerEmail // Mis números
+    }
+    return true
+  })
+  
   const numbersPerPage = 100
-  const totalPages = Math.ceil(numbers.length / numbersPerPage)
-  const currentNumbers = numbers.slice(
+  const totalPages = Math.ceil(filteredNumbers.length / numbersPerPage)
+  const currentNumbers = filteredNumbers.slice(
     currentPage * numbersPerPage,
     (currentPage + 1) * numbersPerPage
   )
@@ -159,6 +175,11 @@ export default function RaffleBoard({ token }: Props) {
     }
   }, [remaining])
 
+  // Resetear paginación cuando cambia el tab
+  useEffect(() => {
+    setCurrentPage(0)
+  }, [activeTab])
+
   useEffect(() => {
     async function fetchData() {
       const linkRes = await fetch(`/api/link/${token}`)
@@ -170,6 +191,7 @@ export default function RaffleBoard({ token }: Props) {
       }
 
       setRemaining(linkData.link.remaining)
+      setCurrentBuyerEmail(linkData.link.buyer_email || "")
 
       const soldRes = await fetch("/api/sold")
       const soldData = await soldRes.json()
@@ -553,12 +575,85 @@ export default function RaffleBoard({ token }: Props) {
         <ThemeToggle />
       </div>
 
+      {/* Tabs de Filtrado */}
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3 }}
+        className="mb-8"
+      >
+        <div className="flex gap-1 md:gap-2 bg-white dark:bg-gray-800 p-1 md:p-2 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700">
+          <button
+            onClick={() => setActiveTab("available")}
+            className={`flex-1 px-2 py-2 md:px-6 md:py-4 rounded-xl font-semibold transition-all duration-300 ${
+              activeTab === "available"
+                ? "bg-gradient-to-r from-green-500 to-emerald-500 text-white shadow-lg md:scale-105"
+                : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
+            }`}
+          >
+            <div className="flex flex-col items-center gap-0.5 md:gap-1">
+              <span className="text-lg md:text-2xl">✨</span>
+              <span className="text-[10px] md:text-sm leading-tight">Disponibles</span>
+              <span className="text-[9px] md:text-xs opacity-80">
+                {numbers.filter(n => !n.disabled).length}
+              </span>
+            </div>
+          </button>
+          
+          <button
+            onClick={() => setActiveTab("occupied")}
+            className={`flex-1 px-2 py-2 md:px-6 md:py-4 rounded-xl font-semibold transition-all duration-300 ${
+              activeTab === "occupied"
+                ? "bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-lg md:scale-105"
+                : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
+            }`}
+          >
+            <div className="flex flex-col items-center gap-0.5 md:gap-1">
+              <span className="text-lg md:text-2xl">🔒</span>
+              <span className="text-[10px] md:text-sm leading-tight">Ocupados</span>
+              <span className="text-[9px] md:text-xs opacity-80">
+                {numbers.filter(n => n.disabled && n.buyer_email !== currentBuyerEmail).length}
+              </span>
+            </div>
+          </button>
+          
+          <button
+            onClick={() => setActiveTab("mine")}
+            className={`flex-1 px-2 py-2 md:px-6 md:py-4 rounded-xl font-semibold transition-all duration-300 ${
+              activeTab === "mine"
+                ? "bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg md:scale-105"
+                : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
+            }`}
+          >
+            <div className="flex flex-col items-center gap-0.5 md:gap-1">
+              <span className="text-lg md:text-2xl">🎯</span>
+              <span className="text-[10px] md:text-sm leading-tight">Mis Números</span>
+              <span className="text-[9px] md:text-xs opacity-80">
+                {numbers.filter(n => n.disabled && n.buyer_email === currentBuyerEmail).length}
+              </span>
+            </div>
+          </button>
+        </div>
+      </motion.div>
+
       {/* Carousel Container */}
       <motion.div
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.3 }}
-        className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-10 md:p-12 border border-gray-200 dark:border-gray-700 my-8"
+        drag="x"
+        dragConstraints={{ left: 0, right: 0 }}
+        dragElastic={0.2}
+        onDragEnd={(e, info) => {
+          // Detectar dirección del swipe
+          const swipeThreshold = 50 // Píxeles mínimos para activar el swipe
+          if (info.offset.x > swipeThreshold && currentPage > 0) {
+            prevPage() // Swipe derecha -> página anterior
+          } else if (info.offset.x < -swipeThreshold && currentPage < totalPages - 1) {
+            nextPage() // Swipe izquierda -> página siguiente
+          }
+        }}
+        className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-10 md:p-12 border border-gray-200 dark:border-gray-700 my-8 cursor-grab active:cursor-grabbing touch-pan-y"
       >
         {/* Page Indicator */}
         <div className="flex items-center justify-between mb-8">
@@ -613,8 +708,8 @@ export default function RaffleBoard({ token }: Props) {
                         buyer_name: item.buyer_name,
                         paid: item.paid || false
                       })
-                    } else if (!item.disabled) {
-                      // Seleccionar/deseleccionar número
+                    } else if (!item.disabled && activeTab === "available") {
+                      // Seleccionar/deseleccionar número solo en tab "Disponibles"
                       toggleNumber(item.number)
                     }
                   }}
