@@ -479,7 +479,7 @@ export default function RaffleBoard({ token }: Props) {
                 <strong className="text-white">Contacto 2:</strong>
                 <a href="https://wa.me/572012918573" target="_blank" rel="noopener noreferrer" 
                    className="text-green-600 dark:text-green-400 hover:underline font-mono">
-                  2012918573
+                  3012918573
                 </a>
               </div>
             </div>

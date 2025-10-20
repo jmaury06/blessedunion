@@ -248,7 +248,7 @@ export async function sendPurchaseConfirmation(
           </div>
           <div style="margin-bottom: 8px;">
             <strong>📞 Contacto 2:</strong> 
-            <a href="https://wa.me/572012918573" style="color: #4caf50; text-decoration: none; font-family: monospace;">2012918573</a>
+            <a href="https://wa.me/573012918573" style="color: #4caf50; text-decoration: none; font-family: monospace;">3012918573</a>
           </div>
         </div>
         <div style="font-size: 14px; color: #1565c0; margin-top: 15px; text-align: center; font-weight: bold;">
@@ -314,7 +314,7 @@ Una vez realizado el pago, contacta para activar tus números.
 Ponte en contacto para cancelar y que tus números queden activos:
 
 📞 Contacto 1: 3152124896 (WhatsApp)
-📞 Contacto 2: 2012918573 (WhatsApp)
+📞 Contacto 2: 3012918573 (WhatsApp)
 
 ¡Muchas gracias por tu apoyo!
 
